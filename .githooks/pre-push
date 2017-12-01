@@ -26,3 +26,5 @@ then
     fi
   done
 fi
+
+echo "INFO: All tests passed\!"
