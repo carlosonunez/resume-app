@@ -27,5 +27,6 @@ execute_%_in_docker:
 		-e BUNDLE_PATH=/root/.gem \
 		-v $$PWD:/work \
 		-v $$PWD/.gem:/root/.gem \
+		-w /work \
 		-p 127.0.0.1:5000:5000 \
 		carlosonunez/ruby-rake-alpine:2.4.2 "$(DOCKER_ACTIONS)"
