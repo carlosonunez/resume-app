@@ -11,7 +11,7 @@ then
     exit 1
   fi
 
-  for command in "bundle install" "bundle exec rake test"
+  for command in "bundle install --quiet" "bundle exec rake test"
   do
     if ! docker run -v $PWD:/work \
       -v $PWD/.gem:/root/.gem \
