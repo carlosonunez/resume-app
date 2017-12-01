@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe ResumeApp do
+  include Rack::Test::Methods
   def app
     ResumeApp
   end
