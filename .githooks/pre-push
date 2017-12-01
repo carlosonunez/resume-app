@@ -1,0 +1,28 @@
+#!/bin/sh
+# Ensure that our tests pass before pushing changes to our remote.
+# We can override this by prefixing our HEAD commit with: "[FORCE COMMIT]"
+
+echo "INFO: Running pre-push tests. Please wait a moment."
+if ! git log --pretty=oneline -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
+then
+  if ! docker build -t carlosonunez/ruby-rake-alpine:2.4.2 . > /dev/null
+  then
+    echo "ERROR: Failed to build Ruby Docker image." >&2
+    exit 1
+  fi
+
+  for command in "bundle install" "bundle exec rake test"
+  do
+    if ! docker run -v $PWD:/work \
+      -v $PWD/.gem:/root/.gem \
+      -w /work \
+      -e GEM_HOME=/root/.gem \
+      -e BUNDLE_PATH=/root/.gem \
+      carlosonunez/ruby-rake-alpine:2.4.2 "$command"
+    then
+      echo "ERROR: Tests failed! If this is intentional, include \"[FORCE COMMIT]\" \
+  to the beginning of your commit message." >&2
+      exit 1
+    fi
+  done
+fi
