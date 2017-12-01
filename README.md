@@ -17,6 +17,20 @@ How do I use it?
 
 4. Run `rake deploy`. Your resume should be shown at http://localhost:5000.
 
+Additional Features
+===================
+
+Run Tests on Push
+------------------
+
+For those looking to fork or continue development on this codebase, you can have your local repository
+run tests before pushing your changes. This makes for faster and easier PR merges.
+
+To set this up:
+
+1. Add the `pre-push` hook to your `.git` directory: `ln -s ../../.githooks/pre-push .git/hooks/pre-push`
+2. Give it executable permissions: `chmod +x .git/hooks/pre-push`
+
 Need help?
 ==========
 
