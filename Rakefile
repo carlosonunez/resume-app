@@ -4,9 +4,7 @@ require 'colorize'
 
 task :test do
   RSpec::Core::RakeTask.new(:spec) do |task|
-    task.rspec_opts = [ '--color', '-f progress', '-r ./spec/spec_helper.rb' ]
-    task.pattern = 'spec/**/*_spec.rb'
-    task.verbose = true
+    task.rspec_opts = [ '--color', '-f progress' ]
   end
 end
 
