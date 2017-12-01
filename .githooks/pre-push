@@ -27,4 +27,4 @@ then
   done
 fi
 
-echo "INFO: All tests passed\!"
+echo "INFO: All tests passed! Continuing push."
