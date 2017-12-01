@@ -22,7 +22,7 @@ _bundle_install: execute_bundle_install_in_docker
 
 .PHONY: execute_%_in_docker
 execute_%_in_docker:
-	docker run --rm -i -e GEM_HOME=/root/.gem \
+	docker run --rm -it -e GEM_HOME=/root/.gem \
 		-e BUNDLE_PATH=/root/.gem \
 		-v $$PWD:/work \
 		-v $$PWD/.gem:/root/.gem \
