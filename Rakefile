@@ -13,3 +13,5 @@ end
 task :deploy do
   # TODO: Deploy to Fargate here
 end
+
+task :default => :test
