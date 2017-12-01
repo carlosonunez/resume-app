@@ -1,4 +1,3 @@
-MAKEFLAGS += --silent
 SHELL := /bin/bash
 
 .PHONY: build init test deploy
@@ -11,14 +10,14 @@ build:
 
 init: _bundle_install
 
-test: DOCKER_ACTIONS="bundle exec rake test"
+test: DOCKER_ACTIONS=bundle exec rake test
 test: build init execute_rake_test_in_docker
 
-deploy: DOCKER_ACTIONS="bundle exec rake deploy"
+deploy: DOCKER_ACTIONS=bundle exec rake deploy
 deploy: build init execute_rake_deploy_in_docker
 
 .PHONY: _bundle_install
-_bundle_install: DOCKER_ACTIONS="bundle install"
+_bundle_install: DOCKER_ACTIONS=bundle install --quiet
 _bundle_install: execute_bundle_install_in_docker
 
 .PHONY: execute_%_in_docker
