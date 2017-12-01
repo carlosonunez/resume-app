@@ -28,4 +28,4 @@ execute_%_in_docker:
 		-v $$PWD:/work \
 		-v $$PWD/.gem:/root/.gem \
 		-p 127.0.0.1:5000:5000 \
-		carlosonunez/ruby-rake-alpine:2.4.2 "$(DOCKER_ACTION)"
+		carlosonunez/ruby-rake-alpine:2.4.2 "$(DOCKER_ACTIONS)"
