@@ -5,3 +5,5 @@ RUN \
   apk upgrade && \
   apk add ruby-bundler ruby-json ruby-dev ruby-rake && \
   rm -rf /var/cache/apk/*
+
+ENTRYPOINT ["/bin/sh", "-c"]
