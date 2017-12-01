@@ -3,7 +3,7 @@
 # We can override this by prefixing our HEAD commit with: "[FORCE COMMIT]"
 
 echo "INFO: Running pre-push tests. Please wait a moment."
-if ! git log --pretty=oneline -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
+if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
   if ! docker build -t carlosonunez/ruby-rake-alpine:2.4.2 . > /dev/null
   then
