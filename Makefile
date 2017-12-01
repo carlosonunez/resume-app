@@ -9,10 +9,10 @@ build:
 init: _bundle_install
 
 test: DOCKER_ACTIONS="bundle exec rake test"
-test: init build execute_rake_test_in_docker
+test: build init execute_rake_test_in_docker
 
 deploy: DOCKER_ACTIONS="bundle exec rake deploy"
-deploy: init build execute_rake_deploy_in_docker
+deploy: build init execute_rake_deploy_in_docker
 
 .PHONY: _bundle_install
 _bundle_install: DOCKER_ACTIONS="bundle install"
