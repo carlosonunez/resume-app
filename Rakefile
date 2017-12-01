@@ -3,9 +3,7 @@ require 'dotenv/tasks'
 require 'colorize'
 
 task :test do
-  RSpec::Core::RakeTask.new(:spec) do |task|
-    task.rspec_opts = [ '--color', '-f progress' ]
-  end
+  sh 'bundle exec rspec'
 end
 
 task :deploy do
