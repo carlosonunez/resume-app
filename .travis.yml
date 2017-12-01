@@ -4,8 +4,8 @@ services:
   - docker
 before_install:
   - docker build -t carlosonunez/ruby-rake-alpine:2.4.2
-  - docker run -d -e GEM_HOME=/root/.gem -v $PWD:/work -w /work -v $PWD/.gem:/home/root/.gem -p 127.0.0.1:5000:5000 carlosonunez/ruby-rake-alpine:2.4.2 "bundle install"
-  - docker run -d -e GEM_HOME=/root/.gem -v $PWD:/work -w /work -v $PWD/.gem:/home/root/.gem -p 127.0.0.1:5000:5000 carlosonunez/ruby-rake-alpine:2.4.2 "bundle exec rake test"
+  - docker run -d -e GEM_HOME=/root/.gem -e BUNDLE_PATH=/root/.gem -v $PWD:/work -w /work -v $PWD/.gem:/home/root/.gem -p 127.0.0.1:5000:5000 carlosonunez/ruby-rake-alpine:2.4.2 "bundle install"
+  - docker run -d -e GEM_HOME=/root/.gem -e BUNDLE_PATH=/root/.gem -v $PWD:/work -w /work -v $PWD/.gem:/home/root/.gem -p 127.0.0.1:5000:5000 carlosonunez/ruby-rake-alpine:2.4.2 "bundle exec rake test"
 script:
   - bundle exec rake test
 after_success:
