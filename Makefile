@@ -4,7 +4,10 @@ SHELL := /bin/bash
 .PHONY: build init test deploy
 
 build:
-	docker build -t carlosonunez/ruby-rake-alpine:2.4.2 .
+	if ! docker images carlosonunez/ruby-rake-alpine; \
+	then \
+		docker build -t carlosonunez/ruby-rake-alpine:2.4.2 .; \
+	fi
 
 init: _bundle_install
 
