@@ -1,5 +1,7 @@
 require 'sinatra'
 
-get '/' do
-  ''
+class ResumeApp < Sinatra::Base
+  get '/' do
+    ''
+  end
 end

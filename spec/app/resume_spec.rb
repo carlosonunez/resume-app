@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'rack/test'
+require_relative '../../app.rb'
 
 RSpec.describe ResumeApp do
   include Rack::Test::Methods
