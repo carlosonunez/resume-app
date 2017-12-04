@@ -9,7 +9,9 @@ describe 'ResumeApp' do
   context 'Empty Markdown' do
     it "Renders a page with no content" do
       expected_html = ''
-      allow(ResumeApp::Converters).to receive(:markdown_to_html).and_return(expected_html)
+      allow(ResumeApp::Downloaders)
+        .to receive(:retrieve_latest_resume_from_s3)
+        .and_return('')
       
       get '/'
 
@@ -39,9 +41,9 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
 </body>
 </html>
       HTML
-      allow(ResumeApp::Converters)
-        .to receive(:markdown_to_html)
-        .with(test_markdown_content)
+      allow(ResumeApp::Downloaders)
+        .to receive(:retrieve_latest_resume_from_s3)
+        .and_return(test_markdown_content)
       get '/'
       expect(last_response.body).to eq expected_html_content
       expect(last_response.status).to eq 200

@@ -10,7 +10,7 @@ module ResumeApp
     #--
     # TODO: Actually convert to HTML!
     #++
-    def markdown_to_html(markdown_string)
+    def self.markdown_to_html(markdown_string)
       Kramdown::Document.new(markdown_string).to_html
     end
   end
