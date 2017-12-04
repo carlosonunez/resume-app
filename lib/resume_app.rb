@@ -1,1 +1,2 @@
-require 'resume_markdown_renderer/app'
+require 'resume_app/converters'
+require 'resume_app/web'
