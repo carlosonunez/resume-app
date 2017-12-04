@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'resume_markdown_renderer'
+require 'resume_app'
 require' sinatra'
 
 class ResumeApp < Sinatra::Base
