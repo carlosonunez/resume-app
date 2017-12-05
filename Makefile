@@ -6,7 +6,7 @@ SHELL := /bin/bash
 build:
 	if ! docker images carlosonunez/ruby-rake-alpine > /dev/null; \
 	then \
-		docker build -t carlosonunez/ruby-rake-alpine:2.4.2 . > /dev/null; \
+		docker build -f build_runner.Dockerfile -t "carlosonunez/ruby-rake-alpine:2.4.2" . > /dev/null; \
 	fi
 
 init: _bundle_install
