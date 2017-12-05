@@ -45,4 +45,23 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
       expect(last_response.status).to eq 200
     end
   end
+
+  context 'AWS S3' do
+    it 'Returns nil when no buckets could be found' do
+      stubbed_s3_client = Aws::S3::Client.new(stub_responses: true)
+      expect(Aws::S3::Client)
+        .to receive(:new)
+        .and_return(stubbed_s3_client)
+      stubbed_s3_client.stub_responses(:list_buckets, { buckets: [] })
+      
+      expected_html_response = <<-DOC
+Something went wrong! We couldn't find any resumes in your AWS S3 bucket.
+Check that your AWS credentials in your `.env` are correct!
+      DOC
+
+      get '/'
+      expect(last_response.status).to eq 500
+      expect(last_response.body).to eq expected_html_response
+    end
+  end
 end
