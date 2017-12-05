@@ -74,9 +74,7 @@ Something bad happened: We couldn't find latest in bucket fake_bucket.
     allow(Aws::S3::Client)
       .to receive(:new)
       .and_return(stubbed_s3_client)
-    stubbed_s3_client.stub_responses(:get_object, {
-      body: @test_markdown_content
-    })
+    stubbed_s3_client.stub_responses(:get_object, body: @test_markdown_content)
 
     get '/'
     expect(last_response.body).to eq @test_html_content

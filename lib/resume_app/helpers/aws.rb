@@ -33,7 +33,7 @@ module ResumeApp
           s3_client.get_object(
             bucket: s3_bucket_name,
             key: resume_name
-          ).read
+          ).body.read
         rescue Aws::S3::Errors::NoSuchKey
           raise "We couldn't find #{resume_name} in bucket #{s3_bucket_name}"
         rescue Aws::S3::Errors::ServiceError => e
