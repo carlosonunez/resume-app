@@ -1,7 +1,9 @@
 MAKEFLAGS += --silent
 SHELL := /bin/bash
-include .env
-export $(shell sed 's/=.*//' .env)
+ifndef TRAVIS
+	include .env
+	export $(shell sed 's/=.*//' .env)
+endif
 
 .PHONY: build init test deploy
 
