@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/carlosonunez/resume-markdown-renderer.svg?branch=master)](https://travis-ci.org/carlosonunez/resume-markdown-renderer)
+
 What is this?
 =============
 
