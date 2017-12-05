@@ -7,7 +7,7 @@ describe 'Given an app that renders resumes' do
   end
 
   before(:each) do
-      @test_markdown_content = <<-MARKDOWN
+    @test_markdown_content = <<-MARKDOWN
 This is a document.
 ===================
 
@@ -17,7 +17,7 @@ A document can have many sections!
 It has words. Some of them are **bold,** and some of them are *emphasized.*
       MARKDOWN
 
-      @test_html_content = <<-HTML
+    @test_html_content = <<-HTML
 <h1 id="this-is-a-document">This is a document.</h1>\n
 <h2 id="a-document-can-have-many-sections">A document can have many sections!</h2>\n
 <p>It has words. Some of them are <strong>bold,</strong> and some of them are <em>emphasized.</em></p>
@@ -64,8 +64,8 @@ Something bad happened: We couldn't find latest in bucket fake_bucket.
       DOC
 
       get '/'
-      expect(last_response.status).to eq 500
       expect(last_response.body).to eq expected_response
+      expect(last_response.status).to eq 500
     end
   end
 
@@ -74,13 +74,12 @@ Something bad happened: We couldn't find latest in bucket fake_bucket.
     allow(Aws::S3::Client)
       .to receive(:new)
       .and_return(stubbed_s3_client)
-    stubbed_s3_client.stub_responses(
-      :get_object,
-      { body: @test_markdown_content }
-    )
+    stubbed_s3_client.stub_responses(:get_object, {
+      body: @test_markdown_content
+    })
 
     get '/'
+    expect(last_response.body).to eq @test_html_content
     expect(last_response.status).to eq 200
-    expect(last_response.body).to eq test_html_content
   end
 end
