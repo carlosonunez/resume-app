@@ -5,12 +5,6 @@
 echo "INFO: Running pre-push tests. Please wait a moment."
 if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
-  if ! docker build -t carlosonunez/ruby-rake-alpine:2.4.2 . > /dev/null
-  then
-    echo "ERROR: Failed to build Ruby Docker image." >&2
-    exit 1
-  fi
-
   if ! make test
   then
     echo "ERROR: Tests failed! If this is intentional, include \"[FORCE COMMIT]\" \
