@@ -5,6 +5,7 @@
 echo "INFO: Running pre-push tests. Please wait a moment."
 if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
+  export UPDATE_TRAVIS=1
   if ! make test
   then
     echo "ERROR: Tests failed! If this is intentional, include \"[FORCE COMMIT]\" \
