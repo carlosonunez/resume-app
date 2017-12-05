@@ -4,7 +4,7 @@ SHELL := /bin/bash
 .PHONY: build init test deploy
 
 build:
-	if ! docker images carlosonunez/ruby-rake-alpine > /dev/null; \
+	if ! docker images | grep -q carlosonunez/ruby-rake-alpine; \
 	then \
 		docker build -f build_runner.Dockerfile -t "carlosonunez/ruby-rake-alpine:2.4.2" . > /dev/null; \
 	fi
