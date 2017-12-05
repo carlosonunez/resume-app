@@ -67,17 +67,28 @@ Something bad happened: We couldn't find latest in bucket fake_bucket.
       expect(last_response.body).to eq expected_response
       expect(last_response.status).to eq 500
     end
-  end
 
-  it 'Renders $S3_BUCKET_NAME/$RESUME_NAME if found and is valid Markdown' do
-    stubbed_s3_client = Aws::S3::Client.new(stub_responses: true)
-    allow(Aws::S3::Client)
+    it 'Renders $S3_BUCKET_NAME/$RESUME_NAME if found and is valid Markdown' do
+      stubbed_s3_client = Aws::S3::Client.new(stub_responses: true)
+      allow(Aws::S3::Client)
       .to receive(:new)
       .and_return(stubbed_s3_client)
-    stubbed_s3_client.stub_responses(:get_object, body: @test_markdown_content)
+      stubbed_s3_client.stub_responses(:get_object, body: @test_markdown_content)
 
-    get '/'
-    expect(last_response.body).to eq @test_html_content
-    expect(last_response.status).to eq 200
+      get '/'
+      expect(last_response.body).to eq @test_html_content
+      expect(last_response.status).to eq 200
+    end
+  end
+
+  context 'When we ask for a PDF' do
+    it 'Gives us a PDF when we go to /pdf' do
+      allow(ResumeApp::Downloaders)
+        .to receive(:retrieve_latest_resume_as_markdown)
+        .and_return(@test_markdown_content)
+      get '/pdf'
+      expect(last_response.body[0,4]).to eq '%PDF'
+      expect(last_response.status).to eq 200
+    end
   end
 end
