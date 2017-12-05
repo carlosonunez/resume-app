@@ -18,8 +18,28 @@ init: _bundle_install _set_travis_env_vars
 test: DOCKER_ACTIONS=bundle exec rake test
 test: build init execute_rake_test_in_docker
 
-deploy: DOCKER_ACTIONS=bundle exec rake deploy
-deploy: build init execute_rake_deploy_in_docker
+deploy: build init _build_gem _build_app _push_gem_to_docker_hub
+
+.PHONY: _build_gem _build_app
+_build_gem: DOCKER_ACTIONS=gem build resume_app.gemspec
+_build_gem: execute_gem_build_in_docker
+
+_build_app:
+	version=$$(cat lib/resume_app/version.rb | \
+					grep version_id | \
+					cut -f2 -d =); \
+	docker build -t "carlosonunez/resume_app:$$version" .
+
+.PHONY: _push_gem_to_docker_hub
+_push_gem_to_docker_hub:
+	if ! docker login --username=$(DOCKER_HUB_USERNAME) --password=$(DOCKER_HUB_PASSWORD); \
+	then \
+		echo "ERROR: Failed to log into Docker Hub. Check your env vars."; \
+		exit 1; \
+	fi; \
+	latest_image_id=$$(docker images | grep resume_app | awk '{print $$3}'); \
+	docker tag $$latest_image_id "carlosonunez/resume_app:latest"; \
+	docker push "carlosonunez/resume_app"
 
 .PHONY: _bundle_install
 _bundle_install: DOCKER_ACTIONS=bundle install --quiet
