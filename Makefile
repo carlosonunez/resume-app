@@ -32,6 +32,10 @@ _build_app:
 
 .PHONY: _push_gem_to_docker_hub
 _push_gem_to_docker_hub:
+	if [ -z "$$TRAVIS" ]; \
+	then \
+		exit 0; \
+	fi; \
 	if ! docker login --username=$(DOCKER_HUB_USERNAME) --password=$(DOCKER_HUB_PASSWORD); \
 	then \
 		echo "ERROR: Failed to log into Docker Hub. Check your env vars."; \
