@@ -20,6 +20,13 @@ module ResumeApp
         latest_resume = Downloaders.retrieve_latest_resume_as_markdown
         Converters.markdown_to_html(latest_resume)
       end
+
+      get '/pdf' do
+        content_type 'application/pdf'
+        latest_resme_as_markdown =
+          Downloaders.retrieve_latest_resume_as_markdown
+        Converters.markdown_to_pdf(latest_resme_as_markdown)
+      end
     end
   end
 end

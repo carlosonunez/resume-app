@@ -71,9 +71,10 @@ Something bad happened: We couldn't find latest in bucket fake_bucket.
     it 'Renders $S3_BUCKET_NAME/$RESUME_NAME if found and is valid Markdown' do
       stubbed_s3_client = Aws::S3::Client.new(stub_responses: true)
       allow(Aws::S3::Client)
-      .to receive(:new)
-      .and_return(stubbed_s3_client)
-      stubbed_s3_client.stub_responses(:get_object, body: @test_markdown_content)
+        .to receive(:new)
+        .and_return(stubbed_s3_client)
+      stubbed_s3_client.stub_responses(:get_object,
+                                       body: @test_markdown_content)
 
       get '/'
       expect(last_response.body).to eq @test_html_content
@@ -87,7 +88,10 @@ Something bad happened: We couldn't find latest in bucket fake_bucket.
         .to receive(:retrieve_latest_resume_as_markdown)
         .and_return(@test_markdown_content)
       get '/pdf'
-      expect(last_response.body[0,4]).to eq '%PDF'
+      if last_response.body[0, 4] != '%PDF'
+        puts "This is what we got: #{last_response.body}"
+      end
+      expect(last_response.body[0, 4]).to eq '%PDF'
       expect(last_response.status).to eq 200
     end
   end

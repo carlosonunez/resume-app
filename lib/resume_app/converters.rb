@@ -11,11 +11,16 @@ module ResumeApp
     # @param [String] markdown_string The string to convert.
     # @return [String] if markdown_string could be successfully converted.
     #
-    #--
-    # TODO: Actually convert to HTML!
-    #++
     def self.markdown_to_html(markdown_string)
       Kramdown::Document.new(markdown_string).to_html
+    end
+
+    # Converts a Markdown string into PDF using Kramdown.
+    #
+    # @param [String] markdown_string The string to convert.
+    # @return [PDF] A PDF document from Prawn if successful.
+    def self.markdown_to_pdf(markdown_string)
+      Kramdown::Document.new(markdown_string).to_pdf
     end
   end
 end
