@@ -27,7 +27,7 @@ _bundle_install: execute_bundle_install_in_docker
 
 .PHONY: _set_travis_env_vars _travis_login
 _set_travis_env_vars:
-	if [ ! -z "$$TRAVIS" ]; \
+	if [ ! -z "$$TRAVIS" ] || [ -z "$$UPDATE_TRAVIS" ]; \
 	then \
 		exit 0; \
 	fi; \
