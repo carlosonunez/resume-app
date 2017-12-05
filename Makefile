@@ -25,8 +25,12 @@ _bundle_install: execute_bundle_install_in_docker
 execute_%_in_docker:
 	docker run --rm -i -e GEM_HOME=/root/.gem \
 		-e BUNDLE_PATH=/root/.gem \
+		-e AWS_ACCESS_KEY_ID \
+		-e AWS_SECRET_ACCESS_KEY \
+		-e AWS_REGION \
 		-v $$PWD:/work \
 		-v $$PWD/.gem:/root/.gem \
+		-v $$HOME/.aws:/root/.aws \
 		-w /work \
 		-p 127.0.0.1:5000:5000 \
 		carlosonunez/ruby-rake-alpine:2.4.2 "$(DOCKER_ACTIONS)"

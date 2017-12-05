@@ -6,10 +6,12 @@ Gem::Specification.new do |spec|
   spec.version        = '20171204'
   spec.authors        = ['Carlos Nunez']
   spec.email          = ['dev@carlosnunez.me']
-  spec.summary        = %q{A simple app that generates resumes from Markdown.}
-  spec.description    = %q{A simple app that generates resumes from Markdown.}
-  
-  spec.files          = Dir.glob('lib/**/*').select { |file| /\.rb$/.match(file) }
+  spec.summary        = 'A simple app that generates resumes from Markdown.'
+  spec.description    = 'A simple app that generates resumes from Markdown.'
+
+  spec.files          = Dir.glob('lib/**/*').select { |file|
+    /\.rb$/.match(file)
+  }
   spec.executables    = ['bin/resume_app']
   spec.require_paths  = ['lib']
 end

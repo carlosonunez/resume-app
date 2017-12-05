@@ -1,13 +1,20 @@
 require 'rspec/core/rake_task'
-require 'dotenv/tasks'
+require 'rubocop/rake_task'
 require 'colorize'
 
-task :test do
-  sh 'bundle exec rspec'
+RuboCop::RakeTask.new(:style) do |task|
+  task.options = ['-a']
 end
+
+ENV['COVERAGE'] = 'true'
+RSpec::Core::RakeTask.new(:unit_tests) do |spec|
+  spec.pattern = FileList['spec/**/*_spec.rb']
+end
+
+task test: %i[style unit_tests]
 
 task :deploy do
   # TODO: Deploy to Fargate here
 end
 
-task :default => :test
+task default: :test

@@ -7,12 +7,12 @@ describe 'ResumeApp' do
   end
 
   context 'Empty Markdown' do
-    it "Renders a page with no content" do
+    it 'Renders a page with no content' do
       expected_html = "\n"
       allow(ResumeApp::Downloaders)
-        .to receive(:retrieve_latest_resume_from_s3)
+        .to receive(:retrieve_latest_resume_as_markdown)
         .and_return('')
-      
+
       get '/'
 
       expect(last_response.body).to eq(expected_html)
@@ -21,7 +21,7 @@ describe 'ResumeApp' do
   end
 
   context 'Some Markdown' do
-    it "Successfully converts Markdown into HTML" do
+    it 'Successfully converts Markdown into HTML' do
       test_markdown_content = <<-MARKDOWN
 This is a document.
 ===================
@@ -38,7 +38,7 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
 <p>It has words. Some of them are <strong>bold,</strong> and some of them are <em>emphasized.</em></p>
       HTML
       allow(ResumeApp::Downloaders)
-        .to receive(:retrieve_latest_resume_from_s3)
+        .to receive(:retrieve_latest_resume_as_markdown)
         .and_return(test_markdown_content)
       get '/'
       expect(last_response.body).to eq expected_html_content
@@ -49,19 +49,21 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
   context 'AWS S3' do
     it 'Returns nil when no buckets could be found' do
       stubbed_s3_client = Aws::S3::Client.new(stub_responses: true)
-      expect(Aws::S3::Client)
+      allow(Aws::S3::Client)
         .to receive(:new)
         .and_return(stubbed_s3_client)
-      stubbed_s3_client.stub_responses(:list_buckets, { buckets: [] })
-      
-      expected_html_response = <<-DOC
-Something went wrong! We couldn't find any resumes in your AWS S3 bucket.
-Check that your AWS credentials in your `.env` are correct!
+      stubbed_s3_client.stub_responses(
+        :get_object,
+        Aws::S3::Errors::NoSuchKey.new('test', 'test')
+      )
+
+      expected_response = <<-DOC.tr("\n", ' ').strip
+Something bad happened: We couldn't find latest in bucket fake_bucket.
       DOC
 
       get '/'
       expect(last_response.status).to eq 500
-      expect(last_response.body).to eq expected_html_response
+      expect(last_response.body).to eq expected_response
     end
   end
 end

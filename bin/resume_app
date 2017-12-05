@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 require 'resume_app'
-require' sinatra'
+require 'sinatra'
+require 'dotenv'
 
+Dotenv.load
 ResumeApp::Web::App.run!
