@@ -8,7 +8,7 @@ then
   if ! make test
   then
     echo "ERROR: Tests failed! If this is intentional, include \"[FORCE COMMIT]\" \
-      to the beginning of your commit message." >&2
+to the beginning of your commit message." >&2
     exit 1
   fi
 fi
