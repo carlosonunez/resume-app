@@ -8,6 +8,6 @@ RUN \
 ADD . /work
 WORKDIR /work
 RUN \
-  rm -rf .env.* && \
+  rm -rf .env* && \
   gem build resume_app.gemspec
 ENTRYPOINT ["resume_app"]
