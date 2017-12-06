@@ -9,5 +9,9 @@ ADD . /work
 WORKDIR /work
 RUN \
   rm -rf .env* && \
-  gem build resume_app.gemspec
+  gem build resume_app.gemspec && \
+	gem install resume_app*.gem
+WORKDIR /
+RUN \
+	rm -rf /work
 ENTRYPOINT ["resume_app"]
