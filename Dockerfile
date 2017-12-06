@@ -3,7 +3,9 @@ RUN \
   apk update && \
   apk upgrade && \
   apk add ruby-bundler ruby-json ruby-dev && \
-  export PATH="$PATH:/work/.gem/bin" && \
+	export GEM_HOME="/root/.gem" && \
+	export BUNDLE_PATH="/root/.gem" && \
+  export PATH="$PATH:/root/.gem/bin" && \
   rm -rf /var/cache/apk/*
 ADD . /work
 WORKDIR /work
