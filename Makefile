@@ -34,26 +34,33 @@ _bump_version_number:
 	fi; \
 	current_version_number=$$(cat lib/resume_app/version.rb | \
 												 grep VERSION | \
+												 tr -d '" ' | \
 												 cut -f2 -d =); \
 	current_major_version=$$(echo "$$current_version_number" | cut -f1 -d '.'); \
-	current_minor_version=$$(echo "$$current_version_number" | cut -f2 -d '.'); \
-	todays_date=$$(date %Y%m%d); \
-	major_version="$$todays_date"; \
+	todays_date=$$(date +%Y%m%d); \
+	new_major_version="$$todays_date"; \
 	if [ "$$current_major_version" == "$$todays_date" ]; \
 	then \
-		if [ ! -z "$$current_minor_version" ]; \
+		if [ ! -z "$$(echo "$$current_version_number" | grep '\.')" ]; \
 		then \
-			minor_version="$$((current_minor_version+1))"; \
+			current_minor_version=$$(echo "$$current_version_number" | cut -f2 -d '.'); \
+			new_minor_version="$$((current_minor_version+1))"; \
 		else \
-			minor_version=1; \
+			new_minor_version=1; \
 		fi; \
-		new_version_number="$${major_version}.$${minor_version}"; \
+		new_version_number="$${new_major_version}.$${new_minor_version}"; \
 	else \
 		new_version_number="$${major_version}"; \
 	fi; \
-	sed -i "s/VERSION=.*/VERSION=$${new_version_number}/" lib/resume_app/version.rb; \
-	git commit -am "$$(git config --get author.email) | Automated version update." ; \
-	git tag "$${new_version_number}"
+	if [ ! -z "$${new_version_number}" ]; \
+	then \
+		echo "INFO: Incrementing version: $${current_version_number} => $${new_version_number}"; \
+		sed -i "s/VERSION = .*/VERSION = $${new_version_number}/" lib/resume_app/version.rb; \
+		git commit -am "$$(git config --get author.email) | Automated version update." ; \
+		git tag "$${new_version_number}"; \
+	else \
+		exit 1; \
+	fi
 
 .PHONY: _build_gem _build_app
 _build_gem: DOCKER_ACTIONS=gem build resume_app.gemspec
@@ -76,8 +83,6 @@ _push_gem_to_docker_hub:
 	then \
 		echo "ERROR: Failed to log into Docker Hub. Check your env vars."; \
 		exit 1; \
-	fi; \
-	latest_image_id=$$(docker images | grep resume_app | awk '{print $$3}'); \
 	docker tag $$latest_image_id "carlosonunez/resume_app:latest"; \
 	docker push "carlosonunez/resume_app"
 endif

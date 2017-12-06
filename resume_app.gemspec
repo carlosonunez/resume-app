@@ -13,6 +13,6 @@ Gem::Specification.new do |spec|
   spec.files          = Dir.glob('lib/**/*').select { |file|
     /\.rb$/.match(file)
   }
-  spec.executables    = ['bin/resume_app']
+  spec.executables    = ['resume_app']
   spec.require_paths  = ['lib']
 end
