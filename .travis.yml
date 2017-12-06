@@ -6,4 +6,5 @@ script:
   - make build
   - make test
 after_success:
+  - make version
   - make deploy

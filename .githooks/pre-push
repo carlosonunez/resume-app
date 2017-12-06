@@ -14,4 +14,5 @@ to the beginning of your commit message." >&2
   fi
 fi
 
-echo "INFO: All tests passed! Continuing push."
+echo "INFO: All tests passed! Updating version prior to push."
+make tag
