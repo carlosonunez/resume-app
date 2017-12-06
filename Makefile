@@ -26,8 +26,9 @@ _build_gem: execute_gem_build_in_docker
 
 _build_app:
 	version=$$(cat lib/resume_app/version.rb | \
-					grep version_id | \
-					cut -f2 -d =); \
+					grep VERSION | \
+					cut -f2 -d = | \
+					tr -d '"'); \
 	docker build -t "carlosonunez/resume_app:$$version" .
 
 .PHONY: _push_gem_to_docker_hub
