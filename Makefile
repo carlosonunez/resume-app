@@ -14,11 +14,46 @@ build:
 	fi
 
 init: _bundle_install _set_travis_env_vars
-
 test: DOCKER_ACTIONS=bundle exec rake test
 test: build init execute_rake_test_in_docker
 
+ifdef TRAVIS
+.PHONY: version deploy
+version: build init _bump_version_number _push_with_tags
 deploy: build init _build_gem _build_app _push_gem_to_docker_hub
+
+.PHONY: _push_with_tags
+_push_with_tags: DOCKER_ACTIONS=git push --tags
+_push_with_tags: execute_git_push_in_docker
+
+.PHONY: _bump_version_number
+_bump_version_number:
+	if [ -z "$$TRAVIS" ]; \
+	then \
+		exit 0; \
+	fi; \
+	current_version_number=$$(cat lib/resume_app/version.rb | \
+												 grep VERSION | \
+												 cut -f2 -d =); \
+	current_major_version=$$(echo "$$current_version_number" | cut -f1 -d '.'); \
+	current_minor_version=$$(echo "$$current_version_number" | cut -f2 -d '.'); \
+	todays_date=$$(date %Y%m%d); \
+	major_version="$$todays_date"; \
+	if [ "$$current_major_version" == "$$todays_date" ]; \
+	then \
+		if [ ! -z "$$current_minor_version" ]; \
+		then \
+			minor_version="$$((current_minor_version+1))"; \
+		else \
+			minor_version=1; \
+		fi; \
+		new_version_number="$${major_version}.$${minor_version}"; \
+	else \
+		new_version_number="$${major_version}"; \
+	fi; \
+	sed -i "s/VERSION=.*/VERSION=$${new_version_number}/" lib/resume_app/version.rb; \
+	git commit -am "$$(git config --get author.email) | Automated version update." ; \
+	git tag "$${new_version_number}"
 
 .PHONY: _build_gem _build_app
 _build_gem: DOCKER_ACTIONS=gem build resume_app.gemspec
@@ -28,7 +63,7 @@ _build_app:
 	version=$$(cat lib/resume_app/version.rb | \
 					grep VERSION | \
 					cut -f2 -d = | \
-					tr -d '"'); \
+					tr -d '" '); \
 	docker build -t "carlosonunez/resume_app:$$version" .
 
 .PHONY: _push_gem_to_docker_hub
@@ -45,6 +80,7 @@ _push_gem_to_docker_hub:
 	latest_image_id=$$(docker images | grep resume_app | awk '{print $$3}'); \
 	docker tag $$latest_image_id "carlosonunez/resume_app:latest"; \
 	docker push "carlosonunez/resume_app"
+endif
 
 .PHONY: _bundle_install
 _bundle_install: DOCKER_ACTIONS=bundle install --quiet
