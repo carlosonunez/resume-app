@@ -8,10 +8,14 @@ end
 
 ENV['COVERAGE'] = 'true'
 RSpec::Core::RakeTask.new(:unit_tests) do |spec|
-  spec.pattern = FileList['spec/**/*_spec.rb']
+  spec.pattern = FileList['spec/unit/**/*_spec.rb']
 end
 
-task test: %i[style unit_tests]
+RSpec::Core::RakeTask.new(:integration_tests) do |spec|
+  spec.pattern = FileList['spec/integration/**/*_spec.rb']
+end
+
+task test: %i[style unit_tests integration_tests]
 
 task :deploy do
   # TODO: Deploy to Fargate here

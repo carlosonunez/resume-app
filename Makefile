@@ -14,8 +14,14 @@ build:
 	fi
 
 init: _bundle_install _set_travis_env_vars
-test: DOCKER_ACTIONS=bundle exec rake test
-test: build init execute_rake_test_in_docker
+test: build init unit_tests integration_tests
+
+.PHONY: unit_tests integration_tests
+unit_tests: DOCKER_ACTIONS=bundle exec rake unit_tests
+unit_tests: execute_unit_test_in_docker
+
+integration_tests: DOCKER_ACTIONS=bundle exec rake integration_tests
+integration_tests: execute_integration_test_in_docker
 
 ifdef TRAVIS
 .PHONY: version deploy
