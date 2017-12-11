@@ -20,14 +20,15 @@ ENV['COVERAGE'] = 'true'
     task :setup do
       case test_type
       when integration
-        Rake::Task["create_environment:integration"].invoke
+        Rake::Task["deploy:generate_ecs_task"].invoke
+        Rake::Task["deploy:deploy_ecs_task"].invoke
       end
     end
 
     task :teardown do
       case test_type
       when integration
-        Rake::Task["teardown_environment:integration"].invoke
+        Rake::Task["deploy:delete_ecs_task"].invoke
       end
     end
 
@@ -38,6 +39,17 @@ ENV['COVERAGE'] = 'true'
       task.rspec_opts = '--format documentation'
       Rake::Task["#{test_type}:teardown"].invoke
     end
+  end
+end
+
+namespace :deploy do
+  task :generate_ecs_task do
+  end
+
+  task :deploy_ecs_task do
+  end
+
+  task :delete_ecs_task do
   end
 end
 
