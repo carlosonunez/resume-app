@@ -6,12 +6,13 @@ echo "INFO: Running pre-push tests. Please wait a moment."
 if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
   export UPDATE_TRAVIS=1
-  if ! make test
+  if ! make unit_tests
   then
     echo "ERROR: Tests failed! If this is intentional, include \"[FORCE COMMIT]\" \
 to the beginning of your commit message." >&2
     exit 1
   fi
+  # TODO: Add integration tests!
 fi
 
 echo "INFO: All tests passed! Updating version prior to push."
