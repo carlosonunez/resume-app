@@ -9,18 +9,14 @@ module RakeHelpers
 
       # Generates a AWS ECS task definition from environment variables.
       def self.generate_task_json!
-        raise IOError,"ecs_task_template.json is missing. Please provide it." \
-          unless File.exist? "ecs_task_template.json"
-            [
-              'S3_BUCKET_NAME',
-              'AWS_ACCESS_KEY_ID',
-              'AWS_SECRET_ACCESS_KEY'
-            ].each do |required_env_var|
-              raise IOError,"#{required_env_var} is missing. Please provide it." \
-                unless ENV[required_env_var]
-              end
-            end
+        [
+          'S3_BUCKET_NAME',
+          'AWS_ACCESS_KEY_ID',
+          'AWS_SECRET_ACCESS_KEY'
+        ].each do |required_env_var|
+          raise IOError,"#{required_env_var} is missing. Please provide it." unless ENV[required_env_var]
         end
+        raise IOError,"ecs_task_template.json is missing. Please provide it." unless File.exist?("ecs_task_template.json")
       end
     end
   end
