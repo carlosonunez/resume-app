@@ -14,7 +14,8 @@ module RakeHelpers
           AWS_SECRET_ACCESS_KEY
         ].each do |required_env_var|
           raise IOError, "#{required_env_var} is missing. Please provide it." \
-            unless ENV[required_env_var]
+            unless !(ENV[required_env_var].empty? ||
+                     ENV[required_env_var].nil?)
         end
         raise IOError, 'ecs_task_template.json is missing. Please provide it.' \
           unless File.exist?('ecs_task_template.json')
