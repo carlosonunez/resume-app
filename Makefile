@@ -19,10 +19,10 @@ test: build init unit_tests integration_tests
 
 # Test build steps.
 .PHONY: unit_tests integration_tests
-unit_tests: DOCKER_ACTIONS=bundle exec rake unit_tests
+unit_tests: DOCKER_ACTIONS=bundle exec rake unit:test
 unit_tests: execute_unit_test_in_docker
 
-integration_tests: DOCKER_ACTIONS=bundle exec rake integration_tests
+integration_tests: DOCKER_ACTIONS=bundle exec rake integration:test
 integration_tests: execute_integration_test_in_docker
 
 # Deployment build steps.

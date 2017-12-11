@@ -2,7 +2,7 @@ require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 require 'colorize'
 require 'dotenv'
-Dir.glob('lib/rake/*.rake').each {|file| import file}
+require_relative 'lib/rake/helpers/aws/ecs.rb'
 
 namespace :static_analysis do
   desc 'Run lint and style guide confirmation tests.'
@@ -19,7 +19,7 @@ ENV['COVERAGE'] = 'true'
 
     task :setup do
       case test_type
-      when integration
+      when "integration"
         Rake::Task["deploy:generate_ecs_task"].invoke
         Rake::Task["deploy:deploy_ecs_task"].invoke
       end
@@ -27,7 +27,7 @@ ENV['COVERAGE'] = 'true'
 
     task :teardown do
       case test_type
-      when integration
+      when "integration"
         Rake::Task["deploy:delete_ecs_task"].invoke
       end
     end
@@ -44,12 +44,15 @@ end
 
 namespace :deploy do
   task :generate_ecs_task do
+    RakeHelpers::AWS::ECS.create_task_json_from_template!
   end
 
   task :deploy_ecs_task do
+    RakeHelpers::AWS::ECS.deploy_ecs_task!
   end
 
   task :delete_ecs_task do
+    RakeHelpers::AWS::ECS.delete_ecs_task!
   end
 end
 
