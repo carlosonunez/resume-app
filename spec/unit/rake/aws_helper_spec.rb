@@ -12,7 +12,11 @@ describe 'Given a Rake helper that interfaces with ECS' do
     end
   end
   context "When we generate a task JSON and have missing environment variables" do
-    ['S3_BUCKET_NAME','RESUME_NAME'].each do |required_env_var|
+    [
+      'S3_BUCKET_NAME',
+      'AWS_ACCESS_KEY_ID',
+      'AWS_SECRET_ACCESS_KEY'
+    ].each do |required_env_var|
       it "It should fail when #{required_env_var} is missing." do
         allow(ENV)
           .to receive(:[])
