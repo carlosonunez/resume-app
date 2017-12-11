@@ -7,14 +7,12 @@ RuboCop::RakeTask.new(:style) do |task|
 end
 
 ENV['COVERAGE'] = 'true'
-RSpec::Core::RakeTask.new(:unit_tests) do |spec|
-  spec.pattern = FileList['spec/unit/**/*_spec.rb']
-  spec.rspec_opts = '--format documentation'
-end
-
-RSpec::Core::RakeTask.new(:integration_tests) do |spec|
-  spec.pattern = FileList['spec/integration/**/*_spec.rb']
-  spec.rspec_opts = '--format documentation'
+['unit','integration'].each do |test_type|
+  RSpec::Core::RakeTask.new("#{test_type}_tests".to_sym) do |task|
+    task.pattern = "spec/#{test_type}/**/*_spec.rb"
+    task.fail_on_error = true
+    task.rspec_opts = '--format documentation'
+  end
 end
 
 task test: %i[style unit_tests integration_tests]
