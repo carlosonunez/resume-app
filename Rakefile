@@ -9,10 +9,12 @@ end
 ENV['COVERAGE'] = 'true'
 RSpec::Core::RakeTask.new(:unit_tests) do |spec|
   spec.pattern = FileList['spec/unit/**/*_spec.rb']
+  spec.rspec_opts = '--format documentation'
 end
 
 RSpec::Core::RakeTask.new(:integration_tests) do |spec|
   spec.pattern = FileList['spec/integration/**/*_spec.rb']
+  spec.rspec_opts = '--format documentation'
 end
 
 task test: %i[style unit_tests integration_tests]

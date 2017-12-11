@@ -5,7 +5,8 @@ ifndef TRAVIS
 	export $(shell sed 's/=.*//' .env)
 endif
 
-.PHONY: build init test deploy
+# Shared build steps.
+.PHONY: build init test
 
 build:
 	if ! docker images | grep -q carlosonunez/ruby-rake-alpine; \
@@ -16,6 +17,7 @@ build:
 init: _bundle_install _set_travis_env_vars
 test: build init unit_tests integration_tests
 
+# Test build steps.
 .PHONY: unit_tests integration_tests
 unit_tests: DOCKER_ACTIONS=bundle exec rake unit_tests
 unit_tests: execute_unit_test_in_docker
@@ -23,6 +25,7 @@ unit_tests: execute_unit_test_in_docker
 integration_tests: DOCKER_ACTIONS=bundle exec rake integration_tests
 integration_tests: execute_integration_test_in_docker
 
+# Deployment build steps.
 ifdef TRAVIS
 .PHONY: version deploy
 version: build init _bump_version_number _push_with_tags
@@ -68,6 +71,7 @@ _bump_version_number:
 		exit 1; \
 	fi
 
+# Build environment build steps.
 .PHONY: _build_gem _build_app
 _build_gem: DOCKER_ACTIONS=gem build resume_app.gemspec
 _build_gem: execute_gem_build_in_docker
@@ -79,6 +83,7 @@ _build_app:
 					tr -d '" '); \
 	docker build -t "carlosonunez/resume_app:$$version" .
 
+# Artifact deployment build step.
 .PHONY: _push_gem_to_docker_hub
 _push_gem_to_docker_hub:
 	if [ -z "$$TRAVIS" ]; \
