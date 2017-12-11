@@ -1,127 +1,39 @@
 {
-    "family": "", 
-    "taskRoleArn": "", 
-    "executionRoleArn": "", 
-    "networkMode": "awsvpc", 
-    "containerDefinitions": [
+  "networkMode": "awsvpc", 
+  "containerDefinitions": [
+    {
+      "name": "resume_app", 
+      "image": "carlosonunez/resume_app:$__VERSION__", 
+      "portMappings": [
         {
-            "name": "", 
-            "image": "", 
-            "cpu": 0, 
-            "memory": 0, 
-            "memoryReservation": 0, 
-            "links": [
-                ""
-            ], 
-            "portMappings": [
-                {
-                    "containerPort": 0, 
-                    "hostPort": 0, 
-                    "protocol": "udp"
-                }
-            ], 
-            "essential": true, 
-            "entryPoint": [
-                ""
-            ], 
-            "command": [
-                ""
-            ], 
-            "environment": [
-                {
-                    "name": "", 
-                    "value": ""
-                }
-            ], 
-            "mountPoints": [
-                {
-                    "sourceVolume": "", 
-                    "containerPath": "", 
-                    "readOnly": true
-                }
-            ], 
-            "volumesFrom": [
-                {
-                    "sourceContainer": "", 
-                    "readOnly": true
-                }
-            ], 
-            "linuxParameters": {
-                "capabilities": {
-                    "add": [
-                        ""
-                    ], 
-                    "drop": [
-                        ""
-                    ]
-                }, 
-                "devices": [
-                    {
-                        "hostPath": "", 
-                        "containerPath": "", 
-                        "permissions": [
-                            "read"
-                        ]
-                    }
-                ], 
-                "initProcessEnabled": true
-            }, 
-            "hostname": "", 
-            "user": "", 
-            "workingDirectory": "", 
-            "disableNetworking": true, 
-            "privileged": true, 
-            "readonlyRootFilesystem": true, 
-            "dnsServers": [
-                ""
-            ], 
-            "dnsSearchDomains": [
-                ""
-            ], 
-            "extraHosts": [
-                {
-                    "hostname": "", 
-                    "ipAddress": ""
-                }
-            ], 
-            "dockerSecurityOptions": [
-                ""
-            ], 
-            "dockerLabels": {
-                "KeyName": ""
-            }, 
-            "ulimits": [
-                {
-                    "name": "rss", 
-                    "softLimit": 0, 
-                    "hardLimit": 0
-                }
-            ], 
-            "logConfiguration": {
-                "logDriver": "awslogs", 
-                "options": {
-                    "KeyName": ""
-                }
-            }
+          "containerPort": 4567, 
+          "hostPort": 80, 
+          "protocol": "tcp"
         }
-    ], 
-    "volumes": [
+      ],
+      "essential": true, 
+      "environment": [
         {
-            "name": "", 
-            "host": {
-                "sourcePath": ""
-            }
-        }
-    ], 
-    "placementConstraints": [
+          "name": "S3_BUCKET_NAME", 
+          "value": "$__S3_BUCKET_NAME__"
+        },
         {
-            "type": "memberOf", 
-            "expression": ""
+          "name": "RESUME_NAME",
+          "value": "$__RESUME_NAME__"
         }
-    ], 
-    "requiresCompatibilities": [
-        "EC2"
-    ], 
-    "cpu": "", 
-    "memory": ""
+      ], 
+      "readonlyRootFilesystem": true, 
+      "logConfiguration": {
+        "logDriver": "awslogs", 
+        "options": {
+          "KeyName": ""
+        }
+      }
+    }
+  ], 
+  "requiresCompatibilities": [
+    "FARGATE"
+  ], 
+  "cpu": "256", 
+  "memory": "512"
 }
