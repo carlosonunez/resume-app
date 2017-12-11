@@ -5,6 +5,7 @@ services:
 script:
   - make build
   - make init
+  - make static_analysis
   - make unit_tests
 after_success:
   - make version

@@ -3,20 +3,19 @@
 # We can override this by prefixing our HEAD commit with: "[FORCE COMMIT]"
 
 echo "INFO: Running pre-push tests. Please wait a moment."
-if ! make init
-then
-  exit 1
-fi
 if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
   export UPDATE_TRAVIS=1
-  if ! make unit_tests
-  then
-    echo "ERROR: Tests failed! If this is intentional, include \"[FORCE COMMIT]\" \
-to the beginning of your commit message." >&2
-    exit 1
-  fi
   # TODO: Add integration tests!
+  for build_step in init static_analysis unit_tests
+  do
+    if ! make "$build_step"
+    then
+      echo "ERROR: Tests failed! If this is intentional, include \"[FORCE COMMIT]\" \
+  to the beginning of your commit message." >&2
+      exit 1
+    fi
+  done
 fi
 
 echo "INFO: All tests passed! Updating version prior to push."

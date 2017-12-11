@@ -12,23 +12,23 @@ namespace :static_analysis do
 end
 
 ENV['COVERAGE'] = 'true'
-['unit','integration'].each do |test_type|
+%w[unit integration].each do |test_type|
   namespace test_type.to_sym do
-    Dotenv.load(".env.#{test_type}") unless !File.exist?(".env.#{test_type}")
+    Dotenv.load(".env.#{test_type}") if File.exist?(".env.#{test_type}")
     desc "Runs #{test_type} tests, along with setup and teardown procedures."
 
     task :setup do
       case test_type
-      when "integration"
-        Rake::Task["deploy:generate_ecs_task"].invoke
-        Rake::Task["deploy:deploy_ecs_task"].invoke
+      when 'integration'
+        Rake::Task['deploy:generate_ecs_task'].invoke
+        Rake::Task['deploy:deploy_ecs_task'].invoke
       end
     end
 
     task :teardown do
       case test_type
-      when "integration"
-        Rake::Task["deploy:delete_ecs_task"].invoke
+      when 'integration'
+        Rake::Task['deploy:delete_ecs_task'].invoke
       end
     end
 
