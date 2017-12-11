@@ -19,13 +19,12 @@ describe 'Given a Rake helper that interfaces with ECS' do
       AWS_SECRET_ACCESS_KEY
     ].each do |required_env_var|
       it "It should fail when #{required_env_var} is missing." do
-        allow(ENV)
-          .to receive(:[])
-          .with(required_env_var.to_s)
-          .and_return('')
+        old_env_var_value = ENV[required_env_var]
+        ENV[required_env_var] = ''
         expect { RakeHelpers::AWS::ECS.generate_task_json! }
           .to raise_error(IOError,
                           "#{required_env_var} is missing. Please provide it.")
+        ENV[required_env_var] = old_env_var_value
       end
     end
   end
