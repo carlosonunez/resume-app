@@ -1,0 +1,39 @@
+{
+  "networkMode": "awsvpc", 
+  "containerDefinitions": [
+    {
+      "name": "resume_app", 
+      "image": "carlosonunez/resume_app:123456", 
+      "portMappings": [
+        {
+          "containerPort": 4567, 
+          "hostPort": 80, 
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true, 
+      "environment": [
+        {
+          "name": "S3_BUCKET_NAME", 
+          "value": "jerky"
+        },
+        {
+          "name": "RESUME_NAME",
+          "value": "latest"
+        }
+      ], 
+      "readonlyRootFilesystem": true, 
+      "logConfiguration": {
+        "logDriver": "awslogs", 
+        "options": {
+          "KeyName": ""
+        }
+      }
+    }
+  ], 
+  "requiresCompatibilities": [
+    "FARGATE"
+  ], 
+  "cpu": "256", 
+  "memory": "512"
+}
