@@ -15,10 +15,14 @@ build:
 	fi
 
 init: _bundle_install _set_travis_env_vars
-test: build init unit_tests integration_tests
+test: build init static_analysis unit_tests integration_tests
 
 # Test build steps.
-.PHONY: unit_tests integration_tests
+.PHONY: static_analysis unit_tests integration_tests
+
+static_analysis: DOCKER_ACTIONS=bundle exec rake static_analysis:style
+static_analysis: execute_static_analysis_checks_in_docker
+
 unit_tests: DOCKER_ACTIONS=bundle exec rake unit:test
 unit_tests: execute_unit_test_in_docker
 
