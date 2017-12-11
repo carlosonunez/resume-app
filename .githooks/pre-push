@@ -3,6 +3,10 @@
 # We can override this by prefixing our HEAD commit with: "[FORCE COMMIT]"
 
 echo "INFO: Running pre-push tests. Please wait a moment."
+if ! make init
+then
+  exit 1
+fi
 if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
   export UPDATE_TRAVIS=1
