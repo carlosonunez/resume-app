@@ -9,9 +9,7 @@ module RakeHelpers
     # hence the unsafe warning.
     def self.initialize!
       %w[init get].each do |terraform_action|
-        _, _, was_successful =
-          TerraformRunner.run_terraform_command(action: terraform_action)
-        raise "Terraform failed to #{terraform_action}." unless was_successful
+        TerraformRunner.simple_run!(action: terraform_action)
       end
       nil
     end
@@ -19,16 +17,22 @@ module RakeHelpers
     # Determine whether the configuration code provided generates a valid plan.
     def self.plan_valid?
       _, _, was_successful =
-        TerraformRunner.run_terraform_command(action: 'plan')
+        TerraformRunner.run!(action: 'plan')
       was_successful
     end
 
     # Create the environment with `terraform plan`
     def self.create_environment!
-      _, _, was_successful =
-        TerraformRunner.run_terraform_command(action: 'apply')
-      raise 'Environment could not be created.' unless was_successful
-      nil
+      error_message = 'Environment couldn\'t be created.'
+      TerraformRunner.simple_run!(action: 'apply',
+                                  error_message: error_message)
+    end
+
+    # Destroy the environment with `terraform destroy`
+    def self.destroy_environment!
+      error_message = 'Environment couldn\'t be destroyed.'
+      TerraformRunner.simple_run!(action: 'destroy',
+                                  error_message: error_message)
     end
 
     # Nested module for doing Terraform actions.
@@ -36,11 +40,23 @@ module RakeHelpers
       # Runs a Terraform command using the `terraform` binary.
       # Returns a tuple containing stdout, stderr and the result of the op.
       # Throws exception if command fails.
-      def self.run_terraform_command(action:, other_terraform_args: '')
+      def self.run!(action:,
+                    other_terraform_args: '')
         output, errors, status = Open3.capture3('terraform',
                                                 action,
                                                 other_terraform_args)
         [output, errors, status.success?]
+      end
+
+      # Simply execute a Terraform action and return nothing.
+      # Could modify system or environment state, hence unsafe warning.
+      def self.simple_run!(action:, other_args: '', error_message: '')
+        _, _, was_successful =
+          TerraformRunner.run!(action: action,
+                               other_terraform_args: other_args)
+        error_message = "Terraform failed to #{action}." if error_message.empty?
+        raise error_message unless was_successful
+        nil
       end
     end
   end

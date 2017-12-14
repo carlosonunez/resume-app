@@ -88,11 +88,20 @@ can't guarantee that exactly these actions will be performed if
     it "It should error when the environment couldn't be created" do
       stubbed_terraform.with_args('apply').returns_exitstatus(1)
       expect { RakeHelpers::Terraform.create_environment! }
-        .to raise_error('Environment could not be created.')
+        .to raise_error('Environment couldn\'t be created.')
     end
   end
 
   context 'When we destroy our environment from an auto-generated plan' do
-    pending('hang on')
+    it 'It should perform `terraform destroy` successfully' do
+      expect(RakeHelpers::Terraform.destroy_environment!).to be nil
+      expect(stubbed_terraform.with_args('destroy')).to be_called
+    end
+
+    it "It should error when the environment couldn't be destroyed" do
+      stubbed_terraform.with_args('destroy').returns_exitstatus(1)
+      expect { RakeHelpers::Terraform.destroy_environment! }
+        .to raise_error('Environment couldn\'t be destroyed.')
+    end
   end
 end
