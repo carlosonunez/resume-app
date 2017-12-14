@@ -9,6 +9,8 @@ namespace :static_analysis do
   RuboCop::RakeTask.new(:style) do |task|
     task.options = ['-a']
   end
+
+  task all: :style
 end
 
 ENV['COVERAGE'] = 'true'
@@ -33,6 +35,7 @@ ENV['COVERAGE'] = 'true'
 
     RSpec::Core::RakeTask.new(:test) do |task|
       Rake::Task["#{test_type}:setup"].invoke
+      Rake::Task['static_analysis:all'].invoke
       task.pattern = "spec/#{test_type}/**/*_spec.rb"
       task.fail_on_error = true
       task.rspec_opts = '--format documentation'
@@ -51,7 +54,7 @@ namespace :deploy do
   end
 end
 
-task test: %i[static_analysis:style unit:test integration:test]
+task test: %i[unit:test integration:test]
 
 task :deploy do
   # TODO: Deploy to Fargate here
