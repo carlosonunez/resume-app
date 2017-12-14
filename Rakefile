@@ -2,7 +2,7 @@ require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 require 'colorize'
 require 'dotenv'
-require_relative 'lib/rake/helpers/aws/ecs.rb'
+require_relative 'lib/rake/helpers/terraform.rb'
 
 namespace :static_analysis do
   desc 'Run lint and style guide confirmation tests.'
