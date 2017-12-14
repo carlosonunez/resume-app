@@ -20,7 +20,6 @@ ENV['COVERAGE'] = 'true'
     task :setup do
       case test_type
       when 'integration'
-        Rake::Task['deploy:generate_ecs_task'].invoke
         Rake::Task['deploy:deploy_ecs_task'].invoke
       end
     end
@@ -43,16 +42,12 @@ ENV['COVERAGE'] = 'true'
 end
 
 namespace :deploy do
-  task :generate_ecs_task do
-    RakeHelpers::AWS::ECS.create_task_json_from_template!
-  end
-
   task :deploy_ecs_task do
-    RakeHelpers::AWS::ECS.deploy_ecs_task!
+    RakeHelpers::Terraform.deploy_ecs_task!
   end
 
   task :delete_ecs_task do
-    RakeHelpers::AWS::ECS.delete_ecs_task!
+    RakeHelpers::Terraform.delete_ecs_task!
   end
 end
 
