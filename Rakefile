@@ -38,7 +38,7 @@ ENV['COVERAGE'] = 'true'
       Rake::Task['static_analysis:all'].invoke
       task.pattern = "spec/#{test_type}/**/*_spec.rb"
       task.fail_on_error = true
-      task.rspec_opts = '--format documentation'
+      task.rspec_opts = '--format documentation --fail-fast'
       Rake::Task["#{test_type}:teardown"].invoke
     end
   end

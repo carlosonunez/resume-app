@@ -58,13 +58,12 @@ can't guarantee that exactly these actions will be performed if
   context 'When we initialize Terraform' do
     %w[init get].each do |terraform_action|
       it "It should perform `terraform #{terraform_action}`" do
-        RakeHelpers::Terraform.initialize!
+        expect(RakeHelpers::Terraform.initialize!).to be nil
         expect(stubbed_terraform.with_args(terraform_action)).to be_called
       end
 
       it "It should error when `terraform #{terraform_action}` fails" do
-        stubbed_terraform.with_args(terraform_action)
-                         .returns_exitstatus(1)
+        stubbed_terraform.with_args(terraform_action).returns_exitstatus(1)
         expect { RakeHelpers::Terraform.initialize! }
           .to raise_error("Terraform failed to #{terraform_action}.")
       end
@@ -81,7 +80,16 @@ can't guarantee that exactly these actions will be performed if
   end
 
   context 'When we create our environment from an auto-generated plan' do
-    pending('hang on')
+    it 'It should perform `terraform apply` successfully' do
+      expect(RakeHelpers::Terraform.create_environment!).to be nil
+      expect(stubbed_terraform.with_args('apply')).to be_called
+    end
+
+    it "It should error when the environment couldn't be created" do
+      stubbed_terraform.with_args('apply').returns_exitstatus(1)
+      expect { RakeHelpers::Terraform.create_environment! }
+        .to raise_error('Environment could not be created.')
+    end
   end
 
   context 'When we destroy our environment from an auto-generated plan' do
