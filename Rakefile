@@ -16,20 +16,19 @@ end
 ENV['COVERAGE'] = 'true'
 %w[unit integration].each do |test_type|
   namespace test_type.to_sym do
-    Dotenv.load(".env.#{test_type}") if File.exist?(".env.#{test_type}")
     desc "Runs #{test_type} tests, along with setup and teardown procedures."
 
     task :setup do
       case test_type
       when 'integration'
-        Rake::Task['deploy:deploy_ecs_task'].invoke
+        Rake::Task['deploy:create_environment'].invoke
       end
     end
 
     task :teardown do
       case test_type
       when 'integration'
-        Rake::Task['deploy:delete_ecs_task'].invoke
+        Rake::Task['deploy:destroy_environment'].invoke
       end
     end
 
@@ -45,12 +44,12 @@ ENV['COVERAGE'] = 'true'
 end
 
 namespace :deploy do
-  task :deploy_ecs_task do
-    RakeHelpers::Terraform.deploy_ecs_task!
+  task :create_environment do
+    RakeHelpers::Terraform.create_environment!
   end
 
-  task :delete_ecs_task do
-    RakeHelpers::Terraform.delete_ecs_task!
+  task :destroy_environment do
+    RakeHelpers::Terraform.destroy_environment!
   end
 end
 
