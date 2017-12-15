@@ -11,7 +11,7 @@ endif
 build:
 	if ! docker images | grep -q carlosonunez/ruby-rake-alpine; \
 	then \
-		docker build -f build_runner.Dockerfile -t "carlosonunez/ruby-rake-alpine:2.4.2" . > /dev/null; \
+		docker build -f build_runner.Dockerfile -t "carlosonunez/ruby-rake-alpine:2.4.2" .; \
 	fi
 
 init: _bundle_install _set_travis_env_vars
