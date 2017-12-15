@@ -6,9 +6,18 @@ require 'rack/test'
 require 'aws-sdk'
 require 'colorize'
 require 'dotenv'
-require 'rspec/shell/expectations'
+Dotenv.load('.env.example')
 
-Dotenv.load('.env.test')
+require 'rspec/shell/expectations'
+require './spec/helpers/terraform'
+require './spec/helpers/environment'
+require './spec/helpers/json'
+
 RSpec.configure do |configuration|
-  configuration.include Rspec::Shell::Expectations
+  configuration.before(:each, terraform: true) do |_example|
+    @terraform_plan = RSpecHelpers::Terraform.initialize
+  end
+  configuration.after(:all) do
+    MockEnv.unmock_all!
+  end
 end

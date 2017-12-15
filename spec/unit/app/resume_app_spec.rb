@@ -21,7 +21,7 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
 <h1 id="this-is-a-document">This is a document.</h1>\n
 <h2 id="a-document-can-have-many-sections">A document can have many sections!</h2>\n
 <p>It has words. Some of them are <strong>bold,</strong> and some of them are <em>emphasized.</em></p>
-      HTML
+    HTML
   end
 
   context 'When we start the app' do

@@ -4,3 +4,12 @@ Gemfile.lock
 .env
 *.gem
 .go
+
+# Terraform ignores
+.terraform
+*.tfvars
+*.tfvars*
+*.tfplan
+*.tfplan*
+*.tfstate
+*.tfstate*

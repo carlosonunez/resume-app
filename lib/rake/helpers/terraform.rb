@@ -42,19 +42,25 @@ module RakeHelpers
       # Throws exception if command fails.
       def self.run!(action:,
                     other_terraform_args: '')
-        output, errors, status = Open3.capture3('terraform',
-                                                action,
-                                                other_terraform_args)
+        if other_terraform_args.empty?
+          output, errors, status = Open3.capture3('terraform',
+                                                  action)
+        else
+          output, errors, status = Open3.capture3('terraform',
+                                                  action,
+                                                  other_terraform_args)
+        end
         [output, errors, status.success?]
       end
 
       # Simply execute a Terraform action and return nothing.
       # Could modify system or environment state, hence unsafe warning.
       def self.simple_run!(action:, other_args: '', error_message: '')
-        _, _, was_successful =
+        _, errors, was_successful =
           TerraformRunner.run!(action: action,
                                other_terraform_args: other_args)
         error_message = "Terraform failed to #{action}." if error_message.empty?
+        error_message = "#{error_message}\nHere's what happened:\n#{errors}"
         raise error_message unless was_successful
         nil
       end

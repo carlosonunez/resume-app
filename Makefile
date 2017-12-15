@@ -6,7 +6,7 @@ ifndef TRAVIS
 endif
 
 # Shared build steps.
-.PHONY: build init test
+.PHONY: build init
 
 build:
 	if ! docker images | grep -q carlosonunez/ruby-rake-alpine; \
@@ -14,8 +14,8 @@ build:
 		docker build -f build_runner.Dockerfile -t "carlosonunez/ruby-rake-alpine:2.4.2" .; \
 	fi
 
-init: _bundle_install _set_travis_env_vars
-test: build init static_analysis unit_tests integration_tests
+init: _bundle_install \
+	_set_travis_env_vars
 
 # Test build steps.
 .PHONY: static_analysis unit_tests integration_tests
@@ -23,18 +23,46 @@ test: build init static_analysis unit_tests integration_tests
 static_analysis: DOCKER_ACTIONS=bundle exec rake static_analysis:style
 static_analysis: execute_static_analysis_checks_in_docker
 
+unit_tests: USE_REAL_VALUES_FOR_TFVARS=false
 unit_tests: DOCKER_ACTIONS=bundle exec rake unit:test
-unit_tests: execute_unit_test_in_docker
+unit_tests: _generate_terraform_tfvars \
+	execute_unit_test_in_docker \
+	_delete_terraform_tfvars
 
+# Terraform build steps.
+.PHONY: _generate_terraform_tfvars _delete_terraform_tfvars
+_generate_terraform_tfvars:
+	echo "INFO: Generating Terraform variable values."; \
+	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
+	then \
+		env_file=.env.example; \
+		version=fake_version; \
+	else \
+		env_file=.env; \
+		version=$$(cat version); \
+	fi; \
+	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
+	echo "app_version=\"$${version}\"" >> terraform.tfvars
+
+_delete_terraform_tfvars:
+	echo "INFO: Deleting Terraform variable values."; \
+	rm terraform.tfvars
+
+# Deployment and CI build steps.
+# TODO: write cut over build step!
+ifdef TRAVIS
+.PHONY: integration_tests
 integration_tests: DOCKER_ACTIONS=bundle exec rake integration:test
 integration_tests: execute_integration_test_in_docker
 
-# Deployment build steps.
-ifdef TRAVIS
-.PHONY: version deploy
+.PHONY: version deploy deploy_docker_image
 version: build init _bump_version_number _push_with_tags
-deploy: build init _build_gem _build_app _push_gem_to_docker_hub
+deploy: build init deploy_docker_image
+deploy_docker_image: _build_gem \
+	_build_docker_image \
+	_push_docker_image_to_docker_hub
 
+# Gem and Docker image versioning build steps.
 .PHONY: _push_with_tags
 _push_with_tags: DOCKER_ACTIONS=git push --tags
 _push_with_tags: execute_git_push_in_docker
@@ -45,10 +73,7 @@ _bump_version_number:
 	then \
 		exit 0; \
 	fi; \
-	current_version_number=$$(cat lib/resume_app/version.rb | \
-												 grep VERSION | \
-												 tr -d '" ' | \
-												 cut -f2 -d =); \
+	current_version_number=$$(cat version)
 	current_major_version=$$(echo "$$current_version_number" | cut -f1 -d '.'); \
 	todays_date=$$(date +%Y%m%d); \
 	new_major_version="$$todays_date"; \
@@ -76,20 +101,20 @@ _bump_version_number:
 	fi
 
 # Build environment build steps.
-.PHONY: _build_gem _build_app
+.PHONY: _build_gem _build_docker_image
+
+# Build our app artifact.
 _build_gem: DOCKER_ACTIONS=gem build resume_app.gemspec
 _build_gem: execute_gem_build_in_docker
 
-_build_app:
-	version=$$(cat lib/resume_app/version.rb | \
-					grep VERSION | \
-					cut -f2 -d = | \
-					tr -d '" '); \
-	docker build -t "carlosonunez/resume_app:$$version" .
+# Place it into a Docker image.
+_build_docker_image:
+	current_version=$$(cat version)
+	docker build -t "carlosonunez/resume_app:$$current_version" .
 
-# Artifact deployment build step.
-.PHONY: _push_gem_to_docker_hub
-_push_gem_to_docker_hub:
+# Deploy it to Docker Hub.
+.PHONY: _push_docker_image_to_docker_hub
+_push_docker_image_to_docker_hub:
 	if [ -z "$$TRAVIS" ]; \
 	then \
 		exit 0; \
@@ -130,6 +155,7 @@ execute_%_in_docker:
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_REGION \
+		-e AWS_DEFAULT_REGION=us-east-1 \
 		-v $$PWD:/work \
 		-v $$PWD/.gem:/root/.gem \
 		-v $$HOME/.aws:/root/.aws \
