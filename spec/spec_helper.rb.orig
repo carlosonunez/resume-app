@@ -1,0 +1,27 @@
+require 'bundler/setup'
+Bundler.setup
+
+require 'resume_app'
+require 'rack/test'
+require 'aws-sdk'
+require 'colorize'
+require 'dotenv'
+<<<<<<< b74c4955133deb43b2eb5d2498cda4f206e0bd2d
+require 'rspec/json_expectations'
+=======
+Dotenv.load('.env.example')
+
+>>>>>>> [spec/spec_helper.rb] dev@carlosnunez.me  |  I am the king of wasting time.
+require 'rspec/shell/expectations'
+require './spec/helpers/terraform'
+require './spec/helpers/environment'
+require './spec/helpers/json'
+
+RSpec.configure do |configuration|
+  configuration.before(:each, terraform: true) do |_example|
+    @terraform_plan = RSpecHelpers::Terraform.initialize
+  end
+  configuration.after(:all) do
+    MockEnv.unmock_all!
+  end
+end

@@ -60,7 +60,8 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
       )
 
       expected_response = <<-DOC.tr("\n", ' ').strip
-Something bad happened: We couldn't find latest in bucket fake_bucket.
+Something bad happened: We couldn't find latest in
+bucket #{ENV['S3_BUCKET_NAME']}.
       DOC
 
       get '/'
