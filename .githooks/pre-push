@@ -6,6 +6,12 @@ if [ ! -z "$MAKE_IS_RUNNING" ]
 then
   exit 0
 fi
+
+if [ "$(git log --pretty=oneline origin/master..master| wc -l)" -gt 5 ]
+then
+  echo "ERROR: Too many commits in this ref found. Squash them."
+  exit 1
+fi
 echo "INFO: Running pre-push tests. Please wait a moment."
 if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
