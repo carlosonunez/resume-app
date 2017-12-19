@@ -17,7 +17,7 @@ include include/make/*/*.mk
 
 init: BUNDLE_OPTIONS=--quiet 
 init: _bundle_install \
-	_terraform_init \
+	_terraform_init_with_s3_backend \
 	_terraform_get
 ifndef TRAVIS
 init: _set_travis_env_vars

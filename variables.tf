@@ -25,11 +25,3 @@ variable "load_balancer_name" {
   description = "The name to give our load balancer."
   default = "resume-app-lb"
 }
-
-variable "terraform_s3_state_bucket" {
-  description = "The S3 bucket to store remote state into."
-}
-
-variable "terraform_s3_state_key" {
-  description = "The key to locate the state with inside of the bucket above."
-}
