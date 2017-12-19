@@ -19,14 +19,7 @@ describe 'Given a repository of Terraform configuration code',
         should_be: 3
       }
     }
-    requirements.each_key do |requirement|
-      test_name = requirements[requirement][:test_name]
-      expected_value = requirements[requirement][:should_be]
-      it "It #{test_name}" do
-        actual_value =
-          @terraform_plan['aws_ecs_service.service'][requirement.to_s]
-        expect(actual_value).to eq expected_value
-      end
-    end
+    RSpecHelpers::Terraform.run_tests(resource_name: 'aws_ecs_service.service',
+                                      requirements_hash: requirements)
   end
 end
