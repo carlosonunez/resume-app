@@ -21,10 +21,10 @@ _generate_terraform_tfvars:
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
 	then \
 		env_file=.env.example; \
-		version=fake_version; \
+		app_version=fake_version; \
 	else \
 		env_file=.env; \
-		version=$$(cat version); \
+		app_version=$$(cat version); \
 	fi; \
 	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
 	echo "app_version=\"$${version}\"" >> terraform.tfvars
