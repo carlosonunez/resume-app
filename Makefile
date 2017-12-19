@@ -23,19 +23,22 @@ include include/make/*/*.mk
 # Shared build steps.
 .PHONY: init
 
+init: BUNDLE_OPTIONS=--quiet 
 init: _bundle_install \
-	_set_travis_env_vars \
 	_terraform_init \
 	_terraform_get
+ifndef TRAVIS
+init: _set_travis_env_vars
+endif
 
 # Test build steps.
 .PHONY: static_analysis unit_tests integration_tests
 
-static_analysis: BUNDLE_ACTIONS=rake static_analysis:style
+static_analysis: BUNDLE_OPTIONS=rake static_analysis:style
 static_analysis: _bundle_exec
 
 unit_tests: USE_REAL_VALUES_FOR_TFVARS=false
-unit_tests: BUNDLE_ACTIONS=rake unit:test
+unit_tests: BUNDLE_OPTIONS=rake unit:test
 unit_tests: _generate_terraform_tfvars \
 	_generate_test_terraform_plan \
 	_generate_test_terraform_plan_json \
@@ -46,12 +49,12 @@ unit_tests: _generate_terraform_tfvars \
 # TODO: write cut over build step!
 ifdef TRAVIS
 .PHONY: integration_tests
-integration_tests: BUNDLE_ACTIONS=rake integration:test
+integration_tests: BUNDLE_OPTIONS=rake integration:test
 integration_tests: _bundle_exec
 
 .PHONY: version deploy deploy_docker_image
-version: build init _bump_version_number _push_with_tags
-deploy: build init deploy_docker_image
+version: _bump_version_number _push_with_tags
+deploy: deploy_docker_image
 deploy_docker_image: _build_gem \
 	_build_docker_image \
 	_push_docker_image_to_docker_hub

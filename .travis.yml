@@ -3,7 +3,6 @@ sudo: required
 services:
   - docker
 script:
-  - make build
   - make init
   - make static_analysis
   - make unit_tests

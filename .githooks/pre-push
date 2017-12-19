@@ -7,7 +7,7 @@ if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
   export UPDATE_TRAVIS=1
   # TODO: Add integration tests!
-  for build_step in init static_analysis unit_tests
+  for build_step in init  unit_tests
   do
     if ! make "$build_step"
     then
