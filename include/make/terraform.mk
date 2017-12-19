@@ -41,7 +41,7 @@ _generate_test_terraform_plan_json:
 	$(info Converting test Terraform plan to JSON. Please wait a moment.)
 	if [ -f terraform.tfplan.json ]; \
 	then \
-		exit 0; \
+		rm -f terraform.tfplan.json; \
 	fi; \
 	docker run --rm -t -v $$PWD:/work -w /work \
 		--entrypoint '/bin/sh' \
