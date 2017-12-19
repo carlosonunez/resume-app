@@ -30,8 +30,9 @@ _bump_version_number:
 	then \
 		echo "INFO: Incrementing version: $${current_version_number} => $${new_version_number}"; \
 		echo "$${new_version_number}" > $(VERSION_FILE); \
-		docker run -t --rm -v $$PWD:/work -w /work alpine/git commit -am "Automated version update."; \
-		docker run -t --rm -v $$PWD:/work -w /work alpine/git tag -f "$$(cat $(VERSION_FILE))"; \
+		git commit -am "Automated version update."; \
+		git tag -f "$$(cat $(VERSION_FILE))"; \
+		git push --tags; \
 	else \
 		exit 1; \
 	fi
