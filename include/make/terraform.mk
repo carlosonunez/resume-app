@@ -44,6 +44,7 @@ _generate_test_terraform_plan_json:
 		rm -f terraform.tfplan.json; \
 	fi; \
 	docker run --rm -t -v $$PWD:/work -w /work \
+		-v $$PWD/.go:/go \
 		--entrypoint '/bin/sh' \
 		$(GOLANG_DOCKER_IMAGE) -c "apk upgrade > /dev/null && \
 			apk add --no-cache git > /dev/null && \
