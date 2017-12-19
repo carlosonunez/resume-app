@@ -15,3 +15,8 @@ variable "resume_name" {
 variable "app_version" {
   description = "The version of our application to deploy."
 }
+
+variable "replica_count" {
+  description = "The desired number of service replicas at any given time."
+  default = 3
+}
