@@ -4,7 +4,7 @@ require 'spec_helper'
 requirements = {
   name: {
     test_name: 'It should have the correct load balancer name',
-    should_be: 'resume_app_lb'
+    should_be: 'resume-app-lb'
   },
   internal: {
     test_name: 'It should not be an internal load balancer',

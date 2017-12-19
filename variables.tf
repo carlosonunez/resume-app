@@ -20,3 +20,8 @@ variable "replica_count" {
   description = "The desired number of service replicas at any given time."
   default = 3
 }
+
+variable "load_balancer_name" {
+  description = "The name to give our load balancer."
+  default = "resume-app-lb"
+}
