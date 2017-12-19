@@ -35,7 +35,6 @@ _bump_version_number:
 		git commit -am "Automated version update."; \
 		git tag -f "$$(cat $(VERSION_FILE))"; \
 		git remote add origin-travis $(TRAVIS_GIT_ORIGIN_URI); \
-		git push -u origin-travis master; \
 		MAKE_IS_RUNNING=true git push -u origin-travis master --tags; \
 	else \
 		exit 1; \
