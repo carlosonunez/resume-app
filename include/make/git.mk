@@ -5,7 +5,7 @@ endif
 ifndef TRAVIS_CI_GITHUB_TOKEN
 $(error You need to define TRAVIS_CI_GITHUB_TOKEN first)
 endif
-GIT_UPSTREAM_URI=https://$(TRAVIS_CI_GITHUB_TOKEN)@github.com/carlosonunez/resume-app.git
+GIT_UPSTREAM_URI=https://carlosonunez:$(TRAVIS_CI_GITHUB_TOKEN)@github.com/carlosonunez/resume-app.git
 
 .PHONY: _push_with_tags
 _push_with_tags: _add_upstream _push_changes
