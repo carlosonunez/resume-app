@@ -17,7 +17,4 @@ RSpec.configure do |configuration|
   configuration.before(:each, terraform: true) do |_example|
     @terraform_plan = RSpecHelpers::Terraform.initialize
   end
-  configuration.after(:all) do
-    MockEnv.unmock_all!
-  end
 end

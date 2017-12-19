@@ -13,3 +13,4 @@ Gemfile.lock
 *.tfplan*
 *.tfstate
 *.tfstate*
+*.tfplan.json
