@@ -16,7 +16,8 @@ requirements = {
   },
   container_definitions: {
     test_name: 'should have the correct container definitions',
-    should_be: JSON.generate(expected_container_definition)
+    should_be: expected_container_definition,
+    matcher_type: :json
   }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_ecs_task_definition.task',

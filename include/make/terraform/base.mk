@@ -27,7 +27,7 @@ _generate_terraform_tfvars:
 		app_version=$$(cat version); \
 	fi; \
 	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
-	echo "app_version=\"$${version}\"" >> terraform.tfvars
+	echo "app_version=\"$${app_version}\"" >> terraform.tfvars
 
 .PHONY: _generate_test_terraform_plan
 _generate_test_terraform_plan: ADDITIONAL_TERRAFORM_ARGS=\

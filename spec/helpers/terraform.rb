@@ -23,7 +23,6 @@ module RSpecHelpers
           end
           requirements_hash.each_key do |requirement|
             test_name = requirements_hash[requirement][:test_name]
-            expected_value = requirements_hash[requirement][:should_be].to_s
             if test_name.downcase.match?(/^it should/)
               example_name = test_name
             else
@@ -33,9 +32,21 @@ module RSpecHelpers
                 "#{resource_name}.#{requirement}"
             end
             it example_name do
-              actual_value =
-                @terraform_plan[resource_name][requirement.to_s].to_s
-              expect(actual_value).to eq expected_value
+              expected_value = requirements_hash[requirement][:should_be]
+              actual_value = @terraform_plan[resource_name][requirement.to_s]
+              matcher = if requirements_hash[requirement].key?(:matcher_type)
+                          requirements_hash[requirement][:matcher_type]
+                        else
+                          :string
+                        end
+              case matcher
+              when :json
+                expected_json = expected_value
+                actual_json = JSON.parse(actual_value)
+                expect(expected_json).to eq actual_json
+              else
+                expect(expected_value.to_s).to eq actual_value.to_s
+              end
             end
           end
         end
