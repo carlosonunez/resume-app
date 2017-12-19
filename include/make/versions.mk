@@ -1,11 +1,15 @@
 #!/usr/bin/env make
+ifndef VERSION_FILE
+$(error You need to define VERSION_FILE first)
+endif
+
 .PHONY: _bump_version_number
 _bump_version_number:
 	if [ -z "$$TRAVIS" ]; \
 	then \
 		exit 0; \
 	fi; \
-	current_version_number=$$(cat version)
+	current_version_number=$$(cat $(VERSION_FILE)); \
 	current_major_version=$$(echo "$$current_version_number" | cut -f1 -d '.'); \
 	todays_date=$$(date +%Y%m%d); \
 	new_major_version="$$todays_date"; \
@@ -20,15 +24,14 @@ _bump_version_number:
 		fi; \
 		new_version_number="$${new_major_version}.$${new_minor_version}"; \
 	else \
-		new_version_number="$${major_version}"; \
+		new_version_number="$${new_major_version}"; \
 	fi; \
 	if [ ! -z "$${new_version_number}" ]; \
 	then \
 		echo "INFO: Incrementing version: $${current_version_number} => $${new_version_number}"; \
-		sed -i "s/VERSION = .*/VERSION = $${new_version_number}/" lib/resume_app/version.rb; \
-		git commit -am "$$(git config --get author.email) | Automated version update." ; \
-		git tag "$${new_version_number}"; \
+		echo "$${new_version_number}" > $(VERSION_FILE); \
+		docker run -t --rm -v $$PWD:/work -w /work alpine/git commit -am "Automated version update."; \
+		docker run -t --rm -v $$PWD:/work -w /work alpine/git tag -f "$$(cat $(VERSION_FILE))"; \
 	else \
 		exit 1; \
 	fi
-

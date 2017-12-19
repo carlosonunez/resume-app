@@ -2,6 +2,7 @@ MAKEFLAGS += --silent
 SHELL := /bin/bash
 GEMSPEC_NAME = resume_app.gemspec
 DOCKER_IMAGE_NAME = carlosonunez/resume_app
+VERSION_FILE = version
 DOCKER_IMAGE_TAG = $(shell cat version)
 DOCKER_HUB_USERNAME = $(shell cat .env | \
 											grep DOCKER_HUB_USERNAME | \

@@ -2,6 +2,10 @@
 # Ensure that our tests pass before pushing changes to our remote.
 # We can override this by prefixing our HEAD commit with: "[FORCE COMMIT]"
 
+if [ ! -z "$MAKE_IS_RUNNING" ]
+then
+  exit 0
+fi
 echo "INFO: Running pre-push tests. Please wait a moment."
 if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
