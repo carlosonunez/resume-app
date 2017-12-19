@@ -48,7 +48,7 @@ _generate_test_terraform_plan_json:
 		--entrypoint '/bin/sh' \
 		$(GOLANG_DOCKER_IMAGE) -c "apk upgrade > /dev/null && \
 			apk add --no-cache git > /dev/null && \
-			go get $(TFJSON_GITHUB_URL) && \
+			which tfjson > /dev/null || go get $(TFJSON_GITHUB_URL) && \
 			tfjson terraform.tfplan >> terraform.tfplan.json";
 
 _delete_terraform_tfvars:
