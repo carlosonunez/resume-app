@@ -19,5 +19,5 @@ requirements = {
     should_be: 'false'
   }
 }
-RSpecHelpers::Terraform.run_test(resource_name: 'aws_lb.lb',
-                                 requirements_hash: requirements)
+RSpecHelpers::Terraform.run_tests(resource_name: 'aws_lb.lb',
+                                  requirements_hash: requirements)

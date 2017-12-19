@@ -24,7 +24,15 @@ module RSpecHelpers
           requirements_hash.each_key do |requirement|
             test_name = requirements_hash[requirement][:test_name]
             expected_value = requirements_hash[requirement][:should_be].to_s
-            it "It #{test_name}" do
+            if test_name.downcase.match?(/^it should/)
+              example_name = test_name
+            else
+              warn '[WARN] ' \
+                "Test name is not in 'It-should' format: #{test_name}".cyan
+              example_name = 'It should have a correct ' \
+                "#{resource_name}.#{requirement}"
+            end
+            it example_name do
               actual_value =
                 @terraform_plan[resource_name][requirement.to_s].to_s
               expect(actual_value).to eq expected_value
