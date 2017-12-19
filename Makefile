@@ -4,15 +4,9 @@ GEMSPEC_NAME = resume_app.gemspec
 DOCKER_IMAGE_NAME = carlosonunez/resume_app
 VERSION_FILE = version
 DOCKER_IMAGE_TAG = $(shell cat version)
-DOCKER_HUB_USERNAME = $(shell cat .env | \
-											grep DOCKER_HUB_USERNAME | \
-											cut -f2 -d =)
-DOCKER_HUB_PASSWORD = $(shell cat .env | \
-											grep DOCKER_HUB_PASSWORD | \
-											cut -f2 -d =)
-TRAVIS_CI_GITHUB_TOKEN = $(shell cat .env | \
-											grep TRAVIS_CI_GITHUB_TOKEN | \
-											cut -f2 -d =)
+DOCKER_HUB_USERNAME=${DOCKER_HUB_USERNAME}
+DOCKER_HUB_PASSWORD=${DOCKER_HUB_PASSWORD}
+TRAVIS_CI_GITHUB_TOKEN=${TRAVIS_CI_GITHUB_TOKEN}
 
 ifndef TRAVIS
 	include .env
