@@ -32,7 +32,7 @@ _bump_version_number:
 		echo "$${new_version_number}" > $(VERSION_FILE); \
 		git commit -am "Automated version update."; \
 		git tag -f "$$(cat $(VERSION_FILE))"; \
-		git push --tags; \
+		MAKE_IS_RUNNING=true git push --tags; \
 	else \
 		exit 1; \
 	fi
