@@ -1,5 +1,5 @@
 #!/usr/bin/env make
-TRAVIS_CLI_DOCKER_IMAGE=andredumas/travis-ci-cli:1.8.2
+TRAVIS_CLI_DOCKER_IMAGE=caktux/travis-cli
 .PHONY: _set_travis_env_vars
 _set_travis_env_vars:
 	if [ ! -z "$$TRAVIS" ] || [ -z "$$UPDATE_TRAVIS" ]; \
@@ -8,11 +8,15 @@ _set_travis_env_vars:
 	fi; \
 	for env_var in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_REGION; \
 	do \
-		docker run --rm -i -e GEM_HOME=/root/.gem \
-			-e $$env_var \
+		docker run --rm -it -e GEM_HOME=/root/.gem \
+			-e AWS_ACCESS_KEY_ID \
+			-e AWS_SECRET_ACCESS_KEY \
+			-e AWS_REGION \
 			-v $$PWD:/work \
 			-v $$PWD/.gem:/root/.gem \
 			-w /work \
-			$(TRAVIS_CLI_DOCKER_IMAGE) "travis login \
+			--entrypoint /bin/sh \
+			$(TRAVIS_CLI_DOCKER_IMAGE) -c "travis login \
 				--github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
 				travis env set $$env_var $$$$env_var --private"; \
+	done
