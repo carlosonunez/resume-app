@@ -54,3 +54,4 @@ module RSpecHelpers
     end
   end
 end
+# rubocop:enable Metrics/AbcSize
