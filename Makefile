@@ -54,7 +54,7 @@ integration_tests: BUNDLE_OPTIONS=rake integration:test
 integration_tests: _bundle_exec
 
 .PHONY: version deploy deploy_docker_image
-version: _bump_version_number _push_with_tags
+version: _bump_version_number
 deploy: deploy_docker_image
 deploy_docker_image: _build_gem \
 	_build_docker_image \
