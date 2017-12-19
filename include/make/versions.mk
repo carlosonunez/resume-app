@@ -3,6 +3,8 @@ ifndef VERSION_FILE
 $(error You need to define VERSION_FILE first)
 endif
 
+TRAVIS_GIT_ORIGIN_URI=https://carlosonunez:$(TRAVIS_CI_GITHUB_TOKEN)@github.com/carlosonunez/resume-app.git
+
 .PHONY: _bump_version_number
 _bump_version_number:
 	if [ -z "$$TRAVIS" ]; \
@@ -32,7 +34,8 @@ _bump_version_number:
 		echo "$${new_version_number}" > $(VERSION_FILE); \
 		git commit -am "Automated version update."; \
 		git tag -f "$$(cat $(VERSION_FILE))"; \
-		MAKE_IS_RUNNING=true git push --tags; \
+		git remote add origin-travis $(TRAVIS_GIT_ORIGIN_URI); \
+		MAKE_IS_RUNNING=true git push -u origin-travis master --tags; \
 	else \
 		exit 1; \
 	fi
