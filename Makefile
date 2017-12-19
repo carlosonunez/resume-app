@@ -15,7 +15,9 @@ build:
 	fi
 
 init: _bundle_install \
-	_set_travis_env_vars
+	_set_travis_env_vars \
+	_terraform_init \
+	_terraform_get
 
 # Test build steps.
 .PHONY: static_analysis unit_tests integration_tests
@@ -30,6 +32,13 @@ unit_tests: _generate_terraform_tfvars \
 	_delete_terraform_tfvars
 
 # Terraform build steps.
+.PHONY: _terraform_init _terraform_get
+_terraform_init: DOCKER_ACTIONS=terraform init
+_terraform_init: execute_terraform_init_in_docker
+
+_terraform_get: DOCKER_ACTIONS=terraform get
+_terraform_get: execute_terraform_get_in_docker
+
 .PHONY: _generate_terraform_tfvars _delete_terraform_tfvars
 _generate_terraform_tfvars:
 	echo "INFO: Generating Terraform variable values."; \
