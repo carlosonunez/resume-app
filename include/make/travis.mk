@@ -6,6 +6,9 @@ _set_travis_env_vars:
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_REGION \
+		-e TRAVIS_CI_GITHUB_TOKEN=$(TRAVIS_CI_GITHUB_TOKEN) \
+		-e DOCKER_HUB_USERNAME=$(DOCKER_HUB_USERNAME) \
+		-e DOCKER_HUB_PASSWORD=$(DOCKER_HUB_PASSWORD) \
 		-v $$PWD:/work \
 		-v $$PWD/.gem:/root/.gem \
 		-w /work \
@@ -13,6 +16,6 @@ _set_travis_env_vars:
 		$(TRAVIS_CLI_DOCKER_IMAGE) -c 'travis login \
 			--github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
 			printenv | \
-			grep AWS | \
-			sed -- "s/^\(AWS_.*\)=\(.*\)/travis env set \1 \2 --private/" | \
+			grep -E 'AWS|DOCKER|TRAVIS' | \
+			sed -- "s/^\(.*\)=\(.*\)/travis env set \1 \2 --private/" | \
 			while read command; do eval "$$command"; done'
