@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RSpecHelpers
   module JSONHelper
     def self.sort_objects_by_keys(objects)

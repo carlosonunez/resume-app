@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RSpecHelpers
   module Terraform
     def self.initialize
