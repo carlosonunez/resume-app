@@ -14,6 +14,26 @@ requirements = {
   desired_count: {
     test_name: 'should have the correct desired count',
     should_be: 3
+  },
+  'load_balancer.elb_name': {
+    test_name: 'It should have the correct name',
+    should_be: 'resume_app_lb'
+  },
+  'load_balancer.container_name': {
+    test_name: 'It should reference the correct container',
+    should_be: 'resume_app'
+  },
+  'load_balancer.target_group_arn': {
+    test_name: 'It should reference the correct load balancer ARN',
+    should_be: '${aws_lb.lb.arn}'
+  },
+  'load_balancer.container_port': {
+    test_name: 'It should associate with the correct port',
+    should_be: '4567'
+  },
+  'load_balancer.launch_type': {
+    test_name: 'It should deploy into ECS Fargate',
+    should_be: 'FARGATE'
   }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_ecs_service.service',
