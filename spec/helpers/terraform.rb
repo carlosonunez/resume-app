@@ -23,16 +23,26 @@ module RSpecHelpers
           it 'It should not be empty' do
             expect(@terraform_plan[resource_name]).not_to be nil
           end
-          requirements_hash.each_key do |requirement|
+          requirements_hash.each_key do |tf_resource_arg|
+            tf_resource_arg_test_definition = requirements_hash[tf_resource_arg]
+            test_name = tf_resource_arg_test_definition[:test_name]
+            if test_name.downcase.match?(/^it should/)
+              example_name = test_name
+            else
+              warn '[WARN] ' \
+                "Test name is not in 'It-should' format: #{test_name}".cyan
+              example_name = 'It should have a correct ' \
+                "#{resource_name}.#{tf_resource_arg}"
+            end
             # Since RSpec doesn't easily support calling functions within
-            # modules, instead of building an array of requirements and
+            # modules, instead of building an array of tf_resource_args and
             # recursively running tests on each one, we'll need to have
-            # users address the Terraform resource argument they want
+            # users address the Terraform resource_name argument they want
             # to test with dot-notation.
             #
-            # Example: Given the following resource:
+            # Example: Given the following resource_name:
             #
-            # "test_resource"."my_resource" {
+            # "test_resource_arg"."my_resource_arg" {
             #   foo = "bar"
             #   baz {
             #     quux = "cool"
@@ -42,7 +52,7 @@ module RSpecHelpers
             # If I wanted to ensure that 'quux' is set to "cool", I'd need to
             # do this:
             #
-            # requirements = {
+            # tf_resource_args = {
             #  'baz.quux' = {
             #    ...
             #    should_be: "cool"
@@ -50,36 +60,37 @@ module RSpecHelpers
             # }
             #
             # This small function is what makes this work.
-            if requirement.match?('\.')
-              root_requirement, remaining_requirements =
-                requirement.split('.')
-              remaining_requirements =
-                remaining_requirements.map { |x| "[#{x}]" }.join('')
+            if tf_resource_arg.match?('\.')
+              root_tf_resource_arg, *remaining_tf_resource_args =
+                tf_resource_arg.to_s.split('.')
+              tf_sub_resource_args =
+                remaining_tf_resource_args.map { |x| "['#{x}']" }.join('')
+              actual_value_name = resource_name + \
+                                  "['#{root_tf_resource_arg}']" + \
+                                  tf_sub_resource_args
+              actual_value_ref =
+                '@terraform_plan[resource_name]' \
+                "['#{root_tf_resource_arg}']" + \
+                tf_sub_resource_args
               # While eval is usually a security risk (arb. code execution),
               # I don't know of another way of obtaining a hash key by string.
               # Therefore, we'll disable this check here.
-              # rubocop:disable Security/Eval
-              requirement_under_test = eval('requirements_hash' \
-                                            "[#{root_requirement}]" \
-                                            "#{remaining_requirements}")
-              # rubocop:enable Security/Eval
             else
-              requirement_under_test = requirements_hash[requirement]
+              actual_value_name = "#{resource_name}['#{tf_resource_arg}']"
+              actual_value_ref =
+                '@terraform_plan[resource_name][tf_resource_arg.to_s]'
             end
-            test_name = requirement_under_test[:test_name]
-            if test_name.downcase.match?(/^it should/)
-              example_name = test_name
-            else
-              warn '[WARN] ' \
-                "Test name is not in 'It-should' format: #{test_name}".cyan
-              example_name = 'It should have a correct ' \
-                "#{resource_name}.#{requirement}"
+            # rubocop:disable Security/Eval
+            it "It should have a non-empty #{actual_value_name}" do
+              expect { eval(actual_value_ref) }
+                .not_to raise_error(NoMethodError)
             end
             it example_name do
-              expected_value = requirement_under_test[:should_be]
-              actual_value = @terraform_plan[resource_name][requirement.to_s]
-              matcher = if requirement_under_test.key?(:matcher_type)
-                          requirement_under_test[:matcher_type]
+              expected_value = tf_resource_arg_test_definition[:should_be]
+              actual_value = eval(actual_value_ref)
+              # rubocop:enable Security/Eval
+              matcher = if tf_resource_arg_test_definition.key?(:matcher_type)
+                          tf_resource_arg_test_definition[:matcher_type]
                         else
                           :string
                         end
