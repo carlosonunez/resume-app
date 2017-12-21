@@ -46,13 +46,12 @@ _generate_test_terraform_plan_json:
 	docker run --rm -t -v $$PWD:/work -w /work \
 		-v $$PWD/.go:/go \
 		--entrypoint '/bin/sh' \
-		$(GOLANG_DOCKER_IMAGE) -c "apk upgrade 2>&1 > /dev/null && \
-			apk add --no-cache git 2>&1 > /dev/null && \
-			if [ ! -f /go/bin/tfjson.tf ]; \
+		$(GOLANG_DOCKER_IMAGE) -c 'if ! which tfjson > /dev/null; \
 			then \
+				echo "INFO: tfjson missing. Downloading it now."; \
 				go get $(TFJSON_GITHUB_URL); \
 			fi; \
-			tfjson terraform.tfplan >> terraform.tfplan.json";
+			tfjson terraform.tfplan >> terraform.tfplan.json';
 
 _delete_terraform_tfvars:
 	rm terraform.tfvars
