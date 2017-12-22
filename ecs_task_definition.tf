@@ -4,6 +4,8 @@ data "template_file" "container_definition" {
     s3_bucket_name  = "${var.s3_bucket_name}"
     app_version     = "${var.app_version}"
     resume_name     = "${var.resume_name}"
+    container_name  = "${var.ecs_container_name}"
+    container_port  = "${var.container_port}"
   }
 }
 

@@ -25,3 +25,13 @@ variable "load_balancer_name" {
   description = "The name to give our load balancer."
   default = "resume-app-lb"
 }
+
+variable "ecs_container_name" {
+  description = "The name to give our containers."
+  default = "resume_app"
+}
+
+variable "container_port" {
+  description = "The port to expect our service to be running on."
+  default = "4567"
+}

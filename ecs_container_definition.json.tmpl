@@ -1,10 +1,10 @@
 [
   {
-    "name": "resume_app", 
+    "name": "${container_name}", 
     "image": "carlosonunez/resume_app:${app_version}", 
     "portMappings": [
       {
-        "containerPort": 4567, 
+        "containerPort": ${container_port}, 
         "hostPort": 80, 
         "protocol": "tcp"
       }
