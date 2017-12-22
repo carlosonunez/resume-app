@@ -83,7 +83,9 @@ module RSpecHelpers
             # rubocop:disable Security/Eval
             it "It should have a non-empty #{actual_value_name}" do
               expect { eval(actual_value_ref) }
-                .not_to raise_error(NoMethodError)
+                .not_to raise_error(NoMethodError),
+                  "Expected #{actual_value_name} to be present in your " \
+                  "Terraform plan, but it was not."
             end
             it example_name do
               expected_value = tf_resource_arg_test_definition[:should_be]
