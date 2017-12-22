@@ -31,7 +31,7 @@ requirements = {
     test_name: 'It should associate with the correct port',
     should_be: '4567'
   },
-  'load_balancer.launch_type': {
+  launch_type: {
     test_name: 'It should deploy into ECS Fargate',
     should_be: 'FARGATE'
   }
