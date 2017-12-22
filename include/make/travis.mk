@@ -15,7 +15,7 @@ _set_travis_env_vars:
 		--entrypoint /bin/sh \
 		$(TRAVIS_CLI_DOCKER_IMAGE) -c 'travis login \
 			--github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
-			printenv | \
-			grep -E "AWS|DOCKER|TRAVIS" | \
+			(printenv; cat .env) | \
+			grep -E "AWS|DOCKER|TRAVIS|TERRAFORM" | \
 			sed -- "s/^\(.*\)=\(.*\)/travis env set \1 \2 --private/" | \
 			while read command; do eval "$$command"; done'
