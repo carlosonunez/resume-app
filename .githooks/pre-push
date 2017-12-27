@@ -7,12 +7,19 @@ then
   exit 0
 fi
 
-if [ "$(git log --pretty=oneline origin/master..master| wc -l)" -gt 5 ]
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$current_branch" != "master" ] && [ "$DO_TESTS_ANYWAY" == "" ]
+then
+  echo "INFO: We're on [$current_branch] instead of \"master\". Skipping."
+  exit 0
+fi
+if [ "$(git log --pretty=oneline origin/master..master| wc -l)" -gt 5 ] &&
+  [ "$current_branch" == "master" ]
 then
   echo "ERROR: Too many commits in this ref found. Squash them."
   exit 1
 fi
-echo "INFO: Running pre-push tests. Please wait a moment."
+echo "INFO: [$current_branch] Running pre-push tests. Please wait a moment."
 if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
 then
   export UPDATE_TRAVIS=1
