@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Ensure that our tests pass before pushing changes to our remote.
 # We can override this by prefixing our HEAD commit with: "[FORCE COMMIT]"
 
