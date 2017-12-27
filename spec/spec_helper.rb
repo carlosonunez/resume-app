@@ -12,6 +12,8 @@ Dotenv.load('.env.example')
 
 require 'rspec/shell/expectations'
 require './spec/helpers/terraform'
+require './spec/helpers/terraform_plan'
+require './spec/helpers/terraform_test'
 require './spec/helpers/environment'
 require './spec/helpers/json'
 

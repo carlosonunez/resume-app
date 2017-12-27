@@ -37,4 +37,4 @@ requirements = {
   }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_ecs_service.service',
-                                  requirements_hash: requirements)
+                                  test_definitions_hash: requirements)

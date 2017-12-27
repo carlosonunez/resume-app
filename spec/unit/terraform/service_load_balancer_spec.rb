@@ -20,4 +20,4 @@ requirements = {
   }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_lb.lb',
-                                  requirements_hash: requirements)
+                                  test_definitions_hash: requirements)
