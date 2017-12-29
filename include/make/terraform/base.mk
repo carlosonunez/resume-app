@@ -49,6 +49,7 @@ _generate_test_terraform_plan_json:
 		$(GOLANG_DOCKER_IMAGE) -c 'if ! which tfjson > /dev/null; \
 			then \
 				echo "INFO: tfjson missing. Downloading it now."; \
+				apk add --no-cache git; \
 				go get $(TFJSON_GITHUB_URL); \
 			fi; \
 			tfjson terraform.tfplan >> terraform.tfplan.json';
