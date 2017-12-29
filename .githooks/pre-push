@@ -2,6 +2,20 @@
 # Ensure that our tests pass before pushing changes to our remote.
 # We can override this by prefixing our HEAD commit with: "[FORCE COMMIT]"
 
+detect_force_commit() {
+  latest_commit_message=$(git log --pretty=format:"%s" -n 1 HEAD)
+  echo "$latest_commit_message" | grep -qE "^\[FORCE COMMIT\]"
+}
+
+get_number_of_outstanding_commits() {
+  git log --pretty=oneline origin/master..master| wc -l
+}
+
+MAKE_IS_RUNNING=${MAKE_IS_RUNNING}
+DO_TESTS_ANYWAY=${DO_TESTS_ANYWAY}
+MAX_NUMBER_OF_OUTSTANDING_COMMITS=${MAX_NUMBER_OF_OUTSTANDING_COMMITS:-5}
+SKIP_OUTSTANDING_COMMIT_CHECK=${SKIP_OUTSTANDING_COMMIT_CHECK}
+
 if [ ! -z "$MAKE_IS_RUNNING" ]
 then
   exit 0
@@ -13,14 +27,15 @@ then
   echo "INFO: We're on [$current_branch] instead of \"master\". Skipping."
   exit 0
 fi
-if [ "$(git log --pretty=oneline origin/master..master| wc -l)" -gt 5 ] &&
-  [ "$current_branch" == "master" ]
+if [ "$(get_number_of_outstanding_commits)" -gt $MAX_NUMBER_OF_OUTSTANDING_COMMITS ] &&
+  [ "$current_branch" == "master" ] &&
+  [ "$SKIP_OUTSTANDING_COMMIT_CHECK" == "" ]
 then
   echo "ERROR: Too many commits in this ref found. Squash them."
   exit 1
 fi
 echo "INFO: [$current_branch] Running pre-push tests. Please wait a moment."
-if ! git log --pretty=format:"%s" -n 1 HEAD | grep -qE "^\[FORCE COMMIT\] "
+if ! detect_force_commit
 then
   export UPDATE_TRAVIS=1
   # TODO: Add integration tests!
