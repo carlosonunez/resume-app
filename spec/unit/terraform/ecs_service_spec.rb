@@ -17,7 +17,7 @@ requirements = {
   },
   'load_balancer.elb_name': {
     test_name: 'It should have the correct name',
-    should_be: 'resume_app_lb'
+    should_be: 'resume-app-lb'
   },
   'load_balancer.container_name': {
     test_name: 'It should reference the correct container',
