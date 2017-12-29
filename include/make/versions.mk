@@ -36,6 +36,7 @@ _bump_version_number:
 		git tag -f "$$(cat $(VERSION_FILE))"; \
 		git remote add origin-travis $(TRAVIS_GIT_ORIGIN_URI); \
 		MAKE_IS_RUNNING=true git push -u origin-travis master --tags; \
+		git remote remove origin-travis; \
 	else \
 		exit 1; \
 	fi
