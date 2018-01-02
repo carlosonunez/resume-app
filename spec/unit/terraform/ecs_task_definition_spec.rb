@@ -18,6 +18,22 @@ requirements = {
     test_name: 'should have the correct container definitions',
     should_be: expected_container_definition,
     matcher_type: :json
+  },
+  require_compatibilities: {
+    test_name: 'It should be set to FARGATE',
+    should_be: 'FARGATE'
+  },
+  cpu: {
+    test_name: 'It should be greater than the minimum CPU units required',
+    should_be: '>',
+    matcher_type: :numerical_comparison,
+    number_to_compare_against: 0.5
+  },
+  memory: {
+    test_name: 'It should be greater than the minimum memory MB required',
+    should_be: '>',
+    matcher_type: :numerical_comparison,
+    number_to_compare_against: 128
   }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_ecs_task_definition.task',
