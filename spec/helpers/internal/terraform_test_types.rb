@@ -38,19 +38,39 @@ module RSpecHelpers
     def self.json_equality_valid?(expected:, actual:)
       expected = JSON.parse(expected) if expected.is_a?(String)
       actual = JSON.parse(actual) if actual.is_a?(String)
-      expected == actual
+      is_equal?(left: expected,
+                right: actual)
     end
 
     def self.string_equality_valid?(expected:, actual:)
-      expected.to_s == actual.to_s
+      is_equal?(left: expected.to_s,
+                right: actual.to_s)
     end
 
     def self.arrays_equal?(expected:, actual:)
-      [expected].flatten.sort == actual.sort
+      is_equal?(left: [expected].flatten.sort,
+                right: actual.sort)
     end
 
-    def self.array_length_meets_size_requirements?(expected:, actual:)
-      expressions
+    def self.array_length_meets_size_requirements?(expected:,
+                                                   actual:,
+                                                   test_def:)
+      expressions_map = {
+        should_contain_at_least: '<=',
+        should_contain_at_most: '>=',
+        should_contain_exactly: '=='
+      }
+      expression = TerraformTestMatchers.get_test_verb(test_def)
+      num_comparison_valid(expected: expected,
+                           actual: actual,
+                           test_def: test_def,
+                           expr: expression)
     end
+
+    def self.is_equal?(left:, right:)
+      left == right
+    end
+
+    private_class_method :is_equal?
   end
 end

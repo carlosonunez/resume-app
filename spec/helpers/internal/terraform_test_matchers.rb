@@ -19,6 +19,7 @@ module RSpecHelpers
     }
     # Test definition matchers allow you to specify different ways of
     # testing expected values.
+    # In most cases, we recommend using one of the test verbs above.
     def self.get_test_definition_matcher(test_definition)
       test_verb = get_test_verb(test_definition).to_sym
       default_matcher_type =
