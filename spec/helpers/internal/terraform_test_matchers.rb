@@ -2,7 +2,7 @@
 
 module RSpecHelpers
   module TerraformTestMatchers
-    SUPPORTED_MATCHER_TYPES = %i[json string numerical_comparison array]
+    SUPPORTED_MATCHER_TYPES = %i[json string numerical_comparison array].freeze
     # Test definition matchers allow you to specify different ways of
     # testing expected values.
     def self.get_test_definition_matcher(test_definition)

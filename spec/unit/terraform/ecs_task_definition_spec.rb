@@ -25,13 +25,13 @@ requirements = {
   },
   cpu: {
     test_name: 'It should be greater than the minimum CPU units required',
-    should_be: '>',
+    should_be: '>=',
     matcher_type: :numerical_comparison,
     number_to_compare_against: 0.5
   },
   memory: {
     test_name: 'It should be greater than the minimum memory MB required',
-    should_be: '>',
+    should_be: '>=',
     matcher_type: :numerical_comparison,
     number_to_compare_against: 128
   }
