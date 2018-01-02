@@ -7,10 +7,10 @@ module RSpecHelpers
     # is validated prior to each invocation, this should be safe.
     # rubocop:disable Security/Eval
     def self.num_comparison_valid?(actual:, test_def:)
-      left = actual
-      right = test_def[:number_to_compare_against]
+      left = actual.to_f
+      right = test_def[:number_to_compare_against].to_f
       expr = test_def[:should_be]
-      raise 'Nothing to compare against!' if right.nil? || right.empty?
+      raise 'Nothing to compare against!' if right.nil?
       valid_expressions = %w[< <= == != >= >]
       unless valid_expressions.include?(expr)
         raise "Expression #{expr} must be one of these: #{valid_expressions}"
