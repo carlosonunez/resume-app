@@ -45,5 +45,9 @@ module RSpecHelpers
     def self.arrays_equal?(expected:, actual:)
       [expected].flatten.sort == actual.sort
     end
+
+    def self.array_length_meets_size_requirements?(expected:, actual:)
+      expected == actual.count
+    end
   end
 end

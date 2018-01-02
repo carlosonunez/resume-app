@@ -75,7 +75,8 @@ module RSpecHelpers
 
     # Run the Terraform test.
     def self.run_test(test_definition:, plan:, resource_name:, resource_arg:)
-      expected_value = test_definition[:should_be]
+      expected_value = 
+        TerraformTestMatchers.get_expected_value(test_definition)
       actual_value = get_actual_value(plan, resource_name, resource_arg)
       test_successful, expected_value_to_print, actual_value_to_print =
         case TerraformTestMatchers.get_test_definition_matcher(test_definition)
@@ -85,6 +86,12 @@ module RSpecHelpers
         when :numerical_comparison
           TerraformTestTypes.num_comparison_valid?(actual: actual_value,
                                                    test_def: test_definition)
+        when :array_count
+          TerraformTestTypes.array_length_meets_size_requirements?(
+            expected: expected_value,
+            actual: actual_value,
+            test_definition: test_definition
+          )
         else
           if actual_value.is_a?(Array)
             TerraformTestTypes.arrays_equal?(expected: expected_value,
