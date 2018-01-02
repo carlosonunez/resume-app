@@ -48,9 +48,10 @@ module RSpecHelpers
       array_arguments = resource_hash.select do |argument_key|
         argument_key.match?(TerraformPlan::ARRAY_ARGUMENT_PATTERN)
       end
-      array_arguments.each do |argument_key_with_id|
-        argument_key = argument_key_with_id.split('.')
-        argument_value = resource_hash.delete(argument_key)
+      array_arguments.each_key do |argument_key_with_id|
+        argument_key = argument_key_with_id.split('.')[0]
+        argument_value = resource_hash.delete(argument_key_with_id)
+        puts "Arg key: #{argument_key} => #{argument_value}"
         subhash[argument_key] ||= []
         subhash[argument_key].push(argument_value)
       end

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require './spec/helpers/internal/terraform_test_matchers'
+require './spec/helpers/internal/terraform_test_types'
+
 module RSpecHelpers
   module TerraformTest
     # Validates whether a given argument within a Terraform resource
@@ -77,17 +80,14 @@ module RSpecHelpers
       test_successful =
         case TerraformTestMatchers.get_test_definition_matcher(test_definition)
         when :json
-          TerraformTestTypes.json_equality_valid?(expected,
-                                                  actual)
+          TerraformTestTypes.json_equality_valid?(expected: expected_value,
+                                                  actual: actual_value)
         when :numerical_comparison
-          value_to_compare_to = test_definition[:number_to_compare_against]
-          raise 'No number to compare against.' if value_to_compare_to.nil?
-          TerraformTestTypes.num_comparison_valid?(left: actual_value,
-                                                   right: value_to_compare_to,
-                                                   expr: expected_value)
+          TerraformTestTypes.num_comparison_valid?(actual: actual,
+                                                   test_def: test_definition)
         else
-          TerraformTestTypes.string_equality_valid?(expected_value,
-                                                    actual_value)
+          TerraformTestTypes.string_equality_valid?(expected: expected_value,
+                                                    actual: actual_value)
         end
       return 'Pass' if test_successful
       <<-TEST_FAILURE_SUMMARY
@@ -98,43 +98,5 @@ module RSpecHelpers
       Actual value: #{actual_value}
       TEST_FAILURE_SUMMARY
     end
-
-  end
-  module TerraformTestTypes
-    # Unfortunately, some of the invocations required to run the tests
-    # defined below require the use of `eval`. However, since our input
-    # is validated prior to each invocation, this should be safe.
-    # rubocop:disable Security/Eval
-    def self.num_comparison_valid?(left:, right:, expr:)
-      valid_expressions = %w[< <= == != >= >]
-      if !valid_expressions.include?(expr)
-        raise "Expression #{expr} must be one of these: #{valid_expressions}"
-      end
-      eval("#{left} #{expr} #{right}")
-    end
-
-    def self.json_equality_valid?(expected_as_hash, actual_as_json)
-      expected_as_hash == JSON.parse(actual_as_json)
-    end
-
-    def self.string_equality_valid?(expected, actual)
-      expected_value.to_s == actual_value.to_s
-    end
-    # rubocop:ensable Security/Eval
-  end
-
-  module TerraformTestMatchers
-    # Test definition matchers allow you to specify different ways of
-    # testing expected values.
-    def self.get_test_definition_matcher(test_definition)
-      supported_matcher_types = %i[json string numerical_comparison]
-      default_matcher_type = :string
-      desired_matcher_type =
-        test_definition[:matcher_type] || default_matcher_type
-      return default_matcher_type unless
-        supported_matcher_types.include?(desired_matcher_type)
-      desired_matcher_type
-    end
-
   end
 end
