@@ -12,16 +12,19 @@ module RSpecHelpers
   # type created here. See `terraform_test_matchers.rb` for more information
   # on how to achieve this.
   module TerraformTestTypes
-    def self.num_comparison_valid?(actual:, test_def:)
+    def self.num_comparison_valid?(expected:, actual:, test_def:, expr)
+      expressions_map = {
+        should_be_less_than: '<',
+        should_be_greater_than: '>',
+        should_contain_at_least: '<=',
+        should_contain_at_most: '>=',
+        should_contain_exactly: '==',
+        should_not_be: '!='
+      }
       left = actual.to_f
-      right = test_def[:number_to_compare_against].to_f
-      expr = test_def[:should_be]
+      right = expected.to_f
       raise 'Nothing to compare against!' if right.nil?
-      valid_expressions = %w[< <= == != >= >]
-      unless valid_expressions.include?(expr)
-        raise "Expression not valid: #{expr}. " \
-          "Valid expressions are: #{valid_expressions}"
-      end
+      expr ||= expressions_map[TerraformTestMatchers.get_test_verb(test_def)]
       expected_value_to_print = "#{expr} #{right}"
       # Unfortunately, some of the invocations required to run the tests
       # defined below require the use of `eval`. However, since our input
@@ -47,7 +50,7 @@ module RSpecHelpers
     end
 
     def self.array_length_meets_size_requirements?(expected:, actual:)
-      expected == actual.count
+      expressions
     end
   end
 end
