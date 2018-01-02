@@ -2,20 +2,25 @@
 
 module RSpecHelpers
   module TerraformTestMatchers
-    SUPPORTED_MATCHER_TYPES = %i[json
-    string
-    numerical_comparison
-    array
-    array_count].freeze
+    COMPARE_JSON = :json
+    COMPARE_STRINGS = :string
+    COMPARE_TWO_NUMBERS = :numerical_comparison
+    COMPARE_ARRAYS = :array
+    COMPARE_ARRAY_LENGTHS = :array_count
+    SUPPORTED_MATCHER_TYPES = [COMPARE_JSON,
+                               COMPARE_STRINGS,
+                               COMPARE_TWO_NUMBERS,
+                               COMPARE_ARRAYS,
+                               COMPARE_ARRAY_LENGTHS]
     SUPPORTED_TEST_VERBS_AND_THEIR_MATCHERS = {
-      should_be: 'string'
-      should_at_least_be: 'numerical_comparison'
-      should_at_most_be: 'numerical_comparison'
-      should_be_less_than: 'numerical_comparison'
-      should_be_greater_than: 'numerical_comparison'
-      should_contain_at_least: 'array_count'
-      should_contain_at_most: 'array_count'
-      should_contain_exactly: 'array_count'
+      should_be: COMPARE_JSON
+      should_at_least_be: COMPARE_TWO_NUMBERS
+      should_at_most_be: COMPARE_TWO_NUMBERS
+      should_be_less_than: COMPARE_TWO_NUMBERS
+      should_be_greater_than: COMPARE_TWO_NUMBERS
+      should_contain_at_least: COMPARE_ARRAY_LENGTHS
+      should_contain_at_most: COMPARE_ARRAY_LENGTHS
+      should_contain_exactly: COMPARE_ARRAY_LENGTHS
     }
     # Test definition matchers allow you to specify different ways of
     # testing expected values.
@@ -23,7 +28,7 @@ module RSpecHelpers
     def self.get_test_definition_matcher(test_definition)
       test_verb = get_test_verb(test_definition).to_sym
       default_matcher_type =
-        SUPPORTED_TEST_VERBS_AND_THEIR_MATCHERS[test_verb] || :string
+        SUPPORTED_TEST_VERBS_AND_THEIR_MATCHERS[test_verb] || COMPARE_STRINGS
       desired_matcher_type =
         test_definition[:matcher_type] || default_matcher_type
       return default_matcher_type unless
