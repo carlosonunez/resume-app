@@ -74,14 +74,22 @@ module RSpecHelpers
     def self.run_test(test_definition:, plan:, resource_name:, resource_arg:)
       expected_value = test_definition[:should_be]
       actual_value = get_actual_value(plan, resource_name, resource_arg)
-      case get_test_definition_matcher(test_definition)
-      when :json
-        expected_json = expected_value
-        actual_json = JSON.parse(actual_value)
-        return 'Pass' if expected_json == actual_json
-      else
-        return 'Pass' if expected_value.to_s == actual_value.to_s
-      end
+      test_successful =
+        case TerraformTestMatchers.get_test_definition_matcher(test_definition)
+        when :json
+          TerraformTestTypes.json_equality_valid?(expected,
+                                                  actual)
+        when :numerical_comparison
+          value_to_compare_to = test_definition[:number_to_compare_against]
+          raise 'No number to compare against.' if value_to_compare_to.nil?
+          TerraformTestTypes.num_comparison_valid?(left: actual_value,
+                                                   right: value_to_compare_to,
+                                                   expr: expected_value)
+        else
+          TerraformTestTypes.string_equality_valid?(expected_value,
+                                                    actual_value)
+        end
+      return 'Pass' if test_successful
       <<-TEST_FAILURE_SUMMARY
       Fail.
       Resource under test: #{resource_name}
@@ -91,10 +99,30 @@ module RSpecHelpers
       TEST_FAILURE_SUMMARY
     end
 
+  end
+  module TerraformTestTypes
+    def self.num_comparison_valid?(left:, right:, expr:)
+      valid_expressions = %w[< <= == != >= >]
+      if !valid_expressions.include?(expr)
+        raise "Expression #{expr} must be one of these: #{valid_expressions}"
+      end
+      eval("#{left} #{expr} #{right}")
+    end
+
+    def self.json_equality_valid?(expected_as_hash, actual_as_json)
+      expected_as_hash == JSON.parse(actual_as_json)
+    end
+
+    def self.string_equality_valid?(expected, actual)
+      expected_value.to_s == actual_value.to_s
+    end
+  end
+
+  module TerraformTestMatchers
     # Test definition matchers allow you to specify different ways of
     # testing expected values.
     def self.get_test_definition_matcher(test_definition)
-      supported_matcher_types = %i[json string]
+      supported_matcher_types = %i[json string numerical_comparison]
       default_matcher_type = :string
       desired_matcher_type =
         test_definition[:matcher_type] || default_matcher_type
@@ -103,6 +131,5 @@ module RSpecHelpers
       desired_matcher_type
     end
 
-    private_class_method :get_test_definition_matcher
   end
 end
