@@ -42,7 +42,11 @@ unit_tests: _generate_terraform_tfvars \
 ifdef TRAVIS
 .PHONY: integration_tests
 integration_tests: BUNDLE_OPTIONS=rake integration:test
-integration_tests: _bundle_exec
+integration_tests: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
+integration_tests: _generate_terraform_tfvars \
+	_terraform_apply \
+	_bundle_exec \
+	_terraform_destroy
 
 .PHONY: version deploy deploy_docker_image
 version: _bump_version_number
