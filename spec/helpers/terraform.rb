@@ -31,8 +31,7 @@ module RSpecHelpers
               RSpecHelpers::TerraformTest.create_example_name(test_definition,
                                                               resource_name,
                                                               resource_argument)
-            it 'It should have a value for ' \
-              "#{resource_argument}" do
+            it "It should have a value for argument: '#{resource_argument}'" do
               expect(
                 RSpecHelpers::TerraformTest.resource_path_is_within_plan?(
                   plan: @terraform_plan,
