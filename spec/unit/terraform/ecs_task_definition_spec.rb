@@ -16,8 +16,7 @@ requirements = {
   },
   container_definitions: {
     test_name: 'should have the correct container definitions',
-    should_be: expected_container_definition,
-    matcher_type: :json
+    json_should_be: expected_container_definition
   },
   requires_compatibilities: {
     test_name: 'It should be set to FARGATE',

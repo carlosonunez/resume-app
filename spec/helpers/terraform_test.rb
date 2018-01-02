@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require './spec/helpers/internal/terraform_test_matchers'
-require './spec/helpers/internal/terraform_test_types'
 
 module RSpecHelpers
   module TerraformTest
@@ -75,32 +74,10 @@ module RSpecHelpers
 
     # Run the Terraform test.
     def self.run_test(test_definition:, plan:, resource_name:, resource_arg:)
-      expected_value = 
-        TerraformTestMatchers.get_expected_value(test_definition)
       actual_value = get_actual_value(plan, resource_name, resource_arg)
       test_successful, expected_value_to_print, actual_value_to_print =
-        case TerraformTestMatchers.get_test_definition_matcher(test_definition)
-        when :json
-          TerraformTestTypes.json_equality_valid?(expected: expected_value,
-                                                  actual: actual_value)
-        when :numerical_comparison
-          TerraformTestTypes.num_comparison_valid?(actual: actual_value,
+        TerraformTestMatchers.find_test_and_run_it(actual: actual_value,
                                                    test_def: test_definition)
-        when :array_count
-          TerraformTestTypes.array_length_meets_size_requirements?(
-            expected: expected_value,
-            actual: actual_value,
-            test_definition: test_definition
-          )
-        else
-          if actual_value.is_a?(Array)
-            TerraformTestTypes.arrays_equal?(expected: expected_value,
-                                             actual: actual_value)
-          else
-            TerraformTestTypes.string_equality_valid?(expected: expected_value,
-                                                      actual: actual_value)
-          end
-        end
       return 'Pass' if test_successful
       expected_value_to_print ||= expected_value
       actual_value_to_print ||= actual_value
