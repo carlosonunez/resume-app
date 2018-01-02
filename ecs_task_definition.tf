@@ -13,6 +13,6 @@ resource "aws_ecs_task_definition" "task" {
   family = "${var.task_family}"
   cpu = "${var.task_cpu_units}"
   memory = "${var.task_memory_units}"
-  require_compatibilities = "FARGATE"
+  requires_compatibilities = ["FARGATE"]
   container_definitions = "${data.template_file.container_definition.rendered}"
 }

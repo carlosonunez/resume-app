@@ -35,3 +35,13 @@ variable "container_port" {
   description = "The port to expect our service to be running on."
   default = "4567"
 }
+
+variable "task_cpu_units" {
+  description = "The number of CPU units to allocate to this task."
+  default = "0.5"
+}
+
+variable "task_memory_units" {
+  description = "The number of memory units to allocate to this task."
+  default = "128"
+}

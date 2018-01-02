@@ -101,6 +101,10 @@ module RSpecHelpers
 
   end
   module TerraformTestTypes
+    # Unfortunately, some of the invocations required to run the tests
+    # defined below require the use of `eval`. However, since our input
+    # is validated prior to each invocation, this should be safe.
+    # rubocop:disable Security/Eval
     def self.num_comparison_valid?(left:, right:, expr:)
       valid_expressions = %w[< <= == != >= >]
       if !valid_expressions.include?(expr)
@@ -116,6 +120,7 @@ module RSpecHelpers
     def self.string_equality_valid?(expected, actual)
       expected_value.to_s == actual_value.to_s
     end
+    # rubocop:ensable Security/Eval
   end
 
   module TerraformTestMatchers
