@@ -17,6 +17,10 @@ requirements = {
   enable_deletion_protection: {
     test_name: 'It should not have termination protection enabled',
     should_be: 'false'
+  },
+  subnets: {
+    test_name: 'It should be assigned to at least two subnets',
+    array_size_should_at_least_be: 2
   }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_lb.lb',
