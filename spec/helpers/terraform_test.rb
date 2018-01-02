@@ -83,11 +83,16 @@ module RSpecHelpers
           TerraformTestTypes.json_equality_valid?(expected: expected_value,
                                                   actual: actual_value)
         when :numerical_comparison
-          TerraformTestTypes.num_comparison_valid?(actual: actual,
+          TerraformTestTypes.num_comparison_valid?(actual: actual_value,
                                                    test_def: test_definition)
         else
-          TerraformTestTypes.string_equality_valid?(expected: expected_value,
-                                                    actual: actual_value)
+          if actual_value.is_a?(Array)
+            TerraformTestTypes.arrays_equal?(expected: expected_value,
+                                             actual: actual_value)
+          else
+            TerraformTestTypes.string_equality_valid?(expected: expected_value,
+                                                      actual: actual_value)
+          end
         end
       return 'Pass' if test_successful
       <<-TEST_FAILURE_SUMMARY

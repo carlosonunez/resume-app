@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module RSpecHelpers
   module TerraformTestTypes
     # Unfortunately, some of the invocations required to run the tests
@@ -25,6 +26,10 @@ module RSpecHelpers
 
     def self.string_equality_valid?(expected:, actual:)
       expected.to_s == actual.to_s
+    end
+
+    def self.arrays_equal?(expected:, actual:)
+      [expected].flatten.sort == actual.sort
     end
     # rubocop:ensable Security/Eval
   end
