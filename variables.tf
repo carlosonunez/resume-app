@@ -45,3 +45,12 @@ variable "task_memory_units" {
   description = "The number of memory units to allocate to this task."
   default = "128"
 }
+
+variable "load_balancer_subnet_a" {
+  description = "A subnet to use for the load balancer for our app"
+}
+
+variable "load_balancer_subnet_b" {
+  description = "A subnet to use for the load balancer for our app"
+}
+
