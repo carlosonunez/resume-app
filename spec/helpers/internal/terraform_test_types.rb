@@ -15,7 +15,10 @@ module RSpecHelpers
       unless valid_expressions.include?(expr)
         raise "Expression #{expr} must be one of these: #{valid_expressions}"
       end
-      eval("#{left} #{expr} #{right}")
+      expected_value_to_print = "#{expr} #{right}"
+      actual_value_to_print = left
+      result = eval("#{left} #{expr} #{right}")
+      result, expected_value_to_print, actual_value_to_print
     end
 
     def self.json_equality_valid?(expected:, actual:)

@@ -77,7 +77,8 @@ module RSpecHelpers
     def self.run_test(test_definition:, plan:, resource_name:, resource_arg:)
       expected_value = test_definition[:should_be]
       actual_value = get_actual_value(plan, resource_name, resource_arg)
-      test_successful =
+      expected_value_to_print = expected_value
+      test_successful, expected_value_to_print, actual_value_to_print =
         case TerraformTestMatchers.get_test_definition_matcher(test_definition)
         when :json
           TerraformTestTypes.json_equality_valid?(expected: expected_value,
@@ -99,8 +100,8 @@ module RSpecHelpers
       Fail.
       Resource under test: #{resource_name}
       Argument under test: #{resource_arg}
-      Expected value: #{expected_value}
-      Actual value: #{actual_value}
+      Expected value: #{expected_value_to_print}
+      Actual value: #{actual_value_to_print}
       TEST_FAILURE_SUMMARY
     end
   end
