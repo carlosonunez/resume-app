@@ -22,6 +22,9 @@ _generate_terraform_tfvars:
 	then \
 		env_file=.env.example; \
 		app_version=fake_version; \
+		lb_vpc_cidr_block=10.0.0.0/16; \
+		lb_subnet_a_cidr_block=10.0.65.0/24; \
+		lb_subnet_b_cidr_block=10.0.66.0/24; \
 	else \
 		env_file=.env; \
 		app_version=$$(cat version); \

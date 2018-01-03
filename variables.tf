@@ -46,11 +46,14 @@ variable "task_memory_units" {
   default = "128"
 }
 
-variable "load_balancer_subnet_a" {
-  description = "A subnet to use for the load balancer for our app"
+variable "lb_subnet_a_cidr_block" {
+  description = "The subnet CIDR block to use for the first availability zone."
 }
 
-variable "load_balancer_subnet_b" {
-  description = "A subnet to use for the load balancer for our app"
+variable "lb_subnet_b_cidr_block" {
+  description = "The subnet CIDR block to use for the second availability zone."
 }
 
+variable "lb_vpc_cidr_block" {
+  description = "The CIDR block to use for the VPC assigned to the load balancer for this service."
+}
