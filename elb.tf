@@ -3,5 +3,5 @@ resource "aws_lb" "lb" {
   internal = false
   load_balancer_type = "application"
   enable_deletion_protection = false
-  subnets = ["${var.lb_subnet_a_cidr_block}","${var.lb_subnet_b_cidr_block}"]
+  subnets = ["${aws_subnet.subnet_a.cidr_block}","${aws_subnet.subnet_b.cidr_block}"]
 }

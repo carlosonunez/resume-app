@@ -46,14 +46,9 @@ variable "task_memory_units" {
   default = "128"
 }
 
-variable "lb_subnet_a_cidr_block" {
-  description = "The subnet CIDR block to use for the first availability zone."
-}
-
-variable "lb_subnet_b_cidr_block" {
-  description = "The subnet CIDR block to use for the second availability zone."
-}
-
-variable "lb_vpc_cidr_block" {
-  description = "The CIDR block to use for the VPC assigned to the load balancer for this service."
+variable "load_balancer_vpc" {
+  description = <<DESCRIPTION
+  The VPC to use for our load balancers.
+  This value is also used to determine the CIDR blocks that subnets should receive.
+DESCRIPTION
 }
