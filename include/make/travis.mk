@@ -21,5 +21,6 @@ _set_travis_env_vars:
 			gem list | grep travis > /dev/null || gem install travis; \
 			travis login --github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
 			(printenv | grep -E "AWS|DOCKER|TRAVIS|TERRAFORM" ; cat .env) | \
+			sort -u | \
 			sed -- "s/^\(.*\)=\(.*\)/travis env set -r $(TRAVIS_REPO) \1 \2 --private/" | \
 			while read command; do eval "$$command"; done'
