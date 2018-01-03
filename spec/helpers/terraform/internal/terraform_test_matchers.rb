@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './spec/helpers/internal/terraform_test_types'
+require './spec/helpers/terraform/internal/terraform_test_types'
 
 module RSpecHelpers
   module TerraformTestMatchers
