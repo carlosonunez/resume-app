@@ -7,7 +7,7 @@ _ensure_environment_is_configured:
 		do \
 			if ! (env; cat .env) | grep -q "$$required_env_var"; \
 			then \
-				echo "ERROR: [$$required_env_var] is not configured in your \
+				echo -e "$(ERROR): [$$required_env_var] is not configured in your \
 environment. Please add it to your .env or Travis config."; \
 				exit 1; \
 			fi \

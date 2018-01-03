@@ -30,7 +30,7 @@ _bump_version_number:
 	fi; \
 	if [ ! -z "$${new_version_number}" ]; \
 	then \
-		echo "INFO: Incrementing version: $${current_version_number} => $${new_version_number}"; \
+		echo -e "$(INFO): Incrementing version: $${current_version_number} => $${new_version_number}"; \
 		echo "$${new_version_number}" > $(VERSION_FILE); \
 		git commit -am "Automated version update."; \
 		git tag -f "$$(cat $(VERSION_FILE))"; \

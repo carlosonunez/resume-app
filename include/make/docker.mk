@@ -28,7 +28,7 @@ _push_docker_image_to_docker_hub:
 	fi; \
 	if ! docker login --username=$(DOCKER_HUB_USERNAME) --password=$(DOCKER_HUB_PASSWORD); \
 	then \
-		echo "ERROR: Failed to log into Docker Hub. Check your env vars."; \
+		echo -e "$(ERROR): Failed to log into Docker Hub. Check your env vars."; \
 		exit 1; \
 	fi; \
 	docker tag $(DOCKER_IMAGE_TAG) $(DOCKER_IMAGE_NAME)

@@ -48,7 +48,7 @@ _generate_test_terraform_plan_json:
 		--entrypoint '/bin/sh' \
 		$(GOLANG_DOCKER_IMAGE) -c 'if ! which tfjson > /dev/null; \
 			then \
-				echo "INFO: tfjson missing. Downloading it now."; \
+				echo -e "$(INFO): tfjson missing. Downloading it now."; \
 				apk add --no-cache git; \
 				go get $(TFJSON_GITHUB_URL); \
 			fi; \
