@@ -38,7 +38,6 @@ module RSpecHelpers
       }
       left = actual.to_f
       right = expected.to_f
-      puts "Left: #{left}, Right: #{right}"
       raise 'Nothing to compare against!' if right.nil?
       test_verb =
         TerraformTestMatchers.get_test_verb(test_definition)
