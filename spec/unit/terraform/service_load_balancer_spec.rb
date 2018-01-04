@@ -45,6 +45,20 @@ resources_and_requirements = {
       test_name: 'It should be set to HTTP',
       should_be: 'HTTP'
     }
+  },
+  'aws_lb_listener.listener' => {
+    port: {
+      test_name: 'It should be set to 80',
+      should_be: 80
+    },
+    protocol: {
+      test_name: 'It should be using HTTP',
+      should_be: "HTTP"
+    },
+    target_group_arn: {
+      test_name: 'It should be wired up to the appropriate target group',
+      should_be: '${aws_lb_target_group.target_group.arn}'
+    }
   }
 }
 resources_and_requirements.each do |resource, requirement|

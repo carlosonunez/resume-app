@@ -16,3 +16,9 @@ resource "aws_lb_target_group" "target_group" {
     protocol = "HTTP"
   }
 }
+
+resource "aws_lb_listener" "listener" {
+  port = 80
+  protocol = "HTTP"
+  target_group_arn = "${aws_lb_target_group.target_group.arn}"
+}
