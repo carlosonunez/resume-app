@@ -36,10 +36,10 @@ requirements = {
     should_be: 'FARGATE'
   },
   # TODO: Re-enable this test once nested maps are supported.
-#  'network_configuration.subnets': {
-#    test_name: 'It should be bound to our two subnets',
-#    should_be: ['subnet-1','subnet-2']
-#  }
+  #  'network_configuration.subnets': {
+  #    test_name: 'It should be bound to our two subnets',
+  #    should_be: ['subnet-1','subnet-2']
+  #  }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_ecs_service.service',
                                   test_definitions_hash: requirements)

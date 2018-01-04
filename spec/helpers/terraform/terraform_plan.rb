@@ -80,7 +80,11 @@ module RSpecHelpers
     def self.expand_argument_map!(argument_key_with_ids,
                                   resource_hash,
                                   subhash)
-      fail_if_resource_argument_is_deeply_nested!(argument_key_with_ids)
+      if resource_argument_is_deeply_nested!(argument_key_with_ids)
+        warn "WARN: Argument #{argument_key_with_ids} has nested maps. " \
+          'This is not currently supported'
+        return
+      end
       argument_key, argument_key_id, argument_hash_parameter =
         argument_key_with_ids.split('.')[0..2]
       argument_value = resource_hash[argument_key_with_ids]
@@ -102,17 +106,15 @@ module RSpecHelpers
       end
     end
 
-    def self.fail_if_resource_argument_is_deeply_nested!(argument_key_with_ids)
-      error_message = "Argument #{argument_key_with_ids} has nested maps. " \
-        'This is not currently supported'
-      raise error_message if argument_key_with_ids.split('.').count > 3
+    def self.resource_argument_is_deeply_nested!(argument_key_with_ids)
+      argument_key_with_ids.split('.').count > 3
     end
 
     private_class_method :expand,
                          :get_arguments_with_string_values,
                          :get_arguments_with_array_values,
                          :expand_argument_map!,
-                         :fail_if_resource_argument_is_deeply_nested!,
+                         :resource_argument_is_deeply_nested!,
                          :find_map_arg_to_manipulate
   end
 end
