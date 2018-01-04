@@ -48,7 +48,14 @@ variable "task_memory_units" {
 
 variable "load_balancer_vpc" {
   description = <<DESCRIPTION
-  The VPC to use for our load balancers.
-  This value is also used to determine the CIDR blocks that subnets should receive.
+The VPC to use for our load balancers.
+This value is also used to determine the CIDR blocks that subnets should receive.
 DESCRIPTION
+}
+
+variable "logs_name" {
+  description = <<DESCRIPTION
+The name for the CloudWatch logging group used by the ECS task for resume-app.
+DESCRIPTION
+  default = "resume_app_logs"
 }
