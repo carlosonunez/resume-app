@@ -62,6 +62,10 @@ resources_and_requirements = {
     'default_action.type': {
       test_name: 'It should forward packets',
       should_be: 'forward'
+    },
+    load_balancer_arn: {
+      test_name: 'It should be set',
+      should_be: '${aws_lb.lb.arn}'
     }
   }
 }
