@@ -9,4 +9,7 @@ resource "aws_ecs_service" "service" {
     target_group_arn = "${aws_lb.lb.arn}"
     container_port = "${var.container_port}"
   }
+  network_configuration {
+    subnets = ["${aws_subnet.subnet_a.id}","${aws_subnet.subnet_b.id}"]
+  }
 }
