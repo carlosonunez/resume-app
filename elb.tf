@@ -13,6 +13,6 @@ resource "aws_lb_target_group" "target_group" {
   vpc_id = "${var.load_balancer_vpc}"
   health_check {
     port = 4567
-    protocol = HTTP
+    protocol = "HTTP"
   }
 }

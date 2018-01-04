@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 resources_and_requirements = {
-  'aws_lb.lb' = {
+  'aws_lb.lb' => {
     name: {
       test_name: 'It should have the correct load balancer name',
       should_be: 'resume-app-lb'
@@ -20,7 +20,7 @@ resources_and_requirements = {
       should_be: 'false'
     }
   },
-  'aws_lb_target_group.target_group' = {
+  'aws_lb_target_group.target_group' => {
     name: {
       test_name: 'It should have the correct name',
       should_be: 'resume-app-lb-tg'
@@ -37,11 +37,11 @@ resources_and_requirements = {
       test_name: 'It should be set to the correct VPC',
       should_be: ENV['LOAD_BALANCER_VPC']
     },
-    'health_check.port' {
+    'health_check.port': {
       test_name: 'It should be set to 4567',
       should_be: 4567
     },
-    'health_check.protocol' {
+    'health_check.protocol': {
       test_name: 'It should be set to HTTP',
       should_be: 'HTTP'
     }

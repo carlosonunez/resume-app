@@ -61,6 +61,9 @@ _delete_terraform_tfvars:
 	rm terraform.tfvars
 
 _terraform_%: TERRAFORM_ACTION=$(shell echo "$@" | cut -f3 -d _)
+ifeq ($(TERRAFORM_ACTION), destroy)
+_terraform_%: ADDITIONAL_TERRAFORM_ARGS=-force $(ADDITIONAL_TERRAFORM_ARGS)
+endif
 _terraform_%:
 	docker run -t -v $$PWD:/work -w /work \
 		-v $$HOME/.aws:/root/.aws \
