@@ -6,6 +6,8 @@ data "template_file" "container_definition" {
     resume_name     = "${var.resume_name}"
     container_name  = "${var.ecs_container_name}"
     container_port  = "${var.container_port}"
+    logs_region     = "${data.aws_region.current.name}"
+    logs_name       = "${var.logs_name}"
   }
 }
 

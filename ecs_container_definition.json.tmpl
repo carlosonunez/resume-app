@@ -24,6 +24,9 @@
     "logConfiguration": {
       "logDriver": "awslogs", 
       "options": {
+        "awslogs-region": "${aws_region}",
+        "awslogs-group": "${logs_name}",
+        "awslogs-stream-prefix": "resume-app",
         "KeyName": ""
       }
     }
