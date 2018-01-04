@@ -29,6 +29,10 @@ requirements = {
   memory: {
     test_name: 'It should be greater than the minimum memory MB required',
     should_at_most_be: 128
+  },
+  network_mode: {
+    test_name: 'It should be set to "awsvpc" so that Fargate will accept it',
+    should_be: 'awsvpc'
   }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_ecs_task_definition.task',

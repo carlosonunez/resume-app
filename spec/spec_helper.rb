@@ -18,7 +18,7 @@ require './spec/helpers/environment'
 require './spec/helpers/json'
 
 RSpec.configure do |configuration|
-  configuration.before(:each, terraform: true) do |_example|
+  configuration.before(:all, terraform: true) do |_example|
     @terraform_plan = RSpecHelpers::Terraform.initialize
   end
 end
