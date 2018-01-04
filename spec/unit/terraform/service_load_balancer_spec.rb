@@ -27,7 +27,7 @@ resources_and_requirements = {
     },
     port: {
       test_name: 'It should be port 80',
-      should_be: 80
+      should_be: 4567
     },
     protocol: {
       test_name: 'It should be using HTTP',
