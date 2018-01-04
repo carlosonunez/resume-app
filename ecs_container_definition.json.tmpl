@@ -2,6 +2,7 @@
   {
     "name": "${container_name}", 
     "image": "carlosonunez/resume_app:${app_version}", 
+    "networkMode": "awsvpc",
     "portMappings": [
       {
         "containerPort": ${container_port}, 

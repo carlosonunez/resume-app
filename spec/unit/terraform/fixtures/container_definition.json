@@ -1,7 +1,8 @@
 [
   {
     "name": "resume_app", 
-    "image": "carlosonunez/resume_app:fake_version", 
+    "image": "carlosonunez/resume_app:fake_version",
+    "networkMode": "awsvpc",
     "portMappings": [
       {
         "containerPort": 4567, 
