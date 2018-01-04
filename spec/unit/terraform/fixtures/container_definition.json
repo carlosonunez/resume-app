@@ -26,8 +26,7 @@
       "options": {
         "awslogs-region": "us-east-1",
         "awslogs-group": "resume_app_logs",
-        "awslogs-stream-prefix": "resume-app",
-        "KeyName": ""
+        "awslogs-stream-prefix": "resume-app"
       }
     }
   }
