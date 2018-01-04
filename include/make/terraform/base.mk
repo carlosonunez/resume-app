@@ -61,14 +61,17 @@ _delete_terraform_tfvars:
 	rm terraform.tfvars
 
 _terraform_%: TERRAFORM_ACTION=$(shell echo "$@" | cut -f3 -d _)
-ifeq ($(TERRAFORM_ACTION), destroy)
-_terraform_%: ADDITIONAL_TERRAFORM_ARGS=-force $(ADDITIONAL_TERRAFORM_ARGS)
-endif
 _terraform_%:
+	if [ "$(TERRAFORM_ACTION)" == "destroy" ]; \
+	then \
+		additional_actions="-force $(ADDITIONAL_TERRAFORM_ARGS)"; \
+	else \
+		additional_actions="$(ADDITIONAL_TERRAFORM_ARGS)"; \
+	fi; \
 	docker run -t -v $$PWD:/work -w /work \
 		-v $$HOME/.aws:/root/.aws \
 		-e AWS_REGION \
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_DEFAULT_REGION=$(AWS_DEFAULT_REGION) \
-		hashicorp/terraform $(TERRAFORM_ACTION) $(ADDITIONAL_TERRAFORM_ARGS)
+		hashicorp/terraform $(TERRAFORM_ACTION) $$additional_actions
