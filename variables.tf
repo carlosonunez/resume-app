@@ -38,7 +38,7 @@ variable "container_port" {
 
 variable "task_cpu_units" {
   description = "The number of CPU units to allocate to this task."
-  default = "0.5"
+  default = "256"
 }
 
 variable "task_memory_units" {
