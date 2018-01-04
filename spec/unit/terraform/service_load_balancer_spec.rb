@@ -53,11 +53,15 @@ resources_and_requirements = {
     },
     protocol: {
       test_name: 'It should be using HTTP',
-      should_be: "HTTP"
+      should_be: 'HTTP'
     },
-    target_group_arn: {
+    'default_action.target_group_arn': {
       test_name: 'It should be wired up to the appropriate target group',
       should_be: '${aws_lb_target_group.target_group.arn}'
+    },
+    'default_action.type': {
+      test_name: 'It should forward packets',
+      should_be: 'forward'
     }
   }
 }

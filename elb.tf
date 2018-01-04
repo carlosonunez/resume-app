@@ -20,5 +20,8 @@ resource "aws_lb_target_group" "target_group" {
 resource "aws_lb_listener" "listener" {
   port = 80
   protocol = "HTTP"
-  target_group_arn = "${aws_lb_target_group.target_group.arn}"
+  default_action {
+    target_group_arn = "${aws_lb_target_group.target_group.arn}"
+    type = "forward"
+  }
 }
