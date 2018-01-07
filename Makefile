@@ -45,14 +45,14 @@ unit_tests: validate_environment \
 # Deployment and CI build steps.
 # TODO: write cut over build step!
 ifdef TRAVIS
-.PHONY: integration_tests
-integration_tests: BUNDLE_OPTIONS=rake integration:test
-integration_tests: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
-integration_tests: validate_environment \
+.PHONY: integration_tests integration_setup integration_teardown
+integration_setup: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
+integration_setup: validate_environment \
 	_generate_terraform_tfvars \
-	_terraform_apply \
-	_bundle_exec \
-	_terraform_destroy
+	_terraform_apply
+integration_tests: BUNDLE_OPTIONS=rake integration:test
+integration_tests: integration_setup _bundle_exec integration_teardown
+integration_teardown: _terraform_destroy
 
 .PHONY: version deploy deploy_docker_image
 version: validate_environment _bump_version_number
