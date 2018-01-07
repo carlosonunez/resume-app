@@ -33,6 +33,10 @@ requirements = {
   network_mode: {
     test_name: 'It should be set to "awsvpc" so that Fargate will accept it',
     should_be: 'awsvpc'
+  },
+  task_role_arn: {
+    test_name: 'It should refer to the IAM role that we create here',
+    should_be: '${aws_iam_role.execution_role.arn}'
   }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_ecs_task_definition.task',
