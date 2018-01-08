@@ -55,10 +55,18 @@ module RSpecHelpers
     end
 
     def self.json_equality_valid?(expected:, actual:, **)
-      expected = JSON.parse(expected) if expected.is_a?(String)
-      actual = JSON.parse(actual) if actual.is_a?(String)
-      is_equal?(left: expected,
-                right: actual)
+      expected_parsed = case expected.class
+                        when String
+                          JSON.parse(expected)
+                        when Hash
+                          symbolize(JSON.generate(expected))
+                        else
+                          symbolize(expected)
+                        end
+      actual = JSON.parse(actual, symbolize_names: true)
+      test_result = is_equal?(left: expected_parsed,
+                              right: actual)
+      [test_result, expected_parsed, actual]
     end
 
     def self.string_equality_valid?(expected:, actual:, **)
@@ -83,6 +91,21 @@ module RSpecHelpers
       left == right
     end
 
-    private_class_method :is_equal?
+    def self.symbolize(enumerable)
+      if enumerable.is_a? Hash
+        return enumerable.each_with_object({}) do |(key, value), partial|
+          partial[key.to_sym] = symbolize(value)
+        end
+      end
+      if enumerable.is_a? Array
+        return enumerable.each_with_object([]) do |element, partial|
+          partial << symbolize(element)
+        end
+      end
+      enumerable
+    end
+
+    private_class_method :is_equal?,
+                         :symbolize
   end
 end
