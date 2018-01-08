@@ -71,5 +71,5 @@ resources_and_requirements = {
 }
 resources_and_requirements.each do |resource, requirement|
   RSpecHelpers::Terraform.run_tests(resource_name: resource,
-                                    test_definitions_hash: requirement)
+                                    tests: requirement)
 end

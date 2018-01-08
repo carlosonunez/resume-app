@@ -10,7 +10,7 @@
   expected_subnet_cidr = "#{base_subnet_cidr_block}.#{aws_subnet_id}.0/24"
   RSpecHelpers::Terraform.run_tests(
     resource_name: "aws_subnet.subnet_#{availability_zone}",
-    test_definitions_hash: {
+    tests: {
       availability_zone: {
         test_name: "It should be configured to use #{aws_availability_zone}",
         should_be: aws_availability_zone
