@@ -25,6 +25,10 @@ resources_and_requirements = {
       test_name: 'It should have the correct name',
       should_be: 'resume-app-lb-tg'
     },
+    target_type: {
+      test_name: 'It should be using an "ip" type to support "awsvpc"',
+      should_be: 'ip'
+    },
     port: {
       test_name: 'It should be port 80',
       should_be: 4567

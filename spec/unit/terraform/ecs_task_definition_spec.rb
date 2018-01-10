@@ -24,11 +24,11 @@ requirements = {
   },
   cpu: {
     test_name: 'It should be greater than the minimum CPU units required',
-    should_at_least_be: 0.5
+    should_at_least_be: 512
   },
   memory: {
     test_name: 'It should be greater than the minimum memory MB required',
-    should_at_most_be: 128
+    should_at_most_be: 1024
   },
   network_mode: {
     test_name: 'It should be set to "awsvpc" so that Fargate will accept it',
@@ -36,7 +36,11 @@ requirements = {
   },
   task_role_arn: {
     test_name: 'It should refer to the IAM role that we create here',
-    should_be: '${aws_iam_role.execution_role.arn}'
+    should_be: '${aws_iam_role.execution_and_task_role.arn}'
+  },
+  execution_role_arn: {
+    test_name: 'It should refer to the IAM role that we create here',
+    should_be: '${aws_iam_role.execution_and_task_role.arn}'
   }
 }
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_ecs_task_definition.task',

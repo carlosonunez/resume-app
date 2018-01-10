@@ -15,6 +15,7 @@ resource "aws_lb_target_group" "target_group" {
     port = 4567
     protocol = "HTTP"
   }
+  target_type = "ip"
 }
 
 resource "aws_lb_listener" "listener" {

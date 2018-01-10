@@ -1,12 +1,12 @@
 resource "aws_ecs_service" "service" {
   name = "resume_app"
+  cluster = "${aws_ecs_cluster.cluster.id}"
   task_definition = "${aws_ecs_task_definition.task.arn}"
   desired_count = "${var.replica_count}"
   launch_type = "FARGATE"
   load_balancer {
-    elb_name = "${aws_lb.lb.name}"
     container_name = "${var.ecs_container_name}"
-    target_group_arn = "${aws_lb.lb.arn}"
+    target_group_arn = "${aws_lb_target_group.target_group.arn}"
     container_port = "${var.container_port}"
   }
   network_configuration {

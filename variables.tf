@@ -38,12 +38,12 @@ variable "container_port" {
 
 variable "task_cpu_units" {
   description = "The number of CPU units to allocate to this task."
-  default = "256"
+  default = "512"
 }
 
 variable "task_memory_units" {
   description = "The number of memory units to allocate to this task."
-  default = "128"
+  default = "1024"
 }
 
 variable "load_balancer_vpc" {
@@ -58,4 +58,9 @@ variable "logs_name" {
 The name for the CloudWatch logging group used by the ECS task for resume-app.
 DESCRIPTION
   default = "resume_app_logs"
+}
+
+variable "ecs_cluster_name" {
+  description = "The name of our ECS cluster."
+  default = "resume_app_ecs_cluster"
 }
