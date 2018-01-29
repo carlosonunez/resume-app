@@ -1,6 +1,5 @@
 resource "aws_lb" "lb" {
   name = "${var.load_balancer_name}"
-  depends_on = ["aws_ecs_service.service"]
   internal = false
   load_balancer_type = "application"
   enable_deletion_protection = false
