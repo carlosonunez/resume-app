@@ -21,6 +21,7 @@ resource "aws_lb_target_group" "target_group" {
 }
 
 resource "aws_lb_listener" "listener" {
+  depends_on = ["aws_lb.lb"]
   port = 80
   protocol = "HTTP"
   default_action {
