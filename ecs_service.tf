@@ -1,5 +1,6 @@
 resource "aws_ecs_service" "service" {
   name = "resume_app"
+  depends_on = ["aws_iam_role_policy.execution_and_task_role"]
   cluster = "${aws_ecs_cluster.cluster.id}"
   task_definition = "${aws_ecs_task_definition.task.arn}"
   desired_count = "${var.replica_count}"
