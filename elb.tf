@@ -1,5 +1,6 @@
 resource "aws_lb" "lb" {
   name = "${var.load_balancer_name}"
+  depends_on = ["aws_ecs_service.service"]
   internal = false
   load_balancer_type = "application"
   enable_deletion_protection = false
@@ -8,6 +9,7 @@ resource "aws_lb" "lb" {
 
 resource "aws_lb_target_group" "target_group" {
   name = "resume-app-lb-tg"
+  depends_on = ["aws_lb.lb"]
   port = 4567
   protocol = "HTTP"
   vpc_id = "${var.load_balancer_vpc}"
@@ -19,6 +21,7 @@ resource "aws_lb_target_group" "target_group" {
 }
 
 resource "aws_lb_listener" "listener" {
+  depends_on = ["aws_lb_target_group.target_group"]
   port = 80
   protocol = "HTTP"
   default_action {
