@@ -3,6 +3,10 @@
 require 'spec_helper'
 
 requirements = {
+  depends_on: {
+    test_name: 'It should depend on our IAM policy being there first.',
+    should_be: ['${aws_iam_role_policy.execution_and_task_role}']
+  },
   name: {
     test_name: 'It should be called "resume_app"',
     should_be: 'resume_app'
