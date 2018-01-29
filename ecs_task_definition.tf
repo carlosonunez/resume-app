@@ -12,6 +12,7 @@ data "template_file" "container_definition" {
 }
 
 resource "aws_ecs_task_definition" "task" {
+  depends_on = ["aws_iam_role_policy.execution_role_policy"]
   family = "${var.task_family}"
   cpu = "${var.task_cpu_units}"
   memory = "${var.task_memory_units}"
