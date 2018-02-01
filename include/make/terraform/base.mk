@@ -70,6 +70,7 @@ _terraform_%:
 	fi; \
 	docker run -t -v $$PWD:/work -w /work \
 		-v $$HOME/.aws:/root/.aws \
+		--env-file .env \
 		-e AWS_REGION \
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \

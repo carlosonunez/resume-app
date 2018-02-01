@@ -14,6 +14,7 @@ _bundle_%:
 	docker run --rm -t -v $$PWD:/work -w /work \
 		-v $$PWD/.gem:/root/.gem \
 		-v $$HOME/.aws:/root/.aws \
+		--env-file .env \
 		-e GEM_HOME=/root/.gem \
 		-e BUNDLE_PATH=/root/.gem \
 		-e AWS_ACCESS_KEY_ID \

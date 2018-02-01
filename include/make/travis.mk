@@ -10,12 +10,10 @@ _set_travis_env_vars:
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_REGION \
-		-e TRAVIS_CI_GITHUB_TOKEN=$(TRAVIS_CI_GITHUB_TOKEN) \
-		-e DOCKER_HUB_USERNAME=$(DOCKER_HUB_USERNAME) \
-		-e DOCKER_HUB_PASSWORD=$(DOCKER_HUB_PASSWORD) \
 		-v $$PWD:/work \
 		-v $$PWD/.gem:/root/.gem \
 		-w /work \
+		--env-file .env \
 		--entrypoint /bin/sh \
 		$(TRAVIS_CLI_DOCKER_IMAGE) -c 'gem list | grep ffi > /dev/null || apk add --update build-base libffi-dev; \
 			gem list | grep travis > /dev/null || gem install travis; \
