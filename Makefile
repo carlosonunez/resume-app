@@ -10,6 +10,12 @@ include .env
 export $(shell sed 's/=.*//' .env)
 endif
 
+ifndef TERRAFORM_STATE_ENVIRONMENT
+TERRAFORM_STATE_ENVIRONMENT = $(shell echo local-$$USER)
+$(info An environment has not been defined; \
+	one called $(TERRAFORM_STATE_ENVIRONMENT) has been created for you.)
+endif
+
 include include/make/*.mk
 include include/make/*/*.mk
 
