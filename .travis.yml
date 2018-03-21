@@ -9,4 +9,4 @@ script:
   - make deploy_image
   - make integration_tests
 after_success:
-  - make deploy_app
+  - TERRAFORM_STATE_ENVIRONMENT=production make deploy_app
