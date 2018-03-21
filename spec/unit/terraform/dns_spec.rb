@@ -3,10 +3,6 @@
 require 'spec_helper'
 
 requirements = {
-  zone_id: {
-    test_name: 'It should be retrieved through a data provider.',
-    should_be: '${data.aws_route53_zone.requested_zone.zone_id}'
-  },
   name: {
     test_name: 'It should use a variable',
     should_be: 'change me'
