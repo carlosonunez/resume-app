@@ -41,6 +41,12 @@ unit_tests: validate_environment \
 	_bundle_exec \
 	_delete_terraform_tfvars
 
+.PHONY: deploy_image
+deploy_image: validate_environment \
+	_build_gem \
+	_build_docker_image \
+	_push_docker_image_to_docker_hub
+
 .PHONY: integration_tests integration_setup integration_teardown
 integration_setup: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
 integration_setup: validate_environment \
@@ -49,9 +55,3 @@ integration_setup: validate_environment \
 integration_teardown: _terraform_destroy
 integration_tests: BUNDLE_OPTIONS=rake integration:test
 integration_tests: integration_setup _bundle_exec integration_teardown
-
-.PHONY: deploy_image
-deploy_image: validate_environment \
-	_build_gem \
-	_build_docker_image \
-	_push_docker_image_to_docker_hub
