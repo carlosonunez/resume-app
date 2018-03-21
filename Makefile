@@ -19,9 +19,10 @@ init: BUNDLE_OPTIONS=--quiet
 init: validate_environment \
 	_bundle_install \
 	_terraform_init_with_s3_backend \
-	_terraform_get
-ifndef TRAVIS
-init: _set_travis_env_vars get_latest_commit_hash
+	_terraform_get \
+	get_latest_commit_hash
+ifdef TRAVIS
+init: _set_travis_env_vars
 endif
 
 # Test build steps.
