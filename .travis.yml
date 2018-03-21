@@ -3,10 +3,6 @@ sudo: required
 services:
   - docker
 script:
-  - make init
-  - make static_analysis
-  - make unit_tests
-  - make deploy_image
-  - make integration_tests
+  - make ci_build
 after_success:
   - TERRAFORM_STATE_ENVIRONMENT=production make deploy_app
