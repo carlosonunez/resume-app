@@ -14,3 +14,6 @@ Gemfile.lock
 *.tfstate
 *.tfstate*
 *.tfplan.json
+
+# Version ignores
+version

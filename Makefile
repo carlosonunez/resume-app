@@ -21,7 +21,7 @@ init: validate_environment \
 	_terraform_init_with_s3_backend \
 	_terraform_get
 ifndef TRAVIS
-init: _set_travis_env_vars
+init: _set_travis_env_vars get_latest_commit_hash
 endif
 
 # Test build steps.
@@ -40,17 +40,14 @@ unit_tests: validate_environment \
 	_bundle_exec \
 	_delete_terraform_tfvars
 
-# Deployment and CI build steps.
-# TODO: write cut over build step!
-ifdef TRAVIS
 .PHONY: integration_tests integration_setup integration_teardown
 integration_setup: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
 integration_setup: validate_environment \
 	_generate_terraform_tfvars \
 	_terraform_apply
+integration_teardown: _terraform_destroy
 integration_tests: BUNDLE_OPTIONS=rake integration:test
 integration_tests: integration_setup _bundle_exec integration_teardown
-integration_teardown: _terraform_destroy
 
 .PHONY: version deploy deploy_docker_image
 version: validate_environment _bump_version_number
@@ -59,4 +56,3 @@ deploy_docker_image: validate_environment \
 	_build_gem \
 	_build_docker_image \
 	_push_docker_image_to_docker_hub
-endif

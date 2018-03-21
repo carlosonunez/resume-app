@@ -4,7 +4,6 @@ TFJSON_GITHUB_URL=github.com/wybczu/tfjson
 
 ifndef AWS_DEFAULT_REGION
 AWS_DEFAULT_REGION = us-east-1
-$(info AWS_DEFAULT_REGION was not set, so we are setting it to $(AWS_DEFAULT_REGION))
 endif
 ifndef AWS_REGION
 $(error AWS_REGION is not set.)

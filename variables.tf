@@ -64,3 +64,11 @@ variable "ecs_cluster_name" {
   description = "The name of our ECS cluster."
   default = "resume_app_ecs_cluster"
 }
+
+variable "dns_zone_name" {
+  description = "The name of the DNS zone within which resume-app will reside."
+}
+
+variable "dns_record_name" {
+  description = "The name of the A record to create for this app. It will reside in the zone provided by `dns_zone`."
+}
