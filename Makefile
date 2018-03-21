@@ -50,10 +50,8 @@ integration_teardown: _terraform_destroy
 integration_tests: BUNDLE_OPTIONS=rake integration:test
 integration_tests: integration_setup _bundle_exec integration_teardown
 
-.PHONY: version deploy deploy_docker_image
-version: validate_environment _bump_version_number
-deploy: validate_environment deploy_docker_image
-deploy_docker_image: validate_environment \
+.PHONY: deploy_image
+deploy_image: validate_environment \
 	_build_gem \
 	_build_docker_image \
 	_push_docker_image_to_docker_hub
