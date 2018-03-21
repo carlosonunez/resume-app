@@ -5,10 +5,8 @@ DOCKER_IMAGE_NAME = carlosonunez/resume_app
 VERSION_FILE = version
 DOCKER_IMAGE_TAG = $(shell cat version)
 
-ifndef TRAVIS
-	include .env
-	export $(shell sed 's/=.*//' .env)
-endif
+include .env
+export $(shell sed 's/=.*//' .env)
 include include/make/*.mk
 include include/make/*/*.mk
 
