@@ -1,11 +1,3 @@
-resource "aws_lb" "lb" {
-  name = "${var.load_balancer_name}"
-  internal = false
-  load_balancer_type = "application"
-  enable_deletion_protection = false
-  subnets = ["${aws_subnet.subnet_a.id}","${aws_subnet.subnet_b.id}"]
-}
-
 resource "aws_lb_target_group" "target_group" {
   name = "resume-app-lb-tg"
   port = 4567
@@ -27,3 +19,13 @@ resource "aws_lb_listener" "listener" {
   }
   load_balancer_arn = "${aws_lb.lb.arn}"
 }
+
+resource "aws_lb" "lb" {
+  depends_on = ["aws_lb_target_group.target_group"]
+  name = "${var.load_balancer_name}"
+  internal = false
+  load_balancer_type = "application"
+  enable_deletion_protection = false
+  subnets = ["${aws_subnet.subnet_a.id}","${aws_subnet.subnet_b.id}"]
+}
+
