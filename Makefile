@@ -8,12 +8,11 @@ DOCKER_IMAGE_TAG = $(shell cat version)
 ifndef TRAVIS
 include .env
 export $(shell sed 's/=.*//' .env)
-endif
-
+TERRAFORM_STATE_ENVIRONMENT = $(shell echo local_$$USER_$$(date +%Y%m%d.%H%M%S))
+else
 ifndef TERRAFORM_STATE_ENVIRONMENT
-TERRAFORM_STATE_ENVIRONMENT = $(shell echo local-$$USER)
-$(info An environment has not been defined; \
-	one called $(TERRAFORM_STATE_ENVIRONMENT) has been created for you.)
+TERRAFORM_STATE_ENVIRONMENT = integration
+endif
 endif
 
 include include/make/*.mk
@@ -30,9 +29,9 @@ init: validate_environment \
 	_terraform_init_with_s3_backend \
 	_terraform_get \
 	get_latest_commit_hash
-ifdef TRAVIS
-init: _set_travis_env_vars
-endif
+
+local_build: init static_analysis unit_tests _set_travis_env_vars
+ci_build: init static_analysis unit_tests deploy_image integration_tests
 
 # Test build steps.
 .PHONY: static_analysis unit_tests integration_tests
