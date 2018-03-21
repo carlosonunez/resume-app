@@ -3,6 +3,7 @@
 _ensure_environment_is_configured:
 	cat .env.example | \
 		cut -f1 -d '=' | \
+		grep -Ev "^#" | \
 		while read required_env_var; \
 		do \
 			if ! (env; cat .env) | grep -q "$$required_env_var"; \
