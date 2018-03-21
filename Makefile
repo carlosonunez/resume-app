@@ -47,6 +47,11 @@ deploy_image: validate_environment \
 	_build_docker_image \
 	_push_docker_image_to_docker_hub
 
+.PHONY: deploy_app
+deploy_app:
+	echo "$(INFO) Working on it\!"; \
+	exit 0
+
 .PHONY: integration_tests integration_setup integration_teardown
 integration_setup: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
 integration_setup: validate_environment \
