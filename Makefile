@@ -39,7 +39,7 @@ ci_build:
 	$(MAKE) init && \
 	$(MAKE) static_analysis && \
 	$(MAKE) unit_tests && \
-	$(MAKE) deploy_image && \
+	$(MAKE) publish_application && \
 	$(MAKE) integration_tests || $(MAKE) integration_teardown
 
 # Test build steps.
@@ -58,8 +58,8 @@ unit_tests: validate_environment \
 	_bundle_exec \
 	_delete_terraform_tfvars
 
-.PHONY: deploy_image
-deploy_image: validate_environment \
+.PHONY: publish_application
+publish_application: validate_environment \
 	_build_gem \
 	_build_docker_image \
 	_push_docker_image_to_docker_hub
