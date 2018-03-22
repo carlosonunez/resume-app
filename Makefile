@@ -40,7 +40,7 @@ ci_build:
 	$(MAKE) static_analysis && \
 	$(MAKE) unit_tests && \
 	$(MAKE) publish_application && \
-	$(MAKE) integration_tests || $(MAKE) integration_teardown
+	{ $(MAKE) integration_tests || $(MAKE) integration_teardown }
 
 # Test build steps.
 .PHONY: static_analysis unit_tests integration_tests
