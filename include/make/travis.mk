@@ -6,7 +6,7 @@ TRAVIS_REPO=$(shell cat .git/config | \
 						sed 's;\/;\\\/;')
 .PHONY: _set_travis_env_vars
 _set_travis_env_vars:
-	docker run --rm -t -e GEM_HOME=/root/.gem \
+	docker run --rm -t \
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_REGION \
@@ -14,9 +14,7 @@ _set_travis_env_vars:
 		-w /work \
 		--env-file .env \
 		--entrypoint /bin/sh \
-		$(TRAVIS_CLI_DOCKER_IMAGE) -c 'apk add --update build-base libffi-dev; \
-			gem install travis; \
-			travis login --github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
+		$(TRAVIS_CLI_DOCKER_IMAGE) -c 'travis login --github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
 			(cat .env ; printenv | grep -E "AWS|DOCKER|TRAVIS|TERRAFORM") | \
 			sort -u | \
 			sed -- "s/^\(.*\)=\(.*\)/travis env set -r $(TRAVIS_REPO) \1 \2 --private/" | \
