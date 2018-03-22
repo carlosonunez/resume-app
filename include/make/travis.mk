@@ -11,12 +11,11 @@ _set_travis_env_vars:
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_REGION \
 		-v $$PWD:/work \
-		-v $$PWD/.gem:/root/.gem \
 		-w /work \
 		--env-file .env \
 		--entrypoint /bin/sh \
-		$(TRAVIS_CLI_DOCKER_IMAGE) -c 'gem list | grep ffi > /dev/null || apk add --update build-base libffi-dev; \
-			gem list | grep travis > /dev/null || gem install travis; \
+		$(TRAVIS_CLI_DOCKER_IMAGE) -c 'apk add --update build-base libffi-dev; \
+			gem install travis; \
 			travis login --github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
 			(cat .env ; printenv | grep -E "AWS|DOCKER|TRAVIS|TERRAFORM") | \
 			sort -u | \
