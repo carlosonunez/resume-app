@@ -31,16 +31,16 @@ init: validate_environment \
 	get_latest_commit_hash
 
 local_build:
-	$(MAKE) init; \
-	$(MAKE) static_analysis; \
-	$(MAKE) unit_tests; \
+	$(MAKE) init && \
+	$(MAKE) static_analysis && \
+	$(MAKE) unit_tests && \
 	$(MAKE) _set_travis_env_vars
 ci_build:
-	$(MAKE) init; \
-	$(MAKE) static_analysis; \
-	$(MAKE) unit_tests; \
-	$(MAKE) deploy_image; \
-	$(MAKE) integration_tests
+	$(MAKE) init && \
+	$(MAKE) static_analysis && \
+	$(MAKE) unit_tests && \
+	$(MAKE) deploy_image && \
+	$(MAKE) integration_tests || $(MAKE) integration_teardown
 
 # Test build steps.
 .PHONY: static_analysis unit_tests integration_tests
