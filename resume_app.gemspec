@@ -5,7 +5,6 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name           = 'resume_app'
-  spec.version        = File.read('version')
   spec.authors        = ['Carlos Nunez']
   spec.licenses	= ['MIT']
   spec.email          = ['dev@carlosnunez.me']
