@@ -30,7 +30,11 @@ init: validate_environment \
 	_terraform_get \
 	get_latest_commit_hash
 
-local_build: init static_analysis unit_tests _set_travis_env_vars
+local_build:
+	$(MAKE) init; \
+	$(MAKE) static_analysis; \
+	$(MAKE) unit_tests; \
+	$(MAKE) _set_travis_env_vars
 ci_build: init static_analysis unit_tests deploy_image integration_tests
 
 # Test build steps.
