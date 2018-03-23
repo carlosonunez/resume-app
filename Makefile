@@ -39,6 +39,7 @@ ci_build:
 	$(MAKE) init && \
 	$(MAKE) static_analysis && \
 	$(MAKE) unit_tests && \
+	$(MAKE) bump_the_version_number && \
 	$(MAKE) publish_application && \
 	{ $(MAKE) integration_tests || $(MAKE) integration_teardown; }
 
