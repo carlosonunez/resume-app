@@ -3,6 +3,7 @@ SHELL := /bin/bash
 GEMSPEC_NAME = resume_app.gemspec
 DOCKER_IMAGE_NAME = carlosonunez/resume_app
 VERSION_FILE = version
+APP_SPECIFIC_VERSION_FILE = lib/resume_app/version.rb
 DOCKER_IMAGE_TAG = $(shell cat version)
 
 ifndef TRAVIS
@@ -78,3 +79,12 @@ integration_setup: validate_environment \
 integration_teardown: _terraform_destroy
 integration_tests: BUNDLE_OPTIONS=rake integration:test
 integration_tests: integration_setup _bundle_exec integration_teardown
+
+.PHONY: bump_the_version_number
+bump_the_version_number:
+	current_version_number=$$(cat $(APP_SPECIFIC_VERSION_FILE) | \
+												 grep VERSION | \
+												 sed "s#.*VERSION = '\([0-9\.]\+\)'.*#\1#"); \
+	new_version_number=$$(date +%Y.%m.%d); \
+	sed -i "s/VERSION = '$$current_version_number'/VERSION = '$$new_version_number'/" \
+		$(APP_SPECIFIC_VERSION_FILE)
