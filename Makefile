@@ -1,7 +1,7 @@
 MAKEFLAGS += --silent
 SHELL := /bin/bash
 GEMSPEC_NAME = resume_app.gemspec
-DOCKER_IMAGE_NAME = carlosonunez/resume_app
+DOCKER_IMAGE_NAME = carlosnunez/resume_app
 VERSION_FILE = version
 APP_SPECIFIC_VERSION_FILE = lib/resume_app/version.rb
 DOCKER_IMAGE_TAG = $(shell cat version)
@@ -19,6 +19,25 @@ endif
 include include/make/*.mk
 include include/make/*/*.mk
 
+local_build:
+	$(MAKE) init && \
+	$(MAKE) static_analysis && \
+	$(MAKE) unit_tests && \
+	$(MAKE) _set_travis_env_vars
+ci_build:
+	$(MAKE) init && \
+	$(MAKE) static_analysis && \
+	$(MAKE) unit_tests && \
+	$(MAKE) bump_the_version_number && \
+	$(MAKE) publish_application && \
+	{ $(MAKE) integration_tests || { \
+		$(MAKE) integration_teardown; \
+		echo "Integration failed."; \
+	} && { \
+		$(MAKE) integration_teardown; \
+		echo "Integration passed."; \
+	} }
+
 # Shared build steps.
 .PHONY: validate_environment init
 
@@ -31,20 +50,6 @@ init: validate_environment \
 	_terraform_get \
 	get_latest_commit_hash
 
-local_build:
-	$(MAKE) init && \
-	$(MAKE) static_analysis && \
-	$(MAKE) unit_tests && \
-	$(MAKE) _set_travis_env_vars
-ci_build:
-	$(MAKE) init && \
-	$(MAKE) static_analysis && \
-	$(MAKE) unit_tests && \
-	$(MAKE) bump_the_version_number && \
-	$(MAKE) publish_application && \
-	{ $(MAKE) integration_tests || $(MAKE) integration_teardown; }
-
-# Test build steps.
 .PHONY: static_analysis unit_tests integration_tests
 
 static_analysis: BUNDLE_OPTIONS=rake static_analysis:style
@@ -86,5 +91,9 @@ bump_the_version_number:
 												 grep VERSION | \
 												 sed "s#.*VERSION = '\([0-9\.]\+\)'.*#\1#"); \
 	new_version_number=$$(date +%Y.%m.%d); \
+	if [ "$$current_version_number" == "$$new_version_number" ]; \
+	then \
+		exit 0; \
+	fi; \
 	sed -i "s/VERSION = '$$current_version_number'/VERSION = '$$new_version_number'/" \
 		$(APP_SPECIFIC_VERSION_FILE)

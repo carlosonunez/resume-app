@@ -11,20 +11,23 @@ endif
 
 .PHONY: _build_docker_image
 _build_docker_image:
+	app=$$(echo "$(DOCKER_IMAGE_NAME)" | cut -f2 -d /); \
 	app_version=$$(cat version); \
-	if [ -z "$$app_version" ]; \
+	if [ -z "$$app_version" ] || [ -z "$$app" ]; \
 	then \
-		echo -e "$(ERROR) App version not found. Was a 'version' file written?"; \
+		echo -e "$(ERROR) App or app version not found. Was a 'version' file written?"; \
 		exit 1; \
 	fi; \
-	docker build -t "$(DOCKER_IMAGE_NAME):$$app_version"
+	echo "Bundling $$app with version $$app_version"; \
+	docker build -t "$$app:$$app_version" .
 
 .PHONY: _push_docker_image_to_docker_hub
 _push_docker_image_to_docker_hub:
+	app=$$(echo "$(DOCKER_IMAGE_NAME)" | cut -f2 -d /); \
 	app_version=$$(cat version); \
-	if [ -z "$$app_version" ]; \
+	if [ -z "$$app_version" ] || [ -z "$$app" ]; \
 	then \
-		echo -e "$(ERROR) App version not found. Was a 'version' file written?"; \
+		echo -e "$(ERROR) App or app version not found. Was a 'version' file written?"; \
 		exit 1; \
 	fi; \
 	if ! docker login --username=$(DOCKER_HUB_USERNAME) --password=$(DOCKER_HUB_PASSWORD); \
@@ -32,5 +35,6 @@ _push_docker_image_to_docker_hub:
 		echo -e "$(ERROR): Failed to log into Docker Hub. Check your env vars."; \
 		exit 1; \
 	fi; \
-	docker tag $$app_version $(DOCKER_IMAGE_NAME)
-	docker push $(DOCKER_IMAGE_NAME)
+	echo "Pushing $$app to $(DOCKER_IMAGE_NAME) with tag $$app_version"; \
+	docker tag $$app:$$app_version $(DOCKER_IMAGE_NAME):$$app_version; \
+	docker push $(DOCKER_IMAGE_NAME):$$app_version
