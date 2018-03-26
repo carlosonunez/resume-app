@@ -1,12 +1,10 @@
-# frozen_string_literal: true
-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'resume_app/version'
 
 Gem::Specification.new do |spec|
   spec.name           = 'resume_app'
-  spec.version        = File.read('version')
+  spec.version        = ResumeApp::VERSION
   spec.authors        = ['Carlos Nunez']
   spec.licenses	= ['MIT']
   spec.email          = ['dev@carlosnunez.me']
