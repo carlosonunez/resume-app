@@ -63,7 +63,7 @@ module RSpecHelpers
                                  resource_name,
                                  resource_argument)
       test_name = test_definition[:test_name]
-      if test_name.downcase.match?(/^it should/)
+      if test_name.nil? || test_name.downcase.match?(/^it should/)
         test_name
       else
         warn '[WARN] ' \
