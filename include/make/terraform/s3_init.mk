@@ -12,6 +12,15 @@ endif
 .PHONY: _terraform_init_with_s3_backend
 _terraform_init_with_s3_backend: \
 	ADDITIONAL_TERRAFORM_ARGS = -backend-config "bucket=$(TERRAFORM_STATE_S3_BUCKET)" \
-															-backend-config "key=$(TERRAFORM_STATE_S3_KEY)/$(TERRAFORM_STATE_ENVIRONMENT)" \
-															-backend-config "region=$(AWS_REGION)"
+															-backend-config "key=$(TERRAFORM_STATE_S3_KEY)-$(TERRAFORM_STATE_ENVIRONMENT)" \
+															-backend-config "region=$(AWS_REGION)" \
+															-reconfigure
 _terraform_init_with_s3_backend: _terraform_init
+
+.PHONY: _terraform_init_with_test_backend
+_terraform_init_with_test_backend: \
+	ADDITIONAL_TERRAFORM_ARGS = -backend-config "bucket=$(TERRAFORM_STATE_S3_BUCKET)" \
+															-backend-config "key=test" \
+															-backend-config "region=$(AWS_REGION)" \
+															-reconfigure
+_terraform_init_with_test_backend: _terraform_init

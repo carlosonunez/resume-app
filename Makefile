@@ -47,7 +47,6 @@ validate_environment: _ensure_environment_is_configured
 init: BUNDLE_OPTIONS=--quiet 
 init: validate_environment \
 	_bundle_install \
-	_terraform_init_with_s3_backend \
 	_terraform_get \
 	get_latest_commit_hash
 
@@ -61,6 +60,7 @@ unit_tests: USE_REAL_VALUES_FOR_TFVARS=false
 unit_tests: BUNDLE_OPTIONS=rake unit:test
 unit_tests: validate_environment \
 	_generate_terraform_tfvars \
+	_terraform_init_with_test_backend \
 	_generate_test_terraform_plan \
 	_generate_test_terraform_plan_json \
 	_bundle_exec \
@@ -80,6 +80,7 @@ deploy_app:
 .PHONY: integration_tests integration_setup integration_teardown
 integration_setup: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
 integration_setup: validate_environment \
+	_terraform_init_with_s3_backend \
 	_generate_terraform_tfvars \
 	_terraform_apply
 ifndef TRAVIS
