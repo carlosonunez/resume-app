@@ -17,3 +17,4 @@ Gemfile.lock
 
 # Version ignores
 version
+lib/resume_app/version.rb
