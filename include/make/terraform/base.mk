@@ -30,6 +30,14 @@ _generate_terraform_tfvars:
 	fi; \
 	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
 	echo "app_version=\"$${app_version}\"" >> terraform.tfvars
+	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
+	then \
+		echo "aws_access_key_id=\"fake\"" >> terraform.tfvars; \
+		echo "aws_secret_access_key=\"fake\"" >> terraform.tfvars; \
+		echo "aws_region=\"us-east-1\"" >> terraform.tfvars; \
+	else \
+		env | grep AWS_ | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' >> terraform.tfvars; \
+	fi	
 
 .PHONY: _generate_test_terraform_plan
 _generate_test_terraform_plan: ADDITIONAL_TERRAFORM_ARGS=\

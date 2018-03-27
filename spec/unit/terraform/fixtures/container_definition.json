@@ -19,6 +19,18 @@
       {
         "name": "RESUME_NAME",
         "value": "latest"
+      },
+      {
+        "name": "AWS_ACCESS_KEY_ID",
+        "value": "fake"
+      },
+      {
+        "name": "AWS_SECRET_ACCESS_KEY",
+        "value": "fake"
+      },
+      {
+        "name": "AWS_REGION",
+        "value": "us-east-1"
       }
     ], 
     "readonlyRootFilesystem": true, 
