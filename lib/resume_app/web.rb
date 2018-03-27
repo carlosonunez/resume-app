@@ -24,6 +24,10 @@ module ResumeApp
         Converters.markdown_to_html(latest_resume)
       end
 
+      get '/ping' do
+        'Sup'
+      end
+
       get '/pdf' do
         content_type 'application/pdf'
         latest_resme_as_markdown =

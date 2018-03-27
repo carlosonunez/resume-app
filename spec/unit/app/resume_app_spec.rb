@@ -27,6 +27,12 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
   end
 
   context 'When we start the app' do
+    it 'It responds to /ping' do
+      get '/ping'
+      expect(last_response.status).to eq 200
+      expect(last_response.body).to eq('Sup')
+    end
+
     it 'Runs a web server' do
       expected_html = "\n"
       allow(ResumeApp::Downloaders)
