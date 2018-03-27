@@ -25,7 +25,7 @@
       },
       vpc_id: {
         test_name: 'It should be assigned to the VPC specified in our .env',
-        should_be: ENV['LOAD_BALANCER_VPC']
+        should_be: '${aws_vpc.app.id}'
       }
     }
   )

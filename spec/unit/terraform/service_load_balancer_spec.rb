@@ -39,7 +39,7 @@ resources_and_requirements = {
     },
     vpc_id: {
       test_name: 'It should be set to the correct VPC',
-      should_be: ENV['LOAD_BALANCER_VPC']
+      should_be: '${aws_vpc.app.id}'
     },
     'health_check.port': {
       test_name: 'It should be set to 4567',

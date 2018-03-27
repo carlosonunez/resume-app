@@ -2,7 +2,7 @@ resource "aws_lb_target_group" "target_group" {
   name = "resume-app-lb-tg"
   port = 4567
   protocol = "HTTP"
-  vpc_id = "${var.load_balancer_vpc}"
+  vpc_id = "${aws_vpc.app.id}"
   health_check {
     port = 4567
     protocol = "HTTP"

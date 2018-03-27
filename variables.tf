@@ -72,3 +72,7 @@ variable "dns_zone_name" {
 variable "dns_record_name" {
   description = "The name of the A record to create for this app. It will reside in the zone provided by `dns_zone`."
 }
+
+variable "lb_vpc_cidr_block" {
+  description = "The CIDR block to use for our load balancers."
+}
