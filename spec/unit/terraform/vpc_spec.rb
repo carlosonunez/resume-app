@@ -33,6 +33,7 @@ route_requirements = {
   }
 }
 
+
 RSpecHelpers::Terraform.run_tests(resource_name: 'aws_vpc.app',
                                   tests: vpc_requirements)
 
@@ -43,3 +44,17 @@ RSpecHelpers::Terraform.run_tests(
   resource_name: 'aws_route.app_outbound_internet',
   tests: route_requirements
 )
+
+%w[a b].each do |subnet_id|
+  RSpecHelpers::Terraform.run_tests(
+    resource_name: "aws_route_table_association.subnet_#{subnet_id}",
+    tests: {
+      subnet_id: {
+        should_be: "${aws_subnet.subnet_#{subnet_id}.id}"
+      },
+      route_table_id: {
+        should_be: "${aws_route.app_outbound_internet.id}"
+      }
+    }
+  )
+end
