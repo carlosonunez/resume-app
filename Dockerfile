@@ -11,6 +11,7 @@ ADD . /work
 WORKDIR /work
 RUN \
   rm -rf .env* && \
+  bundle install && \
   gem build resume_app.gemspec && \
 	gem install resume_app*.gem
 WORKDIR /
