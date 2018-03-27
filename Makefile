@@ -9,7 +9,7 @@ DOCKER_IMAGE_TAG = $(shell cat version)
 ifndef TRAVIS
 include .env
 export $(shell sed 's/=.*//' .env)
-TERRAFORM_STATE_ENVIRONMENT = $(shell echo local_$$USER_$$(date +%Y%m%d.%H%M%S))
+TERRAFORM_STATE_ENVIRONMENT = $(shell echo local_$$USER)
 else
 ifndef TERRAFORM_STATE_ENVIRONMENT
 TERRAFORM_STATE_ENVIRONMENT = integration
