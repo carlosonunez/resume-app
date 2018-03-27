@@ -67,7 +67,7 @@ _terraform_%:
 	else \
 		additional_actions="$(ADDITIONAL_TERRAFORM_ARGS)"; \
 	fi; \
-	docker run -t -v $$PWD:/work -w /work \
+	docker run -it -v $$PWD:/work -w /work \
 		-v $$HOME/.aws:/root/.aws \
 		--env-file .env \
 		-e AWS_REGION \
