@@ -13,6 +13,7 @@ module ResumeApp
     # This is the web app!
     class App < Sinatra::Base
       set :show_exceptions, false
+      set :bind, '0.0.0.0'
       error do
         e = env['sinatra.error']
         "Something bad happened: #{e.message}."
