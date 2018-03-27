@@ -11,3 +11,11 @@ gem 'prawn-table'
 gem 'rack'
 gem 'rack-test'
 gem 'sinatra'
+
+group :test do
+  gem 'rake'
+  gem 'rdoc'
+  gem 'rspec'
+  gem 'rspec-shell-expectations'
+  gem 'rubocop-rspec'
+end
