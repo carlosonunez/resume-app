@@ -5,6 +5,7 @@ resource "aws_lb_target_group" "target_group" {
   vpc_id = "${aws_vpc.app.id}"
   health_check {
     port = 4567
+    path = "/ping"
     protocol = "HTTP"
     healthy_threshold = 5
     unhealthy_threshold = 10
