@@ -8,6 +8,9 @@ data "template_file" "container_definition" {
     container_port  = "${var.container_port}"
     logs_region     = "${data.aws_region.current.name}"
     logs_name       = "${var.logs_name}"
+    aws_access_key_id = "${var.aws_access_key_id}"
+    aws_secret_access_key = "${var.aws_secret_access_key}"
+    aws_region = "${var.aws_region}"
   }
 }
 
