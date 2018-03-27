@@ -48,7 +48,11 @@ resources_and_requirements = {
     'health_check.protocol': {
       test_name: 'It should be set to HTTP',
       should_be: 'HTTP'
-    }
+    },
+    'health_check.healthy_threshold': { should_be: 5 },
+    'health_check.unhealthy_threshold': { should_be: 10 },
+    'health_check.timeout': { should_be: 5 },
+    'health_check.interval': { should_be: 45 }
   },
   'aws_lb_listener.listener' => {
     port: {

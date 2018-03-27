@@ -6,6 +6,10 @@ resource "aws_lb_target_group" "target_group" {
   health_check {
     port = 4567
     protocol = "HTTP"
+    healthy_threshold = 5
+    unhealthy_threshold = 10
+    timeout = 5
+    interval = 45
   }
   target_type = "ip"
 }
