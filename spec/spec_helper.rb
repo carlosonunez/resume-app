@@ -5,7 +5,7 @@ Bundler.setup
 
 require 'resume_app'
 require 'rack/test'
-require 'aws-sdk'
+require 'aws-sdk-s3'
 require 'colorize'
 require 'dotenv'
 Dotenv.load('.env.example')

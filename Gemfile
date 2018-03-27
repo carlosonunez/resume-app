@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'aws-sdk'
+gem 'aws-sdk-s3'
 gem 'colorize'
 gem 'dotenv'
 gem 'kramdown'
