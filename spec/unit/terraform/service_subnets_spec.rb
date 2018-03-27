@@ -20,8 +20,8 @@
         should_be: expected_subnet_cidr
       },
       map_public_ip_on_launch: {
-        test_name: 'It should not generate public IPs on the fly',
-        should_be: false
+        test_name: 'It should generate public IPs on the fly',
+        should_be: true
       },
       vpc_id: {
         test_name: 'It should be assigned to the VPC specified in our .env',
