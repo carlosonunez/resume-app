@@ -3,7 +3,8 @@ sudo: required
 services:
 - docker
 script:
-- make ci_build
+- if [ "$TRAVIS_BRANCH" != "master" ]; then BUILD_ENVIRONMENT=integration make ci_build; fi
+- if [ "$TRAVIS_BRANCH" == "master" ]; then BUILD_ENVIRONMENT=production make ci_build && make deploy_app; fi
 after_success:
 - TERRAFORM_STATE_ENVIRONMENT=production make deploy_app
 before_install:
