@@ -1,4 +1,8 @@
 #!/usr/bin/env make
+ifndef TRAVIS
+BUILD_ENVIRONMENT = 'local'
+endif
+
 ifndef BUILD_ENVIRONMENT
 $(error Please provide a BUILD_ENVIRONMENT)
 endif
