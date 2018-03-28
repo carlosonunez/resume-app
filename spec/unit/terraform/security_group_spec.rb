@@ -30,10 +30,6 @@ tests = [
       'ingress.from_port': { should_be: 4567 },
       'ingress.to_port': { should_be: 4567 },
       'ingress.protocol': { should_be: 'tcp' },
-      'ingress.security_groups': {
-        should_be: ['${aws_security_group.resume_app_lb_inbound_sg']
-      },
-      'ingress.cidr_blocks': { should_be: '0.0.0.0/0' },
       'egress.from_port': { should_be: 0 },
       'egress.to_port': { should_be: 65_535 },
       'egress.protocol': { should_be: -1 },

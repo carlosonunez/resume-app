@@ -73,8 +73,7 @@ integration_tests: integration_setup \
 	integration_runner \
 	integration_teardown
 integration_setup: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
-integration_setup: stage_environment \
-	_terraform_init_with_s3_backend \
+integration_setup: _terraform_init_with_s3_backend \
 	_generate_terraform_tfvars \
 	_terraform_apply
 ifndef TRAVIS
