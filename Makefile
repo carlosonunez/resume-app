@@ -43,7 +43,8 @@ init: BUNDLE_OPTIONS=--quiet
 init: stage_environment \
 	_bundle_install \
 	_terraform_get \
-	get_latest_commit_hash
+	get_latest_commit_hash \
+	verify_test_data_exists
 
 .PHONY: static_analysis
 
@@ -85,6 +86,14 @@ integration_teardown: _terraform_destroy
 endif
 integration_runner: BUNDLE_OPTIONS=rake integration:test
 integration_runner: _bundle_exec
+
+.PHONY: push_test_data
+push_test_data: TEST_DATA_FILE=test_resume.md \
+	TEST_DATA_SOURCE_LOCATION=spec/integration/fixtures \
+	TEST_DATA_TARGET_DESTINATION=s3://$(S3_RESUME_BUCKET)/$(TEST_DATA_FILE) \
+	TEST_DATA_LOCATION=$(S3_RESUME_BUCKET)/test \
+	AWS_OPTIONS=cp $(TEST_DATA_SOURCE_LOCATION) $(TEST_DATA_TARGET_DESTINATION)
+push_test_data: _aws_s3
 
 .PHONY: publish_application
 publish_application: stage_environment \
