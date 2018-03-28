@@ -14,7 +14,7 @@ tests = [
       'ingress.protocol': { should_be: 'tcp' },
       'ingress.cidr_blocks': { should_be: '0.0.0.0/0' },
       'egress.from_port': { should_be: 0 },
-      'egress.to_port': { should_be: 65_535 },
+      'egress.to_port': { should_be: 0 },
       'egress.protocol': { should_be: -1 },
       'egress.cidr_blocks': { should_be: '0.0.0.0/0' }
     }
@@ -31,7 +31,7 @@ tests = [
       'ingress.to_port': { should_be: 4567 },
       'ingress.protocol': { should_be: 'tcp' },
       'egress.from_port': { should_be: 0 },
-      'egress.to_port': { should_be: 65_535 },
+      'egress.to_port': { should_be: 0 },
       'egress.protocol': { should_be: -1 },
       'egress.cidr_blocks': { should_be: '0.0.0.0/0' }
     }

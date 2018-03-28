@@ -16,7 +16,7 @@ _generate_terraform_tfvars:
 		lb_subnet_a_cidr_block=10.0.65.0/24; \
 		lb_subnet_b_cidr_block=10.0.66.0/24; \
 	else \
-		env_file=.env; \
+		env_file=.env.$(BUILD_ENVIRONMENT); \
 		app_version=$$(cat version); \
 	fi; \
 	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
