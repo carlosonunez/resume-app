@@ -2,6 +2,8 @@ Gemfile.lock
 .gemrc
 .gem
 .env
+.env.*
+!.env.example
 *.gem
 .go
 

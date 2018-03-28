@@ -1,15 +1,6 @@
 #!/usr/bin/env make
-ifndef DOCKER_IMAGE_NAME
-$(error You need to define a DOCKER_IMAGE_NAME, such as "$(USER)/foo".)
-endif
-ifndef DOCKER_HUB_USERNAME
-$(error You need to define a DOCKER_HUB_USERNAME)
-endif
-ifndef DOCKER_HUB_PASSWORD
-$(error You need to define a DOCKER_HUB_PASSWORD)
-endif
-
 .PHONY: _build_docker_image
+_build_docker_image: verify_environment_variable_DOCKER_IMAGE_NAME
 _build_docker_image:
 	app=$$(echo "$(DOCKER_IMAGE_NAME)" | cut -f2 -d /); \
 	app_version=$$(cat version); \
@@ -22,6 +13,10 @@ _build_docker_image:
 	docker build -t "$$app:$$app_version" .
 
 .PHONY: _push_docker_image_to_docker_hub
+_push_docker_image_to_docker_hub: \
+	verify_environment_variable_DOCKER_IMAGE_NAME \
+	verify_environment_variable_DOCKER_HUB_USERNAME \
+	verify_environment_variable_DOCKER_HUB_PASSWORD
 _push_docker_image_to_docker_hub:
 	app=$$(echo "$(DOCKER_IMAGE_NAME)" | cut -f2 -d /); \
 	app_version=$$(cat version); \

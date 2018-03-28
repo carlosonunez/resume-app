@@ -2,20 +2,11 @@
 GOLANG_DOCKER_IMAGE=golang:1.9-alpine3.7
 TFJSON_GITHUB_URL=github.com/wybczu/tfjson
 
-ifndef AWS_DEFAULT_REGION
-AWS_DEFAULT_REGION = us-east-1
-endif
-ifndef AWS_REGION
-$(error AWS_REGION is not set.)
-endif
-ifndef AWS_ACCESS_KEY_ID
-$(error AWS_ACCESS_KEY_ID is not set.)
-endif
-ifndef AWS_SECRET_ACCESS_KEY
-$(error AWS_SECRET_ACCESS_KEY is not set.)
-endif
-
 .PHONY: _generate_terraform_tfvars _delete_terraform_tfvars _terraform_%
+_generate_terraform_tfvars: \
+	_verify_environment_variable_AWS_REGION \
+	_verify_environment_variable_AWS_ACCESS_KEY_ID \
+	_verify_environment_variable_AWS_SECRET_ACCESS_KEY
 _generate_terraform_tfvars:
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
 	then \
@@ -70,6 +61,10 @@ _delete_terraform_tfvars:
 	rm terraform.tfvars
 
 _terraform_%: TERRAFORM_ACTION=$(shell echo "$@" | cut -f3 -d _)
+_terraform_%: \
+	_verify_environment_variable_AWS_REGION \
+	_verify_environment_variable_AWS_ACCESS_KEY_ID \
+	_verify_environment_variable_AWS_SECRET_ACCESS_KEY
 _terraform_%:
 	if [ "$(TERRAFORM_ACTION)" == "destroy" ]; \
 	then \
@@ -77,11 +72,12 @@ _terraform_%:
 	else \
 		additional_actions="$(ADDITIONAL_TERRAFORM_ARGS)"; \
 	fi; \
+	aws_default_region=$${AWS_DEFAULT_REGION:-$$AWS_REGION}; \
 	docker run -it -v $$PWD:/work -w /work \
 		-v $$HOME/.aws:/root/.aws \
-		--env-file .env \
+		--env-file .env.$(BUILD_ENVIRONMENT) \
 		-e AWS_REGION \
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
-		-e AWS_DEFAULT_REGION=$(AWS_DEFAULT_REGION) \
+		-e AWS_DEFAULT_REGION=$$aws_default_region \
 		hashicorp/terraform $(TERRAFORM_ACTION) $$additional_actions
