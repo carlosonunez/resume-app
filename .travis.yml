@@ -1,8 +1,15 @@
 language: Bash
 sudo: required
 services:
-  - docker
+- docker
 script:
-  - make ci_build
+- make ci_build
 after_success:
-  - TERRAFORM_STATE_ENVIRONMENT=production make deploy_app
+- TERRAFORM_STATE_ENVIRONMENT=production make deploy_app
+before_install:
+- openssl aes-256-cbc -K $encrypted_342f2f6ad141_key -iv $encrypted_342f2f6ad141_iv
+  -in .env.production.enc -out .env.production -d
+- openssl aes-256-cbc -K $encrypted_342f2f6ad141_key -iv $encrypted_342f2f6ad141_iv
+  -in .env.local.enc -out .env.local -d
+- openssl aes-256-cbc -K $encrypted_342f2f6ad141_key -iv $encrypted_342f2f6ad141_iv
+  -in .env.integration.enc -out .env.integration -d

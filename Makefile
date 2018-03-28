@@ -40,34 +40,33 @@ init: stage_environment \
 	_terraform_get \
 	get_latest_commit_hash
 
-.PHONY: static_analysis unit_tests integration_tests
+.PHONY: static_analysis
 
 static_analysis: BUNDLE_OPTIONS=rake static_analysis:style
 static_analysis: stage_environment \
 	_bundle_exec
 
-unit_tests: USE_REAL_VALUES_FOR_TFVARS=false
-unit_tests: BUNDLE_OPTIONS=rake unit:test
-unit_tests: stage_environment \
-	_generate_terraform_tfvars \
+.PHONY: unit_tests unit_setup unit_runner unit_teardown
+unit_tests: unit_setup unit_runner unit_teardown
+
+unit_setup: USE_REAL_VALUES_FOR_TFVARS=false
+unit_setup: _generate_terraform_tfvars \
 	_terraform_init_with_test_backend \
-	_generate_test_terraform_plan \
-	_generate_test_terraform_plan_json \
-	_bundle_exec \
-	_delete_terraform_tfvars
+	_generate_terraform_test_plan \
+	_generate_terraform_test_plan_json
 
-.PHONY: publish_application
-publish_application: stage_environment \
-	_build_gem \
-	_build_docker_image \
-	_push_docker_image_to_docker_hub
+unit_runner: BUNDLE_OPTIONS=rake unit:test
+unit_runner: _bundle_exec
 
-.PHONY: deploy_app
-deploy_app:
-	echo "$(INFO) Working on it\!"; \
-	exit 0
+unit_teardown: _delete_terraform_tfvars
 
-.PHONY: integration_tests integration_setup integration_teardown
+.PHONY: integration_tests \
+	integration_setup \
+	integration_teardown \
+	integration_runner
+integration_tests: integration_setup \
+	integration_runner \
+	integration_teardown
 integration_setup: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
 integration_setup: stage_environment \
 	_terraform_init_with_s3_backend \
@@ -80,5 +79,16 @@ integration_teardown:
 else
 integration_teardown: _terraform_destroy
 endif
-integration_tests: BUNDLE_OPTIONS=rake integration:test
-integration_tests: _bundle_exec
+integration_runner: BUNDLE_OPTIONS=rake integration:test
+integration_runner: _bundle_exec
+
+.PHONY: publish_application
+publish_application: stage_environment \
+	_build_gem \
+	_build_docker_image \
+	_push_docker_image_to_docker_hub
+
+.PHONY: deploy_app
+deploy_app:
+	echo "$(INFO) Working on it\!"; \
+	exit 0
