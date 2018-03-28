@@ -5,6 +5,11 @@ DOCKER_IMAGE_NAME = carlosnunez/resume_app
 VERSION_FILE = version
 APP_SPECIFIC_VERSION_FILE = lib/resume_app/version.rb
 DOCKER_IMAGE_TAG = $(shell cat version)
+ifneq ($(shell echo "$$UPDATE_ENVIRONMENT_VARIABLES"),)
+UPDATE_ENVIRONMENT_VARIABLES = $(shell echo "$$UPDATE_ENVIRONMENT_VARIABLES")
+else
+UPDATE_ENVIRONMENT_VARIABLES = false
+endif
 
 include include/make/*.mk
 include include/make/*/*.mk
@@ -52,8 +57,8 @@ unit_tests: unit_setup unit_runner unit_teardown
 unit_setup: USE_REAL_VALUES_FOR_TFVARS=false
 unit_setup: _generate_terraform_tfvars \
 	_terraform_init_with_test_backend \
-	_generate_terraform_test_plan \
-	_generate_terraform_test_plan_json
+	_generate_test_terraform_plan \
+	_generate_test_terraform_plan_json
 
 unit_runner: BUNDLE_OPTIONS=rake unit:test
 unit_runner: _bundle_exec

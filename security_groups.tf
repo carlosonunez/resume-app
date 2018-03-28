@@ -11,7 +11,7 @@ resource "aws_security_group" "lb_inbound" {
   egress {
     from_port = 0
     to_port = 65535
-    protocol = "tcp"
+    protocol = -1
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -29,7 +29,7 @@ resource "aws_security_group" "ecs_inbound" {
   egress {
     from_port = 0
     to_port = 65535
-    protocol = "tcp"
+    protocol = -1
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
