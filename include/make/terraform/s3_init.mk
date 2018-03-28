@@ -2,11 +2,11 @@
 
 .PHONY: _terraform_init_with_s3_backend
 _terraform_init_with_s3_backend: \
-	_verify_environment_variable_TERRAFORM_STATE_S3_BUCKET \
-	_verify_environment_variable_TERRAFORM_STATE_S3_KEY \
-	_verify_environment_variable_AWS_REGION \
-	_verify_environment_variable_AWS_ACCESS_KEY_ID \
-	_verify_environment_variable_AWS_SECRET_ACCESS_KEY
+	verify_environment_variable_TERRAFORM_STATE_S3_BUCKET \
+	verify_environment_variable_TERRAFORM_STATE_S3_KEY \
+	verify_environment_variable_AWS_REGION \
+	verify_environment_variable_AWS_ACCESS_KEY_ID \
+	verify_environment_variable_AWS_SECRET_ACCESS_KEY
 _terraform_init_with_s3_backend: \
 	ADDITIONAL_TERRAFORM_ARGS = -backend-config "bucket=$(TERRAFORM_STATE_S3_BUCKET)" \
 															-backend-config "key=$(TERRAFORM_STATE_S3_KEY)-$(BUILD_ENVIRONMENT)" \
@@ -16,11 +16,11 @@ _terraform_init_with_s3_backend: _terraform_init
 
 .PHONY: _terraform_init_with_test_backend
 _terraform_init_with_test_backend: \
-	_verify_environment_variable_TERRAFORM_STATE_S3_BUCKET \
-	_verify_environment_variable_TERRAFORM_STATE_S3_KEY \
-	_verify_environment_variable_AWS_REGION \
-	_verify_environment_variable_AWS_ACCESS_KEY_ID \
-	_verify_environment_variable_AWS_SECRET_ACCESS_KEY
+	verify_environment_variable_TERRAFORM_STATE_S3_BUCKET \
+	verify_environment_variable_TERRAFORM_STATE_S3_KEY \
+	verify_environment_variable_AWS_REGION \
+	verify_environment_variable_AWS_ACCESS_KEY_ID \
+	verify_environment_variable_AWS_SECRET_ACCESS_KEY
 _terraform_init_with_test_backend: \
 	ADDITIONAL_TERRAFORM_ARGS = -backend-config "bucket=$(TERRAFORM_STATE_S3_BUCKET)" \
 															-backend-config "key=test" \

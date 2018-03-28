@@ -1,6 +1,6 @@
 #!/usr/bin/env make
 ifndef TRAVIS
-BUILD_ENVIRONMENT = 'local'
+BUILD_ENVIRONMENT = local
 endif
 
 ifndef BUILD_ENVIRONMENT
@@ -22,7 +22,7 @@ _ensure_environment_is_configured:
 		grep -Ev "^#" | \
 		while read required_env_var; \
 		do \
-			if ! (env; cat .env) | grep -q "$$required_env_var"; \
+			if ! (env; cat $(DOTENV_FILE)) | grep -q "$$required_env_var"; \
 			then \
 				echo -e "$(ERROR): [$$required_env_var] is not configured in your \
 environment. Please add it to your .env or Travis config."; \

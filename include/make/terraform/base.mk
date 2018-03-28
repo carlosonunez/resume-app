@@ -4,9 +4,9 @@ TFJSON_GITHUB_URL=github.com/wybczu/tfjson
 
 .PHONY: _generate_terraform_tfvars _delete_terraform_tfvars _terraform_%
 _generate_terraform_tfvars: \
-	_verify_environment_variable_AWS_REGION \
-	_verify_environment_variable_AWS_ACCESS_KEY_ID \
-	_verify_environment_variable_AWS_SECRET_ACCESS_KEY
+	verify_environment_variable_AWS_REGION \
+	verify_environment_variable_AWS_ACCESS_KEY_ID \
+	verify_environment_variable_AWS_SECRET_ACCESS_KEY
 _generate_terraform_tfvars:
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
 	then \
@@ -62,9 +62,9 @@ _delete_terraform_tfvars:
 
 _terraform_%: TERRAFORM_ACTION=$(shell echo "$@" | cut -f3 -d _)
 _terraform_%: \
-	_verify_environment_variable_AWS_REGION \
-	_verify_environment_variable_AWS_ACCESS_KEY_ID \
-	_verify_environment_variable_AWS_SECRET_ACCESS_KEY
+	verify_environment_variable_AWS_REGION \
+	verify_environment_variable_AWS_ACCESS_KEY_ID \
+	verify_environment_variable_AWS_SECRET_ACCESS_KEY
 _terraform_%:
 	if [ "$(TERRAFORM_ACTION)" == "destroy" ]; \
 	then \

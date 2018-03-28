@@ -18,6 +18,7 @@ set_travis_env_vars:
 		$(TRAVIS_CLI_DOCKER_IMAGE) -c '\
 			travis login --github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
 			find .env.* | \
+				grep -v .env.example | \
 				while read env_file; \
 				do \
 					travis encrypt-file $$env_file --add; \
