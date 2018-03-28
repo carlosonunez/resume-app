@@ -107,7 +107,7 @@ module RSpecHelpers
     end
 
     def self.resource_argument_is_deeply_nested!(argument_key_with_ids)
-      argument_key_with_ids.split('.').count > 3
+      argument_key_with_ids.split('.').count > 4
     end
 
     private_class_method :expand,
