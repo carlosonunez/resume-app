@@ -136,15 +136,11 @@ wait_for_environment_to_become_ready:
 			sleep $$retry_delay_in_seconds; \
 			retries=$$((retries+1)); \
 		else \
-			lb_dns_record=$$(AWS_OPTIONS="describe-load-balancers \
-				--names resume-app-lb-local \
-				--output text" $(MAKE) _aws_elbv2 | \
-					grep -E ^LOADBALANCERS | \
-					awk '{print $4}' \
-			); \
-			lb_response=$$(curl -o /dev/null -sw '%{http_code}' "$${lb_dns_record}/ping"); \
-			echo "Received this from $${lb_dns_record}/ping: [$$lb_response]"; \
-			if [ "$$lb_response" == "200" ]; \
+			echo -e "$(INFO) Load balancer is ready. Waiting on DNS."; \
+			uri="http://$(DNS_RECORD_NAME).$(DNS_ZONE_NAME)/ping"; \
+			response=$$(curl "$${uri}"); \
+			echo -e "$(INFO) Response from uri [$$uri]: $$response"; \
+			if [ "$$response" == "Sup" ]; \
 			then \
 				echo -e "$(INFO) App is ready."; \
 				exit 0; \
