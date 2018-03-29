@@ -119,7 +119,7 @@ wait_for_environment_to_become_ready:
 	max_retries=60; \
 	while true; \
 	do \
-		echo -e "$(INFO) Waiting for resume-app to come up ($$retries/10)..."; \
+		echo -e "$(INFO) Waiting for resume-app to come up ($$retries/$$max_retries)..."; \
 		active_load_balancers_found=$$( \
 			AWS_OPTIONS="describe-load-balancers --names resume-app-lb-$(BUILD_ENVIRONMENT) --output text" \
 			$(MAKE) _aws_elbv2 | \
