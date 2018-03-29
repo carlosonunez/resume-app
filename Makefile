@@ -91,6 +91,7 @@ integration_teardown:
 	echo "Since we've built this on a local box, integration will be kept up."; \
 	exit 0
 else
+integration_teardown: ADDITIONAL_TERRAFORM_ARGS=-force
 integration_teardown: _terraform_destroy
 endif
 integration_runner: BUNDLE_OPTIONS=rake integration:test
