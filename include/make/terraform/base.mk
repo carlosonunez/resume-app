@@ -10,13 +10,13 @@ _generate_terraform_tfvars: \
 _generate_terraform_tfvars:
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
 	then \
-		env_file=\".env.example\"; \
-		environment=\"fake_env\"; \
-		app_version=\"fake_version\"; \
+		env_file=.env.example; \
+		environment=fake_env; \
+		app_version=fake_version; \
 	else \
-		env_file=\".env.$(BUILD_ENVIRONMENT)\"; \
-		environment=\"$(BUILD_ENVIRONMENT)\"; \
-		app_version=\"$$(cat version)\"; \
+		env_file=.env.$(BUILD_ENVIRONMENT); \
+		environment=$(BUILD_ENVIRONMENT); \
+		app_version=$$(cat version); \
 	fi; \
 	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
 	echo "environment=\"$${environment}\"" >> terraform.tfvars; \
