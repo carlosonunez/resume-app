@@ -23,7 +23,10 @@ local_build:
 	$(MAKE) init && \
 	$(MAKE) static_analysis && \
 	$(MAKE) unit_tests && \
-	$(MAKE) set_travis_env_vars
+	$(MAKE) set_travis_env_vars || { \
+		echo "Tests failed."; \
+		exit 1; \
+	}
 ci_build:
 	$(MAKE) init && \
 	$(MAKE) static_analysis && \
@@ -36,6 +39,7 @@ ci_build:
 	} || { \
 		$(MAKE) integration_teardown; \
 		echo "Tests failed."; \
+		exit 1; \
 	}
 
 # Shared build steps.
