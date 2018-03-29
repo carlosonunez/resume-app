@@ -3,21 +3,24 @@
 require 'spec_helper'
 
 describe 'Given an app that renders resumes' do
+  before(:all) do
+    uri_string = "http://#{ENV['DNS_RECORD_NAME']}.#{ENV['DNS_ZONE_NAME']}"
+    @app_uri = URI(uri_string)
+    @pdf_uri = URI("#{uri_string}/pdf")
+    @app_response = Net::HTTP.get_response(@app_uri)
+    @pdf_response = Net::HTTP.get_response(@pdf_uri)
+  end
   context 'When we access the app' do
-    before(:all) do
-      app_uri = URI("http://#{ENV['DNS_RECORD_NAME']}.#{ENV['DNS_ZONE_NAME']}")
-    end
     it 'It should be up' do
-      response = Net::HTTP.get_response(app_uri)
-      expect(response.code).to eq '200'
+      expect(@app_response.code).to eq '200'
     end
 
-    it 'Should produce the content that we expect' do
+    it 'It should produce the content that we expect' do
       expected_content = <<-CONTENT
 <h1 id="my-name">My Name</h1>
 <p>###### Small address here.</p>
 
-<p>I’m an awesome person. You should hire me.</p>
+<p>I\xE2\x80\x99m an awesome person. You should hire me.</p>
 
 <h1 id="experience">Experience</h1>
 
@@ -30,8 +33,11 @@ describe 'Given an app that renders resumes' do
   <li>and even that thing that nobody wanted to do!</li>
 </ul>
       CONTENT
-      body = Net::HTTP.get(app_uri)
-      expect(body).to eq expected_content
+      expect(@app_response.body.force_encoding('UTF-8')).to eq expected_content
+    end
+
+    it 'It should give us a PDF' do
+      expect(@pdf_response.body[0, 4]).to eq '%PDF'
     end
   end
 end
