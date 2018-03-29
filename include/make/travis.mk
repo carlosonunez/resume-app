@@ -25,6 +25,7 @@ set_travis_env_vars:
 			travis login --github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
 			find .env.* | \
 				grep -v .env.example | \
+				grep -v *.enc | \
 				while read env_file; \
 				do \
 					travis encrypt-file $$env_file --add --force; \
