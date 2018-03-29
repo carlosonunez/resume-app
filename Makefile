@@ -135,9 +135,9 @@ wait_for_environment_to_become_ready:
 			sleep $$retry_delay_in_seconds; \
 			retries=$$((retries+1)); \
 		else \
-			lb_dns_record=$$(aws elbv2 describe-load-balancers \
+			lb_dns_record=$$(AWS_OPTIONS="describe-load-balancers \
 				--names resume-app-lb-local \
-				--output text | \
+				--output text" $(MAKE) _aws_elbv2 | \
 					grep -E ^LOADBALANCERS | \
 					awk '{print $4}' \
 			); \
