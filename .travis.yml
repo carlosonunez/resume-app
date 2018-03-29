@@ -1,6 +1,6 @@
 language: Bash
 sudo: required
-dist: xenial
+dist: trusty
 services:
 - docker
 script:
