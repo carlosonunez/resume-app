@@ -5,12 +5,9 @@ services:
 - docker
 script:
 - echo "I am running Make version $(make -v)."
-- if [ "$TRAVIS_BRANCH" != "master" ]; then BUILD_ENVIRONMENT=integration make ci_build;
-  fi
-- if [ "$TRAVIS_BRANCH" == "master" ]; then BUILD_ENVIRONMENT=production make ci_build
-  && make deploy_app; fi
+- make ci_build
 after_success:
-- TERRAFORM_STATE_ENVIRONMENT=production make deploy_app
+- if [ "$TRAVIS_BRANCH" == "master" ]; then make deploy_app; fi
 before_install:
 - sudo apt-get install make=4.1-6
 - openssl aes-256-cbc -K $encrypted_342f2f6ad141_key -iv $encrypted_342f2f6ad141_iv

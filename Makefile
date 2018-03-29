@@ -6,6 +6,15 @@ VERSION_FILE = version
 APP_SPECIFIC_VERSION_FILE = lib/resume_app/version.rb
 DOCKER_IMAGE_TAG = $(shell cat version)
 UPDATE_ENVIRONMENT_VARIABLES = $(shell echo "$${UPDATE_ENVIRONMENT_VARIABLES:-true}")
+ifdef TRAVIS
+ifeq ($(TRAVIS_BRANCH),master)
+BUILD_ENVIRONMENT = production
+else ifeq ($(TRAVIS_BRANCH),dev)
+BUILD_ENVIRONMENT = integration
+endif
+else
+BUILD_ENVIRONMENT = local
+endif
 
 include include/make/*.mk
 include include/make/*/*.mk
