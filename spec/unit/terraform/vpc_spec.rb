@@ -12,6 +12,10 @@ vpc_requirements = {
   enable_dns_support: {
     test_name: 'It should be true',
     should_be: true
+  },
+  'tags.version': {
+    test_name: 'It should have a version tag',
+    should_be: 'fake_version'
   }
 }
 
@@ -19,6 +23,10 @@ internet_gateway_requirements = {
   vpc_id: {
     test_name: 'It should be a variable',
     should_be: '${aws_vpc.app.id}'
+  },
+  'tags.version': {
+    test_name: 'It should have a version tag',
+    should_be: 'fake_version'
   }
 }
 

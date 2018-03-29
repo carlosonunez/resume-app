@@ -2,14 +2,23 @@ resource "aws_vpc" "app" {
   cidr_block = "${var.lb_vpc_cidr_block}"
   enable_dns_support = true
   enable_dns_hostnames = true
+  tags {
+    version = "${var.app_version}"
+  }
 }
 
 resource "aws_internet_gateway" "app" {
   vpc_id = "${aws_vpc.app.id}"
+  tags {
+    version = "${var.app_version}"
+  }
 }
 
 data "aws_route_table" "app_vpc" {
   vpc_id = "${aws_vpc.app.id}"
+  tags {
+    version = "${var.app_version}"
+  }
 }
 
 resource "aws_route" "app_outbound_internet" {
