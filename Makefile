@@ -135,8 +135,19 @@ wait_for_environment_to_become_ready:
 			sleep $$retry_delay_in_seconds; \
 			retries=$$((retries+1)); \
 		else \
-			echo -e "$(INFO) App is ready."; \
-			exit 0; \
+			lb_dns_record=$$(aws elbv2 describe-load-balancers \
+				--names resume-app-lb-local \
+				--output text | \
+					grep -E ^LOADBALANCERS | \
+					awk '{print $4}' \
+			); \
+			lb_response=$$(curl -o /dev/null -s '%%{http_code}' "$${lb_dns_record}/ping"); \
+			echo "We got: $$lb_response"; \
+			if [ "$$lb_response" == "200" ]; \
+			then \
+				echo -e "$(INFO) App is ready."; \
+				exit 0; \
+			fi; \
 		fi; \
 	done
 
