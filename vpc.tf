@@ -16,9 +16,6 @@ resource "aws_internet_gateway" "app" {
 
 data "aws_route_table" "app_vpc" {
   vpc_id = "${aws_vpc.app.id}"
-  tags {
-    version = "${var.app_version}"
-  }
 }
 
 resource "aws_route" "app_outbound_internet" {
