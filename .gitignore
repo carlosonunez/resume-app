@@ -3,7 +3,6 @@ Gemfile.lock
 .gem
 .env
 .env.*
-!.env.*.enc
 !.env.example
 *.gem
 .go
