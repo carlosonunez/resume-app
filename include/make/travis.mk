@@ -27,5 +27,5 @@ set_travis_env_vars:
 				grep -v .env.example | \
 				while read env_file; \
 				do \
-					travis encrypt-file $$env_file --add; \
+					travis encrypt-file $$env_file --add --override; \
 				done'
