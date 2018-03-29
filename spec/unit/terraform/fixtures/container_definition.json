@@ -38,7 +38,7 @@
       "logDriver": "awslogs", 
       "options": {
         "awslogs-region": "us-east-1",
-        "awslogs-group": "resume_app_logs",
+        "awslogs-group": "resume_app_logs_local",
         "awslogs-stream-prefix": "resume-app"
       }
     }
