@@ -5,7 +5,7 @@ require 'spec_helper'
 requirements = {
   name: {
     test_name: 'It should be called "resume_app"',
-    should_be: 'resume_app'
+    should_be: 'resume_app-local'
   },
   cluster: {
     test_name: 'It should be connected to a cluster',

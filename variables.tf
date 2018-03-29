@@ -80,3 +80,7 @@ variable "dns_record_name" {
 variable "lb_vpc_cidr_block" {
   description = "The CIDR block to use for our load balancers."
 }
+
+variable "environment" {
+  description = "The environment in which these resources will live."
+}

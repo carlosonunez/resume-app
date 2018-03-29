@@ -20,7 +20,8 @@ _generate_terraform_tfvars:
 		app_version=$$(cat version); \
 	fi; \
 	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
-	echo "app_version=\"$${app_version}\"" >> terraform.tfvars
+	echo "app_version=\"$${app_version}\"" >> terraform.tfvars; \
+	echo "environment=\"$(BUILD_ENVIRONMENT)\"" >> terraform.tfvars; \
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
 	then \
 		echo "aws_access_key_id=\"fake\"" >> terraform.tfvars; \

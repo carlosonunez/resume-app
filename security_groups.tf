@@ -1,5 +1,5 @@
 resource "aws_security_group" "lb_inbound" {
-  name = "resume_app_lb_inbound_sg"
+  name = "resume_app_${var.environment}_lb_inbound_sg"
   description = "Allow inbound access to load balancer from the Internet."
   vpc_id = "${aws_vpc.app.id}"
   ingress {
@@ -17,7 +17,7 @@ resource "aws_security_group" "lb_inbound" {
 }
 
 resource "aws_security_group" "ecs_inbound" {
-  name = "resume_app_ecs_inbound_sg"
+  name = "resume_app_${var.environment}_ecs_inbound_sg"
   description = "Allow inbound access to ECS containers from load balancer."
   vpc_id = "${aws_vpc.app.id}"
   ingress {

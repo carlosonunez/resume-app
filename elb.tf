@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "target_group" {
-  name = "resume-app-lb-tg"
+  name = "resume-app-${var.environment}-lb-tg"
   port = 4567
   protocol = "HTTP"
   vpc_id = "${aws_vpc.app.id}"
@@ -27,7 +27,7 @@ resource "aws_lb_listener" "listener" {
 
 resource "aws_lb" "lb" {
   depends_on = ["aws_lb_target_group.target_group"]
-  name = "${var.load_balancer_name}"
+  name = "${var.load_balancer_name}-${var.environment}"
   internal = false
   load_balancer_type = "application"
   enable_deletion_protection = false
