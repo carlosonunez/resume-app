@@ -30,4 +30,7 @@ set_travis_env_vars:
 			) &&  \
 			tar cvf env.tar $$files_to_encrypt && \
 			travis login --github-token=$(TRAVIS_CI_GITHUB_TOKEN) && \
-			travis encrypt-file env.tar --add --force && rm env.tar'
+			travis encrypt-file env.tar --add --force && rm env.tar && \
+			travis env set -r $(TRAVIS_REPO) AWS_ACCESS_KEY_ID $$AWS_ACCESS_KEY_ID && \
+			travis env set -r $(TRAVIS_REPO) AWS_REGION $$AWS_REGION && \
+			travis env set -r $(TRAVIS_REPO) AWS_SECRET_ACCESS_KEY $$AWS_SECRET_ACCESS_KEY'
