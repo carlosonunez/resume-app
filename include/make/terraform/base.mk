@@ -72,6 +72,13 @@ _terraform_%:
 	else \
 		additional_actions="$(ADDITIONAL_TERRAFORM_ARGS)"; \
 	fi; \
+	if [ "$(TERRAFORM_ACTION)" == "plan" ] || \
+		[ "$(TERRAFORM_ACTION)" == "apply" ]; \
+	then \
+		additional_actions="-input=false $(ADDITIONAL_TERRAFORM_ARGS)"; \
+	else \
+		additional_actions="$(ADDITIONAL_TERRAFORM_ARGS)"; \
+	fi; \
 	aws_default_region=$${AWS_DEFAULT_REGION:-$$AWS_REGION}; \
 	docker run -it -v $$PWD:/work -w /work \
 		-v $$HOME/.aws:/root/.aws \
