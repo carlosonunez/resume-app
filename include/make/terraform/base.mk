@@ -10,18 +10,16 @@ _generate_terraform_tfvars: \
 _generate_terraform_tfvars:
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
 	then \
-		env_file=.env.example; \
-		app_version=fake_version; \
-		lb_vpc_cidr_block=10.0.0.0/16; \
-		lb_subnet_a_cidr_block=10.0.65.0/24; \
-		lb_subnet_b_cidr_block=10.0.66.0/24; \
-		environment=fake_env; \
+		env_file=\".env.example\"; \
+		environment=\"fake_env\"; \
+		app_version=\"fake_version\"; \
 	else \
-		env_file=.env.$(BUILD_ENVIRONMENT); \
+		env_file=\".env.$(BUILD_ENVIRONMENT)\"; \
 		environment=\"$(BUILD_ENVIRONMENT)\"; \
-		app_version=$$(cat version); \
+		app_version=\"$$(cat version)\"; \
 	fi; \
 	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
+	echo "environment=\"$${environment}\"" >> terraform.tfvars; \
 	echo "app_version=\"$${app_version}\"" >> terraform.tfvars; \
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
 	then \
