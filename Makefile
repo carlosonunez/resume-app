@@ -148,6 +148,13 @@ wait_for_environment_to_become_ready:
 				echo -e "$(INFO) App is ready."; \
 				exit 0; \
 			fi; \
+			if [ "$$retries" == "10" ]; \
+			then \
+				echo -e "$(ERROR) Your environment never came up. :("; \
+				exit 1; \
+			fi; \
+			sleep $$retry_delay_in_seconds; \
+			retries=$$((retries+1)); \
 		fi; \
 	done
 
