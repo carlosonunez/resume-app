@@ -3,6 +3,7 @@ sudo: required
 services:
 - docker
 script:
+- echo "I am running Make version $(make -v)."
 - if [ "$TRAVIS_BRANCH" != "master" ]; then BUILD_ENVIRONMENT=integration make ci_build;
   fi
 - if [ "$TRAVIS_BRANCH" == "master" ]; then BUILD_ENVIRONMENT=production make ci_build
