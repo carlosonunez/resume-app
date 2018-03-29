@@ -41,7 +41,9 @@ ci_build:
 # Shared build steps.
 .PHONY: stage_environment init
 
-stage_environment: _ensure_environment_is_configured 
+stage_environment: _ensure_environment_is_configured
+stage_environment:
+	echo -e "$(INFO) Build environment: $(BUILD_ENVIRONMENT)"
 
 init: BUNDLE_OPTIONS=--quiet 
 init: stage_environment \
