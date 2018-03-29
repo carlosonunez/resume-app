@@ -15,13 +15,14 @@ _generate_terraform_tfvars:
 		lb_vpc_cidr_block=10.0.0.0/16; \
 		lb_subnet_a_cidr_block=10.0.65.0/24; \
 		lb_subnet_b_cidr_block=10.0.66.0/24; \
+		environment=fake_env; \
 	else \
 		env_file=.env.$(BUILD_ENVIRONMENT); \
+		environment=\"$(BUILD_ENVIRONMENT)\"; \
 		app_version=$$(cat version); \
 	fi; \
 	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
 	echo "app_version=\"$${app_version}\"" >> terraform.tfvars; \
-	echo "environment=\"$(BUILD_ENVIRONMENT)\"" >> terraform.tfvars; \
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
 	then \
 		echo "aws_access_key_id=\"fake\"" >> terraform.tfvars; \
