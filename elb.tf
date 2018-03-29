@@ -13,6 +13,9 @@ resource "aws_lb_target_group" "target_group" {
     interval = 45
   }
   target_type = "ip"
+  tags {
+    version = "${var.app_version}"
+  }
 }
 
 resource "aws_lb_listener" "listener" {
@@ -33,5 +36,8 @@ resource "aws_lb" "lb" {
   enable_deletion_protection = false
   subnets = ["${aws_subnet.subnet_a.id}","${aws_subnet.subnet_b.id}"]
   security_groups = ["${aws_security_group.lb_inbound.id}"]
+  tags {
+    version = "${var.app_version}"
+  }
 }
 

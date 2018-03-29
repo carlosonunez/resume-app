@@ -16,7 +16,11 @@ tests = [
       'egress.from_port': { should_be: 0 },
       'egress.to_port': { should_be: 0 },
       'egress.protocol': { should_be: -1 },
-      'egress.cidr_blocks': { should_be: '0.0.0.0/0' }
+      'egress.cidr_blocks': { should_be: '0.0.0.0/0' },
+      'tags.version': {
+        test_name: 'It should have a version tag',
+        should_be: 'fake_version'
+      }
     }
   },
   {
@@ -33,7 +37,11 @@ tests = [
       'egress.from_port': { should_be: 0 },
       'egress.to_port': { should_be: 0 },
       'egress.protocol': { should_be: -1 },
-      'egress.cidr_blocks': { should_be: '0.0.0.0/0' }
+      'egress.cidr_blocks': { should_be: '0.0.0.0/0' },
+      'tags.version': {
+        test_name: 'It should have a version tag',
+        should_be: 'fake_version'
+      }
     }
   }
 ]

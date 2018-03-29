@@ -88,6 +88,13 @@ module RSpecHelpers
       argument_key, argument_key_id, argument_hash_parameter =
         argument_key_with_ids.split('.')[0..2]
       argument_value = resource_hash[argument_key_with_ids]
+      # Tags are always represented as 'tags.TAG_NAME'. To support these
+      # without writing a new expansion function, simply assume that they
+      # will all have an ID of 0 (since each tag has to be unique).
+      if argument_hash_parameter.nil?
+        argument_hash_parameter = argument_key_id
+        argument_key_id = "actual_value"
+      end
       subhash[argument_key] ||= []
       target_argument = find_map_arg_to_manipulate(subhash,
                                                    argument_key,

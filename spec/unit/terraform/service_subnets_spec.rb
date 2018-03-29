@@ -26,6 +26,10 @@
       vpc_id: {
         test_name: 'It should be assigned to the VPC specified in our .env',
         should_be: '${aws_vpc.app.id}'
+      },
+      'tags.version': {
+        test_name: 'It should have a version tag',
+        should_be: 'fake_version'
       }
     }
   )
