@@ -141,7 +141,7 @@ wait_for_environment_to_become_ready:
 					grep -E ^LOADBALANCERS | \
 					awk '{print $4}' \
 			); \
-			lb_response=$$(curl -o /dev/null -sw '%%{http_code}' "$${lb_dns_record}/ping"); \
+			lb_response=$$(curl -o /dev/null -sw '%{http_code}' "$${lb_dns_record}/ping"); \
 			echo "We got: $$lb_response"; \
 			if [ "$$lb_response" == "200" ]; \
 			then \
