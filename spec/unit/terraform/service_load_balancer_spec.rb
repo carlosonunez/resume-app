@@ -5,7 +5,7 @@ resources_and_requirements = {
   'aws_lb.lb' => {
     name: {
       test_name: 'It should have the correct load balancer name',
-      should_be: 'resume-app-lb-local'
+      should_be: 'resume-app-lb-fake'
     },
     internal: {
       test_name: 'It should not be an internal load balancer',
@@ -23,7 +23,7 @@ resources_and_requirements = {
   'aws_lb_target_group.target_group' => {
     name: {
       test_name: 'It should have the correct name',
-      should_be: 'resume-app-local-lb-tg'
+      should_be: 'resume-app-fake-lb-tg'
     },
     target_type: {
       test_name: 'It should be using an "ip" type to support "awsvpc"',

@@ -4,7 +4,7 @@ tests = [
   {
     resource_name: 'aws_security_group.lb_inbound',
     tests: {
-      name: { should_be: 'resume_app_local_lb_inbound_sg' },
+      name: { should_be: 'resume_app_fake_lb_inbound_sg' },
       description: {
         should_be: 'Allow inbound access to load balancer from the Internet.'
       },
@@ -22,7 +22,7 @@ tests = [
   {
     resource_name: 'aws_security_group.ecs_inbound',
     tests: {
-      name: { should_be: 'resume_app_local_ecs_inbound_sg' },
+      name: { should_be: 'resume_app_fake_ecs_inbound_sg' },
       description: {
         should_be: 'Allow inbound access to ECS containers from load balancer.'
       },

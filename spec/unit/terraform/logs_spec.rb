@@ -5,7 +5,7 @@ RSpecHelpers::Terraform.run_tests(
   tests: {
     name: {
       test_name: 'It should have the right name',
-      should_be: 'resume_app_logs-local'
+      should_be: 'resume_app_logs-fake'
     }
   }
 )

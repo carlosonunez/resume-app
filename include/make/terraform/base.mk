@@ -11,7 +11,7 @@ _generate_terraform_tfvars:
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
 	then \
 		env_file=.env.example; \
-		environment=fake_env; \
+		environment=fake; \
 		app_version=fake_version; \
 	else \
 		env_file=.env.$(BUILD_ENVIRONMENT); \
