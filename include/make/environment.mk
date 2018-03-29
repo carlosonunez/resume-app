@@ -8,6 +8,7 @@ $(error Please provide a BUILD_ENVIRONMENT)
 endif
 
 DOTENV_FILE = .env.$(BUILD_ENVIRONMENT)
+$(shell echo -e "$(INFO) Building in environment [$(BUILD_ENVIRONMENT)]")
 ifeq (,$(wildcard $(DOTENV_FILE)))
 $(error Please provide a .env for environment [$(BUILD_ENVIRONMENT)])
 endif
