@@ -10,4 +10,4 @@ _aws_%:
 		-e AWS_REGION \
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
-		anigeo/awscli $(AWS_ACTION) $(AWS_OPTIONS)
+		anigeo/awscli --region $$AWS_REGION $(AWS_ACTION) $(AWS_OPTIONS)

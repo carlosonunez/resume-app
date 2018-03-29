@@ -110,8 +110,8 @@ wait_for_environment_to_become_ready:
 	do \
 		echo -e "$(INFO) Waiting for resume-app to come up ($$retries/10)..."; \
 		load_balancer_state=$$( \
-			AWS_OPTIONS="describe-load-balancers --names resume-app-lb" \
-			$(MAKE) _aws_elbv2 --output text | \
+			AWS_OPTIONS="describe-load-balancers --names resume-app-lb --output text" \
+			$(MAKE) _aws_elbv2 | \
 				grep -E "^STATE" | \
 				awk "{print $$2}" \
 		); \
