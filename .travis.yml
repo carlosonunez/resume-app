@@ -5,9 +5,9 @@ services:
 - docker
 script:
 - echo "I am running Make version $(make -v)."
-- make ci_build
+- /usr/bin/make ci_build
 after_success:
-- if [ "$TRAVIS_BRANCH" == "master" ]; then make deploy_app; fi
+- if [ "$TRAVIS_BRANCH" == "master" ]; then /usr/bin/make deploy_app; fi
 before_install:
 - sudo apt-get install --only-upgrade make
 - openssl aes-256-cbc -K $encrypted_342f2f6ad141_key -iv $encrypted_342f2f6ad141_iv
