@@ -30,6 +30,8 @@ _generate_terraform_tfvars:
 		echo "aws_access_key_id=\"$$AWS_ACCESS_KEY_ID\"" >> terraform.tfvars; \
 		echo "aws_secret_access_key=\"$$AWS_SECRET_ACCESS_KEY\"" >> terraform.tfvars; \
 		echo "aws_region=\"$$AWS_REGION\"" >> terraform.tfvars; \
+		echo -e "$(INFO) Terraform vars:" ; \
+		cat terraform.tfvars; \
 	fi	
 
 .PHONY: _generate_test_terraform_plan
