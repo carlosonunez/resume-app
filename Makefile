@@ -116,6 +116,7 @@ deploy_app:
 wait_for_environment_to_become_ready:
 	retries=1; \
 	retry_delay_in_seconds=1; \
+	max_retries=60; \
 	while true; \
 	do \
 		echo -e "$(INFO) Waiting for resume-app to come up ($$retries/10)..."; \
@@ -127,7 +128,7 @@ wait_for_environment_to_become_ready:
 		); \
 		if [ -z "$$active_load_balancers_found" ]; \
 		then \
-			if [ "$$retries" == "10" ]; \
+			if [ "$$retries" == "$$max_retries" ]; \
 			then \
 				echo -e "$(ERROR) Your environment never came up. :("; \
 				exit 1; \
@@ -142,13 +143,13 @@ wait_for_environment_to_become_ready:
 					awk '{print $4}' \
 			); \
 			lb_response=$$(curl -o /dev/null -sw '%{http_code}' "$${lb_dns_record}/ping"); \
-			echo "We got: $$lb_response"; \
+			echo "Received this from $${lb_dns_record}/ping: [$$lb_response]"; \
 			if [ "$$lb_response" == "200" ]; \
 			then \
 				echo -e "$(INFO) App is ready."; \
 				exit 0; \
 			fi; \
-			if [ "$$retries" == "10" ]; \
+			if [ "$$retries" == "$$max_retries" ]; \
 			then \
 				echo -e "$(ERROR) Your environment never came up. :("; \
 				exit 1; \
