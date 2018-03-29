@@ -5,11 +5,7 @@ DOCKER_IMAGE_NAME = carlosnunez/resume_app
 VERSION_FILE = version
 APP_SPECIFIC_VERSION_FILE = lib/resume_app/version.rb
 DOCKER_IMAGE_TAG = $(shell cat version)
-ifneq ($(shell echo "$$UPDATE_ENVIRONMENT_VARIABLES"),)
-UPDATE_ENVIRONMENT_VARIABLES = $(shell echo "$$UPDATE_ENVIRONMENT_VARIABLES")
-else
-UPDATE_ENVIRONMENT_VARIABLES = false
-endif
+UPDATE_ENVIRONMENT_VARIABLES = $(shell echo "$${UPDATE_ENVIRONMENT_VARIABLES:-true}")
 
 include include/make/*.mk
 include include/make/*/*.mk
