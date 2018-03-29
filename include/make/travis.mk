@@ -22,11 +22,12 @@ set_travis_env_vars:
 		--env-file .env.$(BUILD_ENVIRONMENT) \
 		--entrypoint /bin/sh \
 		$(TRAVIS_CLI_DOCKER_IMAGE) -c '\
-			travis login --github-token=$(TRAVIS_CI_GITHUB_TOKEN); \
-			find .env.* | \
-				grep -v .env.example | \
-				grep -vE \.enc$ | \
-				while read env_file; \
-				do \
-					travis encrypt-file $$env_file --add --force; \
-				done'
+			files_to_encrypt=$$(\
+				find .env.* \
+					-not -name *.enc \
+					-not -name .env.example | \
+				tr "\n" " " \
+			) &&  \
+			tar cvf env.tar $$files_to_encrypt && \
+			travis login --github-token=$(TRAVIS_CI_GITHUB_TOKEN) && \
+			travis encrypt-file env.tar --add --force && rm env.tar'
