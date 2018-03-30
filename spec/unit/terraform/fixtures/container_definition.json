@@ -1,7 +1,7 @@
 [
   {
     "name": "resume_app", 
-    "image": "carlosnunez/resume_app:fake_version",
+    "image": "change me/resume_app:fake_version",
     "networkMode": "awsvpc",
     "portMappings": [
       {

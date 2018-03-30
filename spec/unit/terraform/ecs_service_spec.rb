@@ -17,7 +17,7 @@ requirements = {
   },
   desired_count: {
     test_name: 'It should have the correct desired count',
-    should_be: 3
+    should_be: 2
   },
   'load_balancer.elb_name': {
     test_name: 'It should not be present',

@@ -22,7 +22,7 @@ variable "app_version" {
 
 variable "replica_count" {
   description = "The desired number of service replicas at any given time."
-  default = 3
+  default = 2
 }
 
 variable "load_balancer_name" {
@@ -48,13 +48,6 @@ variable "task_cpu_units" {
 variable "task_memory_units" {
   description = "The number of memory units to allocate to this task."
   default = "1024"
-}
-
-variable "load_balancer_vpc" {
-  description = <<DESCRIPTION
-The VPC to use for our load balancers.
-This value is also used to determine the CIDR blocks that subnets should receive.
-DESCRIPTION
 }
 
 variable "logs_name" {
