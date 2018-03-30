@@ -84,3 +84,7 @@ variable "lb_vpc_cidr_block" {
 variable "environment" {
   description = "The environment in which these resources will live."
 }
+
+variable "docker_hub_username" {
+  description = "The username to use for the Docker repository hosting this image."
+}

@@ -4,20 +4,40 @@ What is this?
 =============
 
 This is a simple web app that renders resumes posted onto S3 buckets.
-By default, `resume-markdown-renderer` looks for an S3 object called
-`resume.latest` and expects your S3 bucket to be private.
+By default, `resume-app` looks for an S3 object called
+`latest` and expects your S3 bucket to be private.
 
 How do I use it?
 ===============
 
-1. Create your `.env`: `cp .env.example .env`
-2. Replace the dummy values in the `.env` with real values.
-3. Create your resume, name it `resume.latest` and save it into the bucket provided in `.env`.
+**NOTE**: You will need an AWS IAM account with enough access to read S3 objects.
+That account also needs to have a valid `AWS_ACCESS_KEY_ID` and 
+`AWS_SECRET_ACCESS_KEY`.
 
-   **NOTE**: At the moment, this application simply takes Markdown and renders it as provided.
-   Future releases will provide a domain specific language to make creating resumes easier.
+1. Clone this repository and `cd` into it.
+2. Create your own environment: `cp .env.example .env.local`
+3. Open `.env.local` in your favorite editor and substitute the values provided.
+4. Build the gem and Docker image: `make build`
+5. Run the Docker image: `docker run -p $PORT:4567 resume_app:$(cat version)`
+6. Upload your Markdown-formatted resume to the `S3_BUCKET_NAME` provided in `.env.local`
+7. See it live at https://localhost:`$PORT`.
 
-4. Run `rake deploy`. Your resume should be shown at http://localhost:5000.
+How do I deploy this onto actual hardware?
+===========================================
+
+**NOTE**: You will need a Docker Hub account to push your Docker image into.
+Go to [hub.docker.com](https://hub.docker.com) to create one.
+
+##AWS
+
+1. Follow steps 1-3 above. Be sure to substitute the values under the "AWS Hosting" section.
+2. Test your configuration: `make integration_tests`. This will take about six minutes to become ready.
+3. Deploy your environment: `make deploy`. This will take about six minutes to become ready.
+
+If you need to debug the "integration" environment, run this instead: `DEBUG=true make integration_tests`
+
+If you'd like to delete the environment that was created, run this: `make destroy`
+
 
 Additional Features
 ===================

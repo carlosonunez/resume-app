@@ -1,6 +1,7 @@
 data "template_file" "container_definition" {
   template = "${file("ecs_container_definition.json.tmpl")}"
   vars {
+    docker_hub_username = "${var.docker_hub_username}"
     s3_bucket_name  = "${var.s3_bucket_name}"
     app_version     = "${var.app_version}"
     resume_name     = "${var.resume_name}"

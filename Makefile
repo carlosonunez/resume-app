@@ -19,7 +19,22 @@ endif
 include include/make/*.mk
 include include/make/*/*.mk
 
-.PHONY: local_build ci_build deploy
+.PHONY: build publish deploy destroy
+build: \
+	init \
+	stage_environment \
+	_build_gem \
+	_build_docker_image
+publish: init \
+	_push_docker_image_to_docker_hub
+deploy: init \
+	_generate_terraform_tfvars \
+	_terraform_apply
+destroy: init \
+	_generate_terraform_tfvars \
+	_terraform_destroy
+
+.PHONY: local_build ci_build
 local_build:
 	$(MAKE) init && \
 	$(MAKE) static_analysis && \
@@ -33,7 +48,8 @@ ci_build:
 	$(MAKE) static_analysis && \
 	$(MAKE) unit_tests && \
 	$(MAKE) bump_the_version_number && \
-	$(MAKE) publish_application && \
+	$(MAKE) build && \
+	$(MAKE) publish && \
 	$(MAKE) integration_setup && \
 	$(MAKE) integration_tests && { \
 		$(MAKE) integration_teardown; \
@@ -42,10 +58,6 @@ ci_build:
 		echo "Tests failed."; \
 		exit 1; \
 	}
-deploy:
-	$(MAKE) init && \
-	$(MAKE) _generate_terraform_tfvars; \
-	$(MAKE) _terraform_apply
 
 # Shared build steps.
 .PHONY: stage_environment init
@@ -95,9 +107,9 @@ integration_setup: _terraform_init_with_s3_backend \
 	_terraform_apply \
 	push_test_data \
 	wait_for_environment_to_become_ready
-ifndef TRAVIS
+ifndef DEBUG
 integration_teardown:
-	echo "Since we've built this on a local box, integration will be kept up."; \
+	echo "Keeping integration up, as requested."; \
 	exit 0
 else
 integration_teardown: ADDITIONAL_TERRAFORM_ARGS=-force
@@ -106,16 +118,6 @@ endif
 integration_runner: BUNDLE_OPTIONS=rake integration:test
 integration_runner: _bundle_exec
 
-.PHONY: publish_application
-publish_application: stage_environment \
-	_build_gem \
-	_build_docker_image \
-	_push_docker_image_to_docker_hub
-
-.PHONY: deploy_app
-deploy_app:
-	echo "$(INFO) Working on it\!"; \
-	exit 0
 
 .PHONY: wait_for_environment_to_become_ready
 wait_for_environment_to_become_ready:
