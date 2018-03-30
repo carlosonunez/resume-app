@@ -3,7 +3,7 @@
 vpc_requirements = {
   cidr_block: {
     test_name: 'It should be a variable',
-    should_be: ENV['LB_VPC_CIDR_BLOCK']
+    should_be: '10.0.0.0/16'
   },
   enable_dns_hostnames: {
     test_name: 'It should be true',
