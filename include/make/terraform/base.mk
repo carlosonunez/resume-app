@@ -18,6 +18,10 @@ _generate_terraform_tfvars:
 		environment=$(BUILD_ENVIRONMENT); \
 		app_version=$$(cat version); \
 	fi; \
+	if [ ! -z "$${ENVIRONMENT_ID}" ]; \
+	then \
+		environment="$(BUILD_ENVIRONMENT)-$${ENVIRONMENT_ID}"; \
+	fi; \
 	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
 	echo "environment=\"$${environment}\"" >> terraform.tfvars; \
 	echo "app_version=\"$${app_version}\"" >> terraform.tfvars; \

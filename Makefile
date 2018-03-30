@@ -19,6 +19,7 @@ endif
 include include/make/*.mk
 include include/make/*/*.mk
 
+.PHONY: local_build ci_build deploy
 local_build:
 	$(MAKE) init && \
 	$(MAKE) static_analysis && \
@@ -41,6 +42,10 @@ ci_build:
 		echo "Tests failed."; \
 		exit 1; \
 	}
+deploy:
+	$(MAKE) init && \
+	$(MAKE) _generate_terraform_tfvars; \
+	$(MAKE) _terraform_apply
 
 # Shared build steps.
 .PHONY: stage_environment init
@@ -154,4 +159,3 @@ wait_for_environment_to_become_ready:
 			retries=$$((retries+1)); \
 		fi; \
 	done
-
