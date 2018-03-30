@@ -7,6 +7,5 @@ _build_gem:
 		-v $$PWD/.gem:/root/.gem \
 		-e GEM_HOME=/root/.gem \
 		-e BUNDLE_PATH=/root/.gem \
-		-e GEM_AUTHOR \
-		-e GEM_EMAIL \
+		--env-file .env.$(BUILD_ENVIRONMENT) \
 		$(RUBY_DOCKER_IMAGE) gem build $(GEMSPEC_NAME)
