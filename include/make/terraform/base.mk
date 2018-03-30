@@ -22,7 +22,10 @@ _generate_terraform_tfvars:
 	then \
 		environment="$(BUILD_ENVIRONMENT)-$${ENVIRONMENT_ID}"; \
 	fi; \
-	cat "$$env_file" | sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
+	cat "$$env_file" | \
+		grep -v '^#' | \
+		grep -Ev '^GEM_*' | \
+		sed 's/\(.*\)=\(.*\)/\L\1="\2"/' > terraform.tfvars; \
 	echo "environment=\"$${environment}\"" >> terraform.tfvars; \
 	echo "app_version=\"$${app_version}\"" >> terraform.tfvars; \
 	if [ "$(USE_REAL_VALUES_FOR_TFVARS)" == "false" ]; \
