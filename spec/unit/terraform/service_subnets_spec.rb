@@ -3,8 +3,7 @@
 %w[a b].each do |availability_zone|
   aws_region = ENV['AWS_REGION'] || ENV['AWS_DEFAULT_REGION']
   aws_availability_zone = "#{aws_region}#{availability_zone}"
-  raise 'VPC CIDR block not defined.' unless ENV['LB_VPC_CIDR_BLOCK']
-  aws_vpc_cidr_block = ENV['LB_VPC_CIDR_BLOCK']
+  aws_vpc_cidr_block = '10.0.0.0/16'
   base_subnet_cidr_block = aws_vpc_cidr_block.split('.')[0..1].join('.')
   aws_subnet_id = availability_zone.upcase.chars.map(&:ord).first
   expected_subnet_cidr = "#{base_subnet_cidr_block}.#{aws_subnet_id}.0/24"

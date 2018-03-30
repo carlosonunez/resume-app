@@ -34,8 +34,13 @@ destroy: init \
 	_generate_terraform_tfvars \
 	_terraform_destroy
 
-.PHONY: local_build ci_build
+.PHONY: local_build local_build_and_update ci_build
 local_build:
+	$(MAKE) init && \
+	$(MAKE) static_analysis && \
+	$(MAKE) unit_tests
+
+local_build_and_update:
 	$(MAKE) init && \
 	$(MAKE) static_analysis && \
 	$(MAKE) unit_tests && \
