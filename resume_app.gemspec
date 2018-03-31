@@ -2,14 +2,16 @@
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+gem_author = ENV['GEM_AUTHOR']
+gem_email = ENV['GEM_EMAIL']
 require 'resume_app/version'
 
 Gem::Specification.new do |spec|
   spec.name           = 'resume_app'
   spec.version        = ResumeApp::VERSION
-  spec.authors        = ['Carlos Nunez']
-  spec.licenses	= ['MIT']
-  spec.email          = ['dev@carlosnunez.me']
+  spec.authors        = [ gem_author ]
+  spec.licenses	      = ['MIT']
+  spec.email          = [ gem_email ]
   spec.summary        = 'A simple app that generates resumes from Markdown.'
   spec.description    = 'A simple app that generates resumes from Markdown.'
 
