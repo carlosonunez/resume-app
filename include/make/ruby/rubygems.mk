@@ -13,5 +13,9 @@ _build_gem:
 			then \
 				ls -lart; \
 				source /work/.env.$(BUILD_ENVIRONMENT); \
+				echo "This is what's in our env file: "; \
+				cat /work/.env.$(BUILD_ENVIRONMENT); \
+				echo "...and this is what's in our environment"; \
+				env
 			fi; \
 			gem build $(GEMSPEC_NAME)"
