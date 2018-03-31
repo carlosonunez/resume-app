@@ -9,6 +9,7 @@ env_var_checksum = Digest::MD5.file('env.tar.enc').hexdigest
 puts "Gem author: #{gem_author}"
 puts "Gem email: #{gem_email}"
 puts "Environment variable checksum: #{env_var_checksum}"
+puts "Environment: #{ENV}"
 require 'resume_app/version'
 
 Gem::Specification.new do |spec|
