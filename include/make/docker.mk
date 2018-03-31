@@ -10,7 +10,10 @@ _build_docker_image:
 		exit 1; \
 	fi; \
 	echo "Bundling $$app with version $$app_version"; \
-	docker build -t "$$app:$$app_version" .
+	docker build -t "$$app:$$app_version" \
+		--build-arg GEM_AUTHOR=$(GEM_AUTHOR) \
+		--build-arg GEM_EMAIL=$(GEM_EMAIL) \
+		.
 
 .PHONY: _push_docker_image_to_docker_hub
 _push_docker_image_to_docker_hub: \

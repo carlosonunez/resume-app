@@ -8,16 +8,4 @@ _build_gem:
 		-e GEM_HOME=/root/.gem \
 		-e BUNDLE_PATH=/root/.gem \
 		--env-file .env.$(BUILD_ENVIRONMENT) \
-		--entrypoint /bin/sh \
-		$(RUBY_DOCKER_IMAGE) -c 'if [ ! -z "$(TRAVIS)" ]; \
-			then \
-				ls -lart; \
-				source "/work/.env.$(BUILD_ENVIRONMENT)"; \
-				echo "This is what is in our env file: "; \
-				cat /work/.env.$(BUILD_ENVIRONMENT); \
-				echo "...and this is what is in our environment"; \
-				env; \
-			else \
-				echo "Ruby: Not in Travis"; \
-			fi; \
-			gem build $(GEMSPEC_NAME)'
+		$(RUBY_DOCKER_IMAGE) gem build $(GEMSPEC_NAME)
