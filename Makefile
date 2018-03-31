@@ -23,7 +23,6 @@ include include/make/*/*.mk
 build: \
 	init \
 	stage_environment \
-	_build_gem \
 	_build_docker_image
 publish: init \
 	_push_docker_image_to_docker_hub
