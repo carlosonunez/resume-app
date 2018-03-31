@@ -11,7 +11,7 @@ _build_gem:
 		--entrypoint /bin/sh \
 		$(RUBY_DOCKER_IMAGE) -c "if [ ! -z "$(TRAVIS)" ]; \
 			then \
-				ls; \
+				ls -lart; \
 				source .env.$(BUILD_ENVIRONMENT); \
 			fi; \
 			gem build $(GEMSPEC_NAME)"
