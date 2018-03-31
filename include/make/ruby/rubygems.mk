@@ -17,5 +17,7 @@ _build_gem:
 				cat /work/.env.$(BUILD_ENVIRONMENT); \
 				echo "...and this is what is in our environment"; \
 				env; \
+			else \
+				echo "Ruby: Not in Travis"; \
 			fi; \
 			gem build $(GEMSPEC_NAME)'
