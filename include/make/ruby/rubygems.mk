@@ -9,13 +9,13 @@ _build_gem:
 		-e BUNDLE_PATH=/root/.gem \
 		--env-file .env.$(BUILD_ENVIRONMENT) \
 		--entrypoint /bin/sh \
-		$(RUBY_DOCKER_IMAGE) -c "if [ ! -z "$(TRAVIS)" ]; \
+		$(RUBY_DOCKER_IMAGE) -c 'if [ ! -z "$(TRAVIS)" ]; \
 			then \
 				ls -lart; \
-				source /work/.env.$(BUILD_ENVIRONMENT); \
-				echo "This is what's in our env file: "; \
+				source "/work/.env.$(BUILD_ENVIRONMENT)"; \
+				echo "This is what is in our env file: "; \
 				cat /work/.env.$(BUILD_ENVIRONMENT); \
-				echo "...and this is what's in our environment"; \
-				env
+				echo "...and this is what is in our environment"; \
+				env; \
 			fi; \
-			gem build $(GEMSPEC_NAME)"
+			gem build $(GEMSPEC_NAME)'
