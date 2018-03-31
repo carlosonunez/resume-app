@@ -5,7 +5,6 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 gem_author = ENV['GEM_AUTHOR']
 gem_email = ENV['GEM_EMAIL']
-env_var_checksum = Digest::MD5.file('env.tar.enc').hexdigest
 require 'resume_app/version'
 
 Gem::Specification.new do |spec|
