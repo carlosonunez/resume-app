@@ -12,6 +12,6 @@ _build_gem:
 		$(RUBY_DOCKER_IMAGE) -c "if [ ! -z "$(TRAVIS)" ]; \
 			then \
 				ls -lart; \
-				source .env.$(BUILD_ENVIRONMENT); \
+				source $PWD/.env.$(BUILD_ENVIRONMENT); \
 			fi; \
 			gem build $(GEMSPEC_NAME)"
