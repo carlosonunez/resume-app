@@ -8,4 +8,9 @@ _build_gem:
 		-e GEM_HOME=/root/.gem \
 		-e BUNDLE_PATH=/root/.gem \
 		--env-file .env.$(BUILD_ENVIRONMENT) \
-		$(RUBY_DOCKER_IMAGE) gem build $(GEMSPEC_NAME)
+		--entrypoint /bin/sh \
+		$(RUBY_DOCKER_IMAGE) -c "if [ ! -z "$(TRAVIS)" ]; \
+			then \
+				source .env.$(BUILD_ENVIRONMENT); \
+			fi; \
+			gem build $(GEMSPEC_NAME)"
