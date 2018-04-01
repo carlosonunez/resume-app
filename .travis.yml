@@ -4,7 +4,7 @@ dist: trusty
 services:
 - docker
 script:
-- if [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ "$TRAVIS_BRANCH" != "master" ]; then
+- if [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
   echo "Running integration build from pull request."; ENVIRONMENT_ID=$${TRAVIS_PULL_REQUEST}
   /usr/bin/make ci_build; fi
 - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" != "master" ]; then
