@@ -5,12 +5,12 @@ services:
 - docker
 script:
 - if [ "$TRAVIS_PULL_REQUEST" != "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-  echo "Running integration build from pull request."; ENVIRONMENT_ID=$${TRAVIS_PULL_REQUEST}
-  /usr/bin/make ci_build; fi
+  echo "Integration ${TRAVIS_PULL_REQUEST_BRANCH} into ${TRAVIS_BRANCH}"; 
+  ENVIRONMENT_ID=$${TRAVIS_PULL_REQUEST} /usr/bin/make ci_build; fi
 - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" != "master" ]; then
   echo "Running local integration build."; /usr/bin/make ci_build; fi
 - if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
-  echo "Deploying to production."; /usr/bin/make deploy_app; fi
+  echo "Deploying to production."; /usr/bin/make deploy; fi
 before_install:
 - openssl aes-256-cbc -K $encrypted_342f2f6ad141_key -iv $encrypted_342f2f6ad141_iv
   -in env.tar.enc -out env.tar -d
