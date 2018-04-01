@@ -18,7 +18,7 @@ _generate_terraform_tfvars:
 		environment=$(BUILD_ENVIRONMENT); \
 		app_version=$$(cat version); \
 	fi; \
-	if [ ! -z "$${ENVIRONMENT_ID}" ]; \
+	if [ ! -z "$${ENVIRONMENT_ID}" ]  && [ "$${environment}" != "fake" ]; \
 	then \
 		environment="$(BUILD_ENVIRONMENT)-$${ENVIRONMENT_ID}"; \
 	fi; \
