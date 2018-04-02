@@ -102,7 +102,7 @@ integration_setup: _terraform_init_with_s3_backend \
 	_terraform_apply \
 	push_test_data \
 	wait_for_environment_to_become_ready
-ifndef DEBUG
+ifdef DEBUG
 integration_teardown:
 	echo "Keeping integration up, as requested."; \
 	exit 0
