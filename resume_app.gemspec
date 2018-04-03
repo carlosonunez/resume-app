@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.email          = [gem_email]
   spec.summary        = 'A simple app that generates resumes from Markdown.'
   spec.description    = 'A simple app that generates resumes from Markdown.'
-  spec.files          = Dir["{bin,lib}/**/*",'LICENSE','README.md']
+  spec.files          = Dir['{bin,lib}/**/*', 'LICENSE', 'README.md']
   spec.executables    = ['resume_app']
   spec.require_paths  = ['lib']
 end

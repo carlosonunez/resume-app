@@ -17,14 +17,11 @@ build: \
 	_build_docker_image
 publish: init \
 	_push_docker_image_to_docker_hub
-deploy: init \
-	_generate_terraform_tfvars \
-	_terraform_apply
 destroy: init \
 	_generate_terraform_tfvars \
 	_terraform_destroy
 
-.PHONY: local_build local_build_and_update ci_build
+.PHONY: local_build local_build_and_update ci_build ci_deploy
 local_build:
 	$(MAKE) init && \
 	$(MAKE) static_analysis && \
@@ -53,6 +50,10 @@ ci_build:
 		echo "Tests failed."; \
 		exit 1; \
 	}
+ci_deploy: init \
+	_generate_terraform_tfvars \
+	_terraform_init_with_s3_backend \
+	_terraform_apply
 
 # Shared build steps.
 .PHONY: stage_environment init
