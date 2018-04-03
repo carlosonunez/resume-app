@@ -56,7 +56,8 @@ ci_deploy:
 	$(MAKE) build && \
 	$(MAKE) publish && \
 	$(MAKE) _terraform_init_with_s3_backend && \
-	ADDITIONAL_TERRAFORM_ARGS=-auto-approve $(MAKE) _terraform_apply
+	ADDITIONAL_TERRAFORM_ARGS=-auto-approve $(MAKE) _terraform_apply && \
+	$(MAKE) wait_for_environment_to_become_ready
 
 # Shared build steps.
 .PHONY: stage_environment init
