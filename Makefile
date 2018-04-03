@@ -53,6 +53,8 @@ ci_build:
 ci_deploy:
 	$(MAKE) init && \
 	$(MAKE) _generate_terraform_tfvars && \
+	$(MAKE) build && \
+	$(MAKE) publish && \
 	$(MAKE) _terraform_init_with_s3_backend && \
 	ADDITIONAL_TERRAFORM_ARGS=-auto-approve $(MAKE) _terraform_apply
 
