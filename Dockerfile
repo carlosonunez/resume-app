@@ -15,7 +15,10 @@ RUN \
   rm -rf .env* && \
   bundle install --without test && \
   gem build resume_app.gemspec && \
-	gem install resume_app*.gem
+	gem install resume_app-$(cat lib/resume_app/version.rb | \
+    grep VERSION | \
+    awk '{print $3}' | \
+    tr -d "'").gem
 WORKDIR /
 RUN \
 	rm -rf /work
