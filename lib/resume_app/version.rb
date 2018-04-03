@@ -3,5 +3,5 @@
 # ResumeApp.
 module ResumeApp
   # Just the Version
-  VERSION = '2018.03.29'
+  VERSION = '2018.04.03'
 end
