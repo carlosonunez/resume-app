@@ -14,12 +14,7 @@ RUN \
   rm -rf /var/cache/apk/* && \
   rm -rf .env* && \
   bundle install --without test && \
-  gem build resume_app.gemspec && \
-	gem install resume_app-$(cat lib/resume_app/version.rb | \
-    grep VERSION | \
-    awk '{print $3}' | \
-    tr -d "'").gem
-WORKDIR /
-RUN \
-	rm -rf /work
+  gem build resume_app.gemspec
+COPY resume_app*.gem /tmp
+RUN gem install /tmp/resume_app*.gem
 ENTRYPOINT ["resume_app"]
