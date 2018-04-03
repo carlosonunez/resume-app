@@ -1,6 +1,9 @@
 language: Bash
 sudo: required
 dist: trusty
+branches:
+  only:
+    - master
 services:
 - docker
 script:
