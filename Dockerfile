@@ -6,15 +6,14 @@ WORKDIR /work
 RUN \
   apk update && \
   apk add --no-cache ruby-bundler ruby-json ruby-dev && \
-	export GEM_HOME="/root/.gem" && \
-	export BUNDLE_PATH="/root/.gem" && \
-  export PATH="$PATH:/root/.gem/bin" && \
   export GEM_AUTHOR="$GEM_AUTHOR" && \
   export GEM_EMAIL="$GEM_EMAIL" && \
   rm -rf /var/cache/apk/* && \
   rm -rf .env* && \
   bundle install --without test && \
-  gem build resume_app.gemspec
-COPY resume_app*.gem /tmp
-RUN gem install /tmp/resume_app*.gem
+  gem build resume_app.gemspec && \
+	gem install resume_app*.gem
+WORKDIR /
+RUN \
+	rm -rf /work
 ENTRYPOINT ["resume_app"]
