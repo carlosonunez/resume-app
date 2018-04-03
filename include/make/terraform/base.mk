@@ -21,6 +21,7 @@ _generate_terraform_tfvars:
 	if [ ! -z "$${ENVIRONMENT_ID}" ]  && [ "$${environment}" != "fake" ]; \
 	then \
 		environment="$(BUILD_ENVIRONMENT)-$${ENVIRONMENT_ID}"; \
+		dns_record_name="$(BUILD_ENVIRONMENT).$${DNS_RECORD_NAME}"; \
 	fi; \
 	cat "$$env_file" | \
 		grep -v '^#' | \
