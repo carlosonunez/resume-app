@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'digest/md5'
 
 lib = File.expand_path('../lib', __FILE__)
@@ -10,9 +11,9 @@ require 'resume_app/version'
 Gem::Specification.new do |spec|
   spec.name           = 'resume_app'
   spec.version        = ResumeApp::VERSION
-  spec.authors        = [ gem_author ]
+  spec.authors        = [gem_author]
   spec.licenses	      = ['MIT']
-  spec.email          = [ gem_email ]
+  spec.email          = [gem_email]
   spec.summary        = 'A simple app that generates resumes from Markdown.'
   spec.description    = 'A simple app that generates resumes from Markdown.'
 
