@@ -1,6 +1,7 @@
 #!/usr/bin/env make
 ifndef BUILD_ENVIRONMENT
-$(error Please provide a BUILD_ENVIRONMENT)
+$(error Please provide a BUILD_ENVIRONMENT, or type \
+	BUILD_ENVIRONMENT=local make <command> if running this locally)
 endif
 
 DOTENV_FILE = .env.$(BUILD_ENVIRONMENT)
