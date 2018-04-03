@@ -50,11 +50,11 @@ ci_build:
 		echo "Tests failed."; \
 		exit 1; \
 	}
-ci_deploy: init \
-	_generate_terraform_tfvars \
-	_terraform_init_with_s3_backend
-ci_deploy: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
-ci_deploy: _terraform_apply
+ci_deploy:
+	$(MAKE) init && \
+	$(MAKE) _generate_terraform_tfvars && \
+	$(MAKE) _terraform_init_with_s3_backend && \
+	ADDITIONAL_TERRAFORM_ARGS=-auto-approve $(MAKE) _terraform_apply
 
 # Shared build steps.
 .PHONY: stage_environment init
