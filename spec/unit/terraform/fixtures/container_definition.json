@@ -1,7 +1,7 @@
 [
   {
     "name": "resume_app", 
-    "image": "carlosonunez/resume_app:fake_version",
+    "image": "change me/resume_app:fake_version",
     "networkMode": "awsvpc",
     "portMappings": [
       {
@@ -19,6 +19,18 @@
       {
         "name": "RESUME_NAME",
         "value": "latest"
+      },
+      {
+        "name": "AWS_ACCESS_KEY_ID",
+        "value": "fake"
+      },
+      {
+        "name": "AWS_SECRET_ACCESS_KEY",
+        "value": "fake"
+      },
+      {
+        "name": "AWS_REGION",
+        "value": "us-east-1"
       }
     ], 
     "readonlyRootFilesystem": true, 
@@ -26,7 +38,7 @@
       "logDriver": "awslogs", 
       "options": {
         "awslogs-region": "us-east-1",
-        "awslogs-group": "resume_app_logs",
+        "awslogs-group": "resume_app_logs-fake",
         "awslogs-stream-prefix": "resume-app"
       }
     }

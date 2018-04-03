@@ -37,17 +37,12 @@ fi
 echo "INFO: [$current_branch] Running pre-push tests. Please wait a moment."
 if ! detect_force_commit
 then
-  export UPDATE_TRAVIS=1
-  # TODO: Add integration tests!
-  for build_step in init  unit_tests
-  do
-    if ! make "$build_step"
-    then
-      echo "ERROR: Tests failed! If this is intentional, include \"[FORCE COMMIT]\" \
-  to the beginning of your commit message." >&2
-      exit 1
-    fi
-  done
+  if ! make local_build
+  then
+    echo "ERROR: Tests failed! If this is intentional, include \"[FORCE COMMIT]\" \
+to the beginning of your commit message." >&2
+    exit 1
+  fi
 fi
 
 echo "INFO: All tests passed! Updating version prior to push."

@@ -9,6 +9,9 @@ expected_container_definition =
   RSpecHelpers::JSONHelper.sort_objects_by_keys(
     JSON.parse(expected_serialized_container_definition)
   )
+%w[ACCESS_KEY_ID SECRET_ACCESS_KEY].each do |aws_setting|
+  ENV["AWS_#{aws_setting}"] = 'fake'
+end
 requirements = {
   family: {
     test_name: 'should have the correct family name',

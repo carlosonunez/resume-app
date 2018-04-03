@@ -1,0 +1,19 @@
+# Remove all Terraform stuff.
+*.tf
+*.tfvars
+*.tfplan
+*.tfplan.*
+.terraform
+terraform.*
+.terraform.*
+
+# Remove temporary folders
+work/
+.gem/
+.go/
+.githooks/
+
+# Remove env stuff
+.env
+.env.example
+.travis.yml

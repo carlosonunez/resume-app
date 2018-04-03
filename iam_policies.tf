@@ -1,5 +1,5 @@
 resource "aws_iam_role" "execution_and_task_role" {
-  name = "ecsExecutionTaskRole"
+  name = "ecsExecutionTaskRole-${var.environment}"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -18,7 +18,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "execution_role_policy" {
-  name = "ecsExecutionRolePolicy"
+  name = "ecsExecutionRolePolicy-${var.environment}"
   role = "${aws_iam_role.execution_and_task_role.id}"
   policy = <<EOF
 {

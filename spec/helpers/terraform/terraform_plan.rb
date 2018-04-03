@@ -77,6 +77,7 @@ module RSpecHelpers
     # NOTE: Because of the difficulty involved in dealing with nested arrays
     # and Maps inside of Maps, this level of expansion is not supported
     # at the moment.
+    # rubocop:disable Metrics/AbcSize
     def self.expand_argument_map!(argument_key_with_ids,
                                   resource_hash,
                                   subhash)
@@ -88,6 +89,13 @@ module RSpecHelpers
       argument_key, argument_key_id, argument_hash_parameter =
         argument_key_with_ids.split('.')[0..2]
       argument_value = resource_hash[argument_key_with_ids]
+      # Tags are always represented as 'tags.TAG_NAME'. To support these
+      # without writing a new expansion function, simply assume that they
+      # will all have an ID of 0 (since each tag has to be unique).
+      if argument_hash_parameter.nil?
+        argument_hash_parameter = argument_key_id
+        argument_key_id = 'actual_value'
+      end
       subhash[argument_key] ||= []
       target_argument = find_map_arg_to_manipulate(subhash,
                                                    argument_key,
@@ -99,6 +107,7 @@ module RSpecHelpers
         target_argument[0][argument_hash_parameter] = argument_value
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def self.find_map_arg_to_manipulate(hash, argument_key, argument_key_id)
       hash[argument_key].select do |parameter|
@@ -107,7 +116,7 @@ module RSpecHelpers
     end
 
     def self.resource_argument_is_deeply_nested!(argument_key_with_ids)
-      argument_key_with_ids.split('.').count > 3
+      argument_key_with_ids.split('.').count > 4
     end
 
     private_class_method :expand,

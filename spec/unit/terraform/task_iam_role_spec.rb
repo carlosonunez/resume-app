@@ -5,7 +5,7 @@ RSpecHelpers::Terraform.run_tests(
   tests: {
     name: {
       test_name: 'It should have the correct name',
-      should_be: 'ecsExecutionTaskRole'
+      should_be: 'ecsExecutionTaskRole-fake'
     },
     assume_role_policy: {
       test_name: 'It should enable a trust relationship to ecs-tasks.',
@@ -31,7 +31,7 @@ RSpecHelpers::Terraform.run_tests(
   tests: {
     name: {
       test_name: 'It should have the correct name',
-      should_be: 'ecsExecutionRolePolicy'
+      should_be: 'ecsExecutionRolePolicy-fake'
     },
     role: {
       test_name: 'It should be mapped to the correct role',

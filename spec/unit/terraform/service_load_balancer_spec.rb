@@ -5,7 +5,7 @@ resources_and_requirements = {
   'aws_lb.lb' => {
     name: {
       test_name: 'It should have the correct load balancer name',
-      should_be: 'resume-app-lb'
+      should_be: 'resume-app-lb-fake'
     },
     internal: {
       test_name: 'It should not be an internal load balancer',
@@ -18,12 +18,16 @@ resources_and_requirements = {
     enable_deletion_protection: {
       test_name: 'It should not have termination protection enabled',
       should_be: 'false'
+    },
+    'tags.version': {
+      test_name: 'It should have a version tag',
+      should_be: 'fake_version'
     }
   },
   'aws_lb_target_group.target_group' => {
     name: {
       test_name: 'It should have the correct name',
-      should_be: 'resume-app-lb-tg'
+      should_be: 'resume-app-fake-lb-tg'
     },
     target_type: {
       test_name: 'It should be using an "ip" type to support "awsvpc"',
@@ -39,7 +43,7 @@ resources_and_requirements = {
     },
     vpc_id: {
       test_name: 'It should be set to the correct VPC',
-      should_be: ENV['LOAD_BALANCER_VPC']
+      should_be: '${aws_vpc.app.id}'
     },
     'health_check.port': {
       test_name: 'It should be set to 4567',
@@ -48,6 +52,14 @@ resources_and_requirements = {
     'health_check.protocol': {
       test_name: 'It should be set to HTTP',
       should_be: 'HTTP'
+    },
+    'health_check.healthy_threshold': { should_be: 5 },
+    'health_check.unhealthy_threshold': { should_be: 10 },
+    'health_check.timeout': { should_be: 5 },
+    'health_check.interval': { should_be: 45 },
+    'tags.version': {
+      test_name: 'It should have a version tag',
+      should_be: 'fake_version'
     }
   },
   'aws_lb_listener.listener' => {

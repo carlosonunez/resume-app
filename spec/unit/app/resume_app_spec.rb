@@ -9,6 +9,8 @@ describe 'Given an app that renders resumes' do
   end
 
   before(:each) do
+    ENV['S3_BUCKET_NAME'] = 'fake_bucket'
+    ENV['RESUME_NAME'] = 'fake_resume'
     @test_markdown_content = <<-MARKDOWN
 This is a document.
 ===================
@@ -27,6 +29,12 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
   end
 
   context 'When we start the app' do
+    it 'It responds to /ping' do
+      get '/ping'
+      expect(last_response.status).to eq 200
+      expect(last_response.body).to eq('Sup')
+    end
+
     it 'Runs a web server' do
       expected_html = "\n"
       allow(ResumeApp::Downloaders)
@@ -62,7 +70,7 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
       )
 
       expected_response = <<-DOC.tr("\n", ' ').strip
-Something bad happened: We couldn't find latest in
+Something bad happened: We couldn't find #{ENV['RESUME_NAME']} in
 bucket #{ENV['S3_BUCKET_NAME']}.
       DOC
 

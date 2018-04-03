@@ -1,5 +1,6 @@
 resource "aws_ecs_service" "service" {
-  name = "resume_app"
+  name = "resume_app-${var.environment}"
+  depends_on = ["aws_iam_role_policy.execution_role_policy", "aws_lb.lb"]
   cluster = "${aws_ecs_cluster.cluster.id}"
   task_definition = "${aws_ecs_task_definition.task.arn}"
   desired_count = "${var.replica_count}"
@@ -11,5 +12,7 @@ resource "aws_ecs_service" "service" {
   }
   network_configuration {
     subnets = ["${aws_subnet.subnet_a.id}","${aws_subnet.subnet_b.id}"]
+    security_groups = ["${aws_security_group.ecs_inbound.id}"]
+    assign_public_ip = true
   }
 }

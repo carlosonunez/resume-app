@@ -2,8 +2,11 @@ Gemfile.lock
 .gemrc
 .gem
 .env
+.env.*
+!.env.example
 *.gem
 .go
+env.tar
 
 # Terraform ignores
 .terraform
@@ -14,3 +17,7 @@ Gemfile.lock
 *.tfstate
 *.tfstate*
 *.tfplan.json
+
+# Version ignores
+version
+lib/resume_app/version.rb

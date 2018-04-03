@@ -13,6 +13,7 @@ module ResumeApp
     # This is the web app!
     class App < Sinatra::Base
       set :show_exceptions, false
+      set :bind, '0.0.0.0'
       error do
         e = env['sinatra.error']
         "Something bad happened: #{e.message}."
@@ -21,6 +22,10 @@ module ResumeApp
       get '/' do
         latest_resume = Downloaders.retrieve_latest_resume_as_markdown
         Converters.markdown_to_html(latest_resume)
+      end
+
+      get '/ping' do
+        'Sup'
       end
 
       get '/pdf' do
