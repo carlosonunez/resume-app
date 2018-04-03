@@ -50,6 +50,7 @@ ci_build:
 		echo "Tests failed."; \
 		exit 1; \
 	}
+ci_deploy: ADDITIONAL_TERRAFORM_ARGS=-auto-approve -input=false
 ci_deploy: init \
 	_generate_terraform_tfvars \
 	_terraform_init_with_s3_backend \
