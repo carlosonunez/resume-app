@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'kramdown'
+require 'pdfkit'
+require 'wkhtmltopdf-binary'
 
 # ResumeApp module.
 module ResumeApp
@@ -22,7 +24,8 @@ module ResumeApp
     # @param [String] markdown_string The string to convert.
     # @return [PDF] A PDF document from Prawn if successful.
     def self.markdown_to_pdf(markdown_string)
-      Kramdown::Document.new(markdown_string).to_pdf
+      kit = PDFKit.new(html, :page_size => 'Letter')
+      kit.to_pdf
     end
   end
 end
