@@ -11,6 +11,16 @@ describe 'Given an app that renders resumes' do
   before(:each) do
     ENV['S3_BUCKET_NAME'] = 'fake_bucket'
     ENV['RESUME_NAME'] = 'fake_resume'
+    @test_local_markdown_content = <<-MARKDOWN
+This document is stored locally.
+===============================
+
+No network access required!
+MARKDOWN
+    @test_local_html_content = <<-MARKDOWN
+<h1 id="this-document-is-stored-locally">This document is stored locally.</h1>\n
+<p>No network access required!</p>
+MARKDOWN
     @test_markdown_content = <<-MARKDOWN
 This is a document.
 ===================
@@ -54,6 +64,15 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
         .and_return(@test_markdown_content)
       get '/'
       expect(last_response.body).to eq @test_html_content
+      expect(last_response.status).to eq 200
+    end
+  end
+
+  context 'When we fetch Markdown resumes locally' do
+    it 'It fetches the correct Markdown document.' do
+      ENV['CLOUD_PROVIDER'] = 'local'
+      get '/'
+      expect(last_response.body).to eq @test_local_html_content
       expect(last_response.status).to eq 200
     end
   end
