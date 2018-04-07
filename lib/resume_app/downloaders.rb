@@ -2,6 +2,7 @@
 
 require 'aws-sdk-s3'
 require 'resume_app/helpers/aws'
+require 'resume_app/helpers/local'
 
 # ResumeApp.
 module ResumeApp
