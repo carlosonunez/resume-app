@@ -70,8 +70,7 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
 
   context 'When we fetch Markdown resumes locally' do
     it 'It fetches the correct Markdown document.' do
-      allow(File)
-        .to_receive(:open)
+      allow(File).to receive(:open)
         .with('RESUME.md','r')
         .and_yield(@test_local_markdown_content)
       ENV['CLOUD_PROVIDER'] = 'local'
