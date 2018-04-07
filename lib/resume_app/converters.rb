@@ -2,7 +2,6 @@
 
 require 'kramdown'
 require 'pdfkit'
-require 'wkhtmltopdf'
 
 # ResumeApp module.
 module ResumeApp
