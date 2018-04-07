@@ -18,10 +18,8 @@ module ResumeApp
       provider = ENV['CLOUD_PROVIDER'] || 'AWS'
       resume_markdown_found = case provider.downcase
                               when 'aws'
-                                resume_markdown_found =
                                   Helpers::AWS.retrieve_resume
                               when 'local'
-                                resume_markdown_found =
                                   Helpers::Local.retrieve_resume
                               else
                                 raise RuntimeError("Cloud provider " \
