@@ -16,14 +16,18 @@ module ResumeApp
     # @returns [String] if found, or [nil] if not found.
     def self.retrieve_latest_resume_as_markdown
       provider = ENV['CLOUD_PROVIDER'] || 'AWS'
-      case provider.downcase
-      when 'aws'
-        resume_markdown_found = Helpers::AWS.retrieve_resume
-      when 'local'
-        resume_markdown_found = Helpers::Local.retrieve_resume
-      else
-        raise RuntimeError("Cloud provider #{provider} isn't supported yet.")
-      end
+      resume_markdown_found = case provider.downcase
+                              when 'aws'
+                                resume_markdown_found =
+                                  Helpers::AWS.retrieve_resume
+                              when 'local'
+                                resume_markdown_found =
+                                  Helpers::Local.retrieve_resume
+                              else
+                                raise RuntimeError("Cloud provider " \
+                                                   "#{provider} isn't " \
+                                                   "#supported yet.")
+                              end
 
       unless resume_markdown_found
         raise RuntimeError("We couldn't find any resumes in your account. " \
