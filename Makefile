@@ -6,6 +6,9 @@ VERSION_FILE = version
 APP_SPECIFIC_VERSION_FILE = lib/resume_app/version.rb
 DOCKER_IMAGE_TAG = $(shell cat version)
 UPDATE_ENVIRONMENT_VARIABLES = $(shell echo "$${UPDATE_ENVIRONMENT_VARIABLES:-true}")
+ifndef RESUME_NAME
+RESUME_NAME = latest
+endif
 
 include include/make/*.mk
 include include/make/*/*.mk
