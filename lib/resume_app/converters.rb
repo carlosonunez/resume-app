@@ -23,7 +23,7 @@ module ResumeApp
     # @param [String] markdown_string The string to convert.
     # @return [PDF] A PDF document from Prawn if successful.
     def self.markdown_to_pdf(markdown_string)
-      kit = PDFKit.new(html, :page_size => 'Letter')
+      kit = PDFKit.new(markdown_string, :page_size => 'Letter')
       kit.to_pdf
     end
   end
