@@ -21,3 +21,6 @@ env.tar
 # Version ignores
 version
 lib/resume_app/version.rb
+
+# Testing ignores
+public/
