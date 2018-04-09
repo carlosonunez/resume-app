@@ -3,7 +3,7 @@ RUBY_DOCKER_IMAGE := ruby:2.4-alpine3.7
 .PHONY: _build_gem
 _build_gem: verify_environment_variable_GEMSPEC_NAME
 _build_gem:
-	if [ -f ruby.Dockerfile ]; \
+	if docker images custom_ruby > /dev/null; \
 	then \
 		ruby_docker_image=custom_ruby; \
 	else \
