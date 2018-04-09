@@ -69,6 +69,7 @@ stage_environment: _ensure_environment_is_configured
 
 init: BUNDLE_OPTIONS=--quiet 
 init: stage_environment \
+	_build_custom_ruby_docker_image \
 	verify_that_resume_app_bucket_exists \
 	_bundle_install \
 	_terraform_get \
