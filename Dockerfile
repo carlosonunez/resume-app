@@ -1,4 +1,4 @@
-FROM ruby:2.4.2-alpine3.6
+FROM custom_ruby
 ARG GEM_AUTHOR
 ARG GEM_EMAIL
 ADD . /work
