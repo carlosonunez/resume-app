@@ -32,11 +32,7 @@ module ResumeApp
         content_type 'application/pdf'
         latest_resume_as_markdown =
           Downloaders.retrieve_latest_resume_as_markdown
-        pdf_file_name = Helpers::Local.generate_temp_public_pdf_file
-        Converters.markdown_to_pdf(latest_resume_as_markdown,
-                                   pdf_file_name)
-        send_file pdf_file_name
-        Helpers::Local.delete_file(pdf_file_name)
+        Converters.markdown_to_pdf(latest_resume_as_markdown)
       end
     end
   end
