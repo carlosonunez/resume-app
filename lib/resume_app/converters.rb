@@ -23,7 +23,7 @@ module ResumeApp
     #
     # @param [String] markdown_string The string to convert.
     # @return [PDF] A PDF document from Prawn if successful.
-    def self.markdown_to_pdf(markdown, pdf_file_path)
+    def self.markdown_to_pdf(markdown)
       markdown_html = markdown_to_html(markdown)
       puts "HTML received: #{markdown_html}"
       PDFKit.configure do |config|
@@ -34,8 +34,7 @@ module ResumeApp
         }
       end
       kit = PDFKit.new(markdown_html)
-      _ = kit.to_file(pdf_file_path)
-      raise 'PDF not generated' unless File.exist?(pdf_file_path)
+      kit.to_pdf
     end
   end
 end
