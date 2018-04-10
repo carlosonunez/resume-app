@@ -1,5 +1,12 @@
 [![Build Status](https://travis-ci.org/carlosonunez/resume-app.svg?branch=master)](https://travis-ci.org/carlosonunez/resume-app)
 
+Important Stuff!
+================
+
+**Want to submit a feature?** [Go here.](https://github.com/carlosonunez/resume-app/issues/new?labels=feature&title=[Feature]&template=.github/feature_request_template.md)
+
+**Want to submit an issue?** [Go here.](https://github.com/carlosonunez/resume-app/issues/new?labels=bug&title=[Bug] &template=.github/issue_template.md)
+
 What is this?
 =============
 
