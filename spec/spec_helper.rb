@@ -26,11 +26,10 @@ end
 
 RSpec.configure do |configuration|
   configuration.include Mixins
-  configuration.before(:all, terraform: true) {
+  configuration.before(:all, terraform: true) do
     @terraform_plan = RSpecHelpers::Terraform.initialize
-  }
-  configuration.before(:all) {
-
+  end
+  configuration.before(:all) do
     @test_local_markdown_content = <<-MARKDOWN
 This document is stored locally.
 ===============================
@@ -56,5 +55,5 @@ MARKDOWN
 <h2 id="a-document-can-have-many-sections">A document can have many sections!</h2>\n
 <p>It has words. Some of them are <strong>bold,</strong> and some of them are <em>emphasized.</em></p>
 HTML
-  }
+  end
 end

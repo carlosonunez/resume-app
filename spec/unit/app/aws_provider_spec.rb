@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'Given an app that renders resumes from AWS S3' do
@@ -8,7 +9,7 @@ describe 'Given an app that renders resumes from AWS S3' do
     ENV['RESUME_NAME'] = 'fake_resume'
   end
   context 'When we fetch Markdown resumes from it' do
-    it 'It gives users an error when $S3_BUCKET_NAME/$RESUME_NAME was not found' do
+    it 'It gives users an error when the resume was not found' do
       stubbed_s3_client = Aws::S3::Client.new(stub_responses: true)
       allow(Aws::S3::Client)
         .to receive(:new)
@@ -28,7 +29,7 @@ bucket #{ENV['S3_BUCKET_NAME']}.
       expect(last_response.status).to eq 500
     end
 
-    it 'It renders $S3_BUCKET_NAME/$RESUME_NAME if found and is valid Markdown' do
+    it 'It renders the resume if found and is valid Markdown' do
       stubbed_s3_client = Aws::S3::Client.new(stub_responses: true)
       allow(Aws::S3::Client)
         .to receive(:new)

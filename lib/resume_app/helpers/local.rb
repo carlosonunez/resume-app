@@ -9,7 +9,7 @@ module ResumeApp
       # Retrieves and reads a resume from a local filesystem.
       # It uses 'RESUME.md' as the default, but this can be changed
       # by setting LOCAL_RESUME_NAME.
-      # 
+      #
       # @returns
       # [string] of resume text found or [Exception] otherwise.
       def self.retrieve_resume
@@ -39,7 +39,7 @@ module ResumeApp
       # Checks to see if 'public' exists and creates it if it doesn't.
       # @returns
       # [boolean] Result of the check or creation operation.
-      def self.create_public_directory_if_not_present!()
+      def self.create_public_directory_if_not_present!
         FileUtils.mkdir('./public') unless Dir.exist?('./public')
       end
 
