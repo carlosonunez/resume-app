@@ -3,7 +3,7 @@
 Important Stuff!
 ================
 
-**Want to submit a feature?** [Go here.](https://github.com/carlosonunez/resume-app/issues/new?labels=feature&title=[Feature]&template=feature_request_template.md)
+**Want to submit a feature?** [Go here.](https://github.com/carlosonunez/resume-app/issues/new?labels=enhancement&title=[Feature]&template=feature_request_template.md)
 
 **Want to submit an issue?** [Go here.](https://github.com/carlosonunez/resume-app/issues/new?labels=bug&title=[Bug]&template=issue_template.md)
 
