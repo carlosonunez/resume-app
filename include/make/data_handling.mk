@@ -10,13 +10,13 @@ verify_that_resume_app_bucket_exists:
 	fi
 	
 verify_that_test_data_is_present:
-	test_file=spec/integration/fixtures/test_resumes/$(RESUME_NAME).md; \
+	test_file=spec/integration/fixtures/test_resumes/test_resume.md; \
 	if [ ! -f "$$test_file"  ]; \
 	then \
 		echo -e "$(ERROR) Test file not found: $$test_file"; \
 		exit 1; \
 	fi
 push_test_data: \
-	AWS_OPTIONS=cp spec/integration/fixtures/test_resumes/$(RESUME_NAME).md \
+	AWS_OPTIONS=cp spec/integration/fixtures/test_resumes/test_resume.md \
 		s3://$(S3_BUCKET_NAME)/$(RESUME_NAME)
 push_test_data:	_aws_s3

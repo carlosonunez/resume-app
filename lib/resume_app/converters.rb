@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'kramdown'
+require 'pdfkit'
+require 'securerandom'
 
 # ResumeApp module.
 module ResumeApp
@@ -21,8 +23,19 @@ module ResumeApp
     #
     # @param [String] markdown_string The string to convert.
     # @return [PDF] A PDF document from Prawn if successful.
-    def self.markdown_to_pdf(markdown_string)
-      Kramdown::Document.new(markdown_string).to_pdf
+    def self.markdown_to_pdf(markdown, pdf_file_path)
+      markdown_html = markdown_to_html(markdown)
+      puts "HTML received: #{markdown_html}"
+      PDFKit.configure do |config|
+        config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
+        config.default_options = {
+          page_size: 'Letter',
+          quiet: true
+        }
+      end
+      kit = PDFKit.new(markdown_html)
+      _ = kit.to_file(pdf_file_path)
+      raise 'PDF not generated' unless File.exist?(pdf_file_path)
     end
   end
 end
