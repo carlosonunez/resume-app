@@ -29,7 +29,8 @@ module ResumeApp
       PDFKit.configure do |config|
         config.wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'
         config.default_options = {
-          :page_size => 'Letter'
+          :page_size => 'Letter',
+          :quiet => true
         }
       end
       kit = PDFKit.new(markdown_html)

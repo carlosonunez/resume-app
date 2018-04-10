@@ -11,6 +11,7 @@ describe 'Given an app that renders resumes' do
   before(:each) do
     ENV['S3_BUCKET_NAME'] = 'fake_bucket'
     ENV['RESUME_NAME'] = 'fake_resume'
+    ENV['CLOUD_PROVIDER'] = 'AWS'
     @test_local_markdown_content = <<-MARKDOWN
 This document is stored locally.
 ===============================
@@ -70,8 +71,10 @@ It has words. Some of them are **bold,** and some of them are *emphasized.*
 
   context 'When we fetch Markdown resumes locally' do
     it 'It fetches the correct Markdown document.' do
-      file = double(File, read: @test_local_markdown_content)
-      File.any_instance.stub(:read) { @test_local_markdown_content }
+      allow(File)
+        .to receive(:read)
+        .with('RESUME.md')
+        .and_return(@test_local_markdown_content)
       ENV['CLOUD_PROVIDER'] = 'local'
       get '/'
       expect(last_response.body).to eq @test_local_html_content

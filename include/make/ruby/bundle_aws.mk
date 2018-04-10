@@ -21,4 +21,4 @@ _bundle_%:
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
 		-e AWS_REGION \
-		"$$ruby_docker_image bundle $(BUNDLE_ACTION) $(BUNDLE_OPTIONS)
+		"$$ruby_docker_image" bundle $(BUNDLE_ACTION) $(BUNDLE_OPTIONS)
